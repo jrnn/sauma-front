@@ -1,9 +1,8 @@
-import { Provider } from "react-redux"
+import App from "./app"
 import React from "react"
 import ReactDOM from "react-dom"
-
-import App from "./app"
 import store from "./store"
+import { Provider } from "react-redux"
 import "./index.css"
 
 ReactDOM.render(
