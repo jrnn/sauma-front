@@ -1,6 +1,16 @@
 import authService from "../service/auth_service"
+import employeeService from "../service/employee_service"
 
 export const getAuth = () => ({ type : "GET_AUTH" })
+
+export const initState = () => {
+  return async (dispatch) => {
+    let employees = await employeeService
+      .findAll()
+
+    dispatch({ type : "INIT_STATE", employees })
+  }
+}
 
 export const login = (username, password) => {
   return async (dispatch) => {

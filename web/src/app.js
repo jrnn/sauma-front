@@ -1,10 +1,11 @@
-import Dummy from "./component/dummy"
-import LoginContainer from "./component/login_container"
+import LoginWrapper from "./container/login_wrapper"
 import Notification from "./component/notification"
 import React from "react"
+import RootWrapper from "./container/root_wrapper"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
 import { getAuth } from "./reducer/actions"
+import { withRouter } from "react-router-dom"
 
 class App extends React.Component {
   componentDidMount = () => this.props.getAuth()
@@ -14,17 +15,18 @@ class App extends React.Component {
       <Container className="padded">
         <Notification />
         {this.props.auth === null
-          ? <LoginContainer />
-          : <Dummy />
+          ? <LoginWrapper />
+          : <RootWrapper />
         }
       </Container>
     )
   }
 }
 
-const mapStateToProps = (state) => ({ auth : state.auth })
+const mapStateToProps = (state) =>
+  ({ auth : state.auth })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   { getAuth }
-)(App)
+)(App))

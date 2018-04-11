@@ -6,11 +6,13 @@ const Notification = ({ notification }) => {
   if ( !notification )
     return null
 
-  let isError = notification.type === "error"
+  let error = notification.type === "error"
 
   return (
-    <Message positive={!isError} negative={isError}>
-      <Message.Header content={notification.content} />
+    <Message positive={!error} negative={error}>
+      <Message.Header
+        content={notification.content}
+      />
     </Message>
   )
 }

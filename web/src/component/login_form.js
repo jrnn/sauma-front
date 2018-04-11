@@ -3,7 +3,7 @@ import { Button, Container, Form } from "semantic-ui-react"
 
 const LoginForm = ({ onChange, onSubmit, state }) => {
   let { username, password } = state
-  const isDisabled = username.length === 0 || password.length === 0
+  const disabled = username.length === 0 || password.length === 0
 
   return (
     <Container>
@@ -29,7 +29,11 @@ const LoginForm = ({ onChange, onSubmit, state }) => {
             value={state.password}
           />
         </Form.Field>
-        <Button content="Kirjaudu" disabled={isDisabled} fluid />
+        <Button
+          content="Kirjaudu"
+          disabled={disabled}
+          fluid
+        />
       </Form>
     </Container>
   )
