@@ -1,12 +1,12 @@
 import React from "react"
 import { connect } from "react-redux"
-import { logout } from "../reducer/actions"
+import { logout, notify } from "../reducer/actions"
 
 class Dummy extends React.Component {
   handleLogout = (e) => {
     e.preventDefault()
     this.props.logout()
-    // set notification
+    this.props.notify("Olet nyt kirjautunut ulos", "success", 5)
   }
 
   render() {
@@ -21,5 +21,5 @@ class Dummy extends React.Component {
 
 export default connect(
   null,
-  { logout }
+  { logout, notify }
 )(Dummy)

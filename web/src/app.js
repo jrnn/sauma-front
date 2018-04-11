@@ -1,5 +1,6 @@
 import Dummy from "./component/dummy"
 import LoginContainer from "./component/login_container"
+import Notification from "./component/notification"
 import React from "react"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
@@ -11,6 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <Container className="padded">
+        <Notification />
         {this.props.auth === null
           ? <LoginContainer />
           : <Dummy />

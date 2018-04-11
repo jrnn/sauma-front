@@ -1,12 +1,12 @@
 import LoginForm from "./login_form"
 import React from "react"
 import { connect } from "react-redux"
-import { login } from "../reducer/actions"
+import { login, notify } from "../reducer/actions"
 
 class LoginContainer extends React.Component {
   constructor() {
     super()
-    this.state = { username : "", password : "" }
+    this.state = { username : "", password : "", disabled : true }
   }
 
   handleInput = (e) =>
@@ -18,10 +18,10 @@ class LoginContainer extends React.Component {
 
     try {
       await this.props.login(username, password)
-      // set notification
+      this.props.notify("Olet nyt kirjautunut sisään", "success", 5)
     } catch (ex) {
       this.setState({ username : "", password : "" })
-      // set notification
+      this.props.notify("Virheellinen tunnus tai salasana", "error", 5)
     }
   }
 
@@ -38,5 +38,5 @@ class LoginContainer extends React.Component {
 
 export default connect(
   null,
-  { login }
+  { login, notify }
 )(LoginContainer)
