@@ -1,11 +1,10 @@
 import React from "react"
-import { connect } from "react-redux"
 import { Table } from "semantic-ui-react"
-import { Link, withRouter } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const EmployeeList = ({ employees }) => {
   const toRow = (e) => (
-    <Table.Row key={e.id} disabled={!e.enabled}>
+    <Table.Row key={e.id}>
       <Table.Cell content={
         <Link to={`/employees/${e.id}`}>
           {`${e.lastName}, ${e.firstName}`}
@@ -38,9 +37,4 @@ const EmployeeList = ({ employees }) => {
   )
 }
 
-const mapStateToProps = (state) =>
-  ({ employees : state.employees })
-
-export default withRouter(connect(
-  mapStateToProps
-)(EmployeeList))
+export default EmployeeList

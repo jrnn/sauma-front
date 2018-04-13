@@ -6,7 +6,7 @@ import {
 } from "redux"
 
 import authReducer from "./reducer/auth_reducer"
-import employeeReducer from "./reducer/employee_reducer"
+import employeeReducer from "./reducer/employee"
 import notificationReducer from "./reducer/notification_reducer"
 
 const reducers = combineReducers({

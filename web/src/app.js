@@ -1,22 +1,23 @@
-import LoginWrapper from "./container/login_wrapper"
+import LoginFormContainer from "./container/login_form"
 import Notification from "./component/notification"
 import React from "react"
-import RootWrapper from "./container/root_wrapper"
+import RootContainer from "./container/root"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
 import { getAuth } from "./reducer/actions"
 import { withRouter } from "react-router-dom"
 
 class App extends React.Component {
-  componentDidMount = () => this.props.getAuth()
+  componentDidMount = () =>
+    this.props.getAuth()
 
   render() {
     return (
       <Container className="padded">
         <Notification />
         {this.props.auth === null
-          ? <LoginWrapper />
-          : <RootWrapper />
+          ? <LoginFormContainer />
+          : <RootContainer />
         }
       </Container>
     )

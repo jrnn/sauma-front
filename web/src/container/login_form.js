@@ -4,22 +4,22 @@ import { connect } from "react-redux"
 import { login, notify } from "../reducer/actions"
 import { withRouter } from "react-router-dom"
 
-class LoginWrapper extends React.Component {
+class LoginFormContainer extends React.Component {
   constructor() {
     super()
     this.state = {
-      username : "",
-      password : ""
+      password : "",
+      username : ""
     }
   }
 
-  handleInput = (e) =>
-    this.setState({ [e.target.name] : e.target.value })
+  handleChange = (e, { name, value }) =>
+    this.setState({ [name] : value })
 
-  handleLogin = async (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault()
 
-    let { username, password } = this.state
+    let { password, username } = this.state
     let { login, notify } = this.props
 
     try {
@@ -27,7 +27,7 @@ class LoginWrapper extends React.Component {
       notify("Olet nyt kirjautunut sisään", "success", 5)
 
     } catch (ex) {
-      this.setState({ username : "", password : "" })
+      this.setState({ password : "", username : "" })
       notify("Virheellinen tunnus tai salasana", "error", 5)
     }
   }
@@ -35,8 +35,8 @@ class LoginWrapper extends React.Component {
   render() {
     return (
       <LoginForm
-        onChange={this.handleInput}
-        onSubmit={this.handleLogin}
+        onChange={this.handleChange}
+        onSubmit={this.handleSubmit}
         state={this.state}
       />
     )
@@ -46,4 +46,4 @@ class LoginWrapper extends React.Component {
 export default withRouter(connect(
   null,
   { login, notify }
-)(LoginWrapper))
+)(LoginFormContainer))
