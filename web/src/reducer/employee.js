@@ -1,19 +1,19 @@
 const initState = {
-  all : { data : [], error : {}, pending : false },
-  one : { data : {}, error : {}, pending : false },
+  all : { data : [], error : null, pending : false },
+  one : { data : {}, error : null, pending : false },
   validation : { error : {}, pending : false }
 }
 
 const employeeReducer = (state = initState, action) => {
   let { data, error, type } = action
 
-  switch (type) {
+  switch ( type ) {
     case "GET_EMPLOYEES" : {
-      let all = { ...state.all, error : {}, pending : true }
+      let all = { ...state.all, error : null, pending : true }
       return { ...state, all }
     }
     case "GET_EMPLOYEES_OK" : {
-      let all = { data, error : {}, pending : false }
+      let all = { data, error : null, pending : false }
       return { ...state, all }
     }
     case "GET_EMPLOYEES_FAIL" : {
@@ -21,11 +21,11 @@ const employeeReducer = (state = initState, action) => {
       return { ...state, all }
     }
     case "GET_EMPLOYEE" : {
-      let one = { ...state.one, error : {}, pending : true }
+      let one = { ...state.one, error : null, pending : true }
       return { ...state, one }
     }
     case "GET_EMPLOYEE_OK" : {
-      let one = { data, error : {}, pending : false }
+      let one = { data, error : null, pending : false }
       return { ...state, one }
     }
     case "GET_EMPLOYEE_FAIL" : {
@@ -38,7 +38,7 @@ const employeeReducer = (state = initState, action) => {
     }
     case "CREATE_EMPLOYEE_OK" : {
       let all = { ...state.all, data : [ ...state.all.data, data ] }
-      let one = { data, error : {}, pending : false }
+      let one = { data, error : null, pending : false }
 
       return { all, one, validation : initState.validation }
     }
@@ -55,7 +55,7 @@ const employeeReducer = (state = initState, action) => {
         .filter(e => e.id !== data.id)
 
       let all = { ...state.all, data : employees }
-      let one = { data, error : {}, pending : false }
+      let one = { data, error : null, pending : false }
 
       return { all, one, validation : initState.validation }
     }

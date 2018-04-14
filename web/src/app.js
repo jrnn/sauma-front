@@ -4,7 +4,7 @@ import React from "react"
 import RootContainer from "./container/root"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
-import { getAuth } from "./reducer/actions"
+import { getAuth } from "./action/auth"
 import { withRouter } from "react-router-dom"
 
 class App extends React.Component {

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { bearer, errorHandler } from "./helper"
 
 const url = "/api/employees"
 
@@ -16,9 +17,11 @@ export const getEmployees = (token) => {
       })
 
     } catch (ex) {
+      let error = errorHandler(ex)
+
       dispatch({
         type : "GET_EMPLOYEES_FAIL",
-        error : errorHandler(ex)
+        error : error.message
       })
     }
   }
@@ -38,9 +41,11 @@ export const getEmployee = (id, token) => {
       })
 
     } catch (ex) {
+      let error = errorHandler(ex)
+
       dispatch({
         type : "GET_EMPLOYEE_FAIL",
-        error : errorHandler(ex)
+        error : error.message
       })
     }
   }
@@ -65,7 +70,10 @@ export const createEmployee = (employee, token) => {
         ? "EMPLOYEE_VALIDATION_FAIL"
         : "CREATE_EMPLOYEE_FAIL"
 
-      dispatch({ type, error })
+      dispatch({
+        type,
+        error : error.message
+      })
     }
   }
 }
@@ -89,7 +97,10 @@ export const updateEmployee = (id, employee, token) => {
         ? "EMPLOYEE_VALIDATION_FAIL"
         : "UPDATE_EMPLOYEE_FAIL"
 
-      dispatch({ type, error })
+      dispatch({
+        type,
+        error : error.message
+      })
     }
   }
 }
@@ -99,39 +110,3 @@ export const resetEmployees = () =>
 
 export const resetEmployee = () =>
   ({ type : "RESET_EMPLOYEE" })
-
-const bearer = (token) =>
-  ({ headers : { "authorization" : `bearer ${token}` } })
-
-const errorHandler = (ex) => {
-  let { ValidationError } = ex.response.data
-
-  if ( ValidationError )
-    return {
-      message : ValidationError,
-      validation : true
-    }
-
-  switch (ex.response.status) {
-    case 500 :
-      return {
-        message : "Palvelin on nurin, kokeile hetken kuluttua uudelleen",
-        validation : false
-      }
-    case 404 :
-      return {
-        message : "Sivua/resurssia ei ole olemassa, tarkista osoite",
-        validation : false
-      }
-    case 401 :
-      return {
-        message : "Joko et ole kirjautunut tai käyttöoikeutesi eivät riitä",
-        validation : false
-      }
-    default :
-      return {
-        message : "Voi vihveli, jotain meni nyt kaputt",
-        validation : false
-      }
-  }
-}

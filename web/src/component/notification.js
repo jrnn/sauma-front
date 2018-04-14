@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { Message } from "semantic-ui-react"
 
 const Notification = ({ notification }) => {
-  if ( !notification )
+  if ( !notification.message )
     return null
 
   let error = notification.type === "error"
@@ -11,7 +11,7 @@ const Notification = ({ notification }) => {
   return (
     <Message positive={!error} negative={error}>
       <Message.Header
-        content={notification.content}
+        content={notification.message}
       />
     </Message>
   )

@@ -1,33 +1,18 @@
 import AddressForm from "../component/address_form"
 import EmployeeForm from "../component/employee_form"
 import React from "react"
+import { addressState, employeeState } from "../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { createEmployee, updateEmployee } from "../action/employee"
 import { withRouter } from "react-router-dom"
 
-const initAddress = (e) => (
-  {
-    street : e.street || "",
-    streetExt : e.streetExt || "",
-    zipCode : e.zipCode || "",
-    city : e.city || "",
-    country : e.country || ""
-  }
-)
+const initState = (e) => {
+  let state = employeeState(e)
+  state.address = addressState(e.address || {})
 
-const initState = (e) => (
-  {
-    address : initAddress(e.address || {}),
-    administrator : e.administrator || false,
-    email : e.email || "",
-    enabled : e.enabled || true,
-    firstName : e.firstName || "",
-    lastName : e.lastName || "",
-    phone : e.phone || "",
-    username : e.username || ""
-  }
-)
+  return state
+}
 
 class EmployeeFormContainer extends React.Component {
   constructor(props) {
@@ -60,17 +45,17 @@ class EmployeeFormContainer extends React.Component {
   }
 
   render() {
-    let { pending, validationErrors } = this.props
+    let { pending, errors } = this.props
 
     return (
       <Form loading={pending} onSubmit={this.handleSubmit}>
         <EmployeeForm
-          errors={validationErrors.message || {}}
+          errors={errors}
           onChange={this.handleChange}
           state={this.state}
         />
         <AddressForm
-          errors={validationErrors.message || {}}
+          errors={errors}
           onChange={this.handleAddressChange}
           state={this.state}
         />
@@ -87,7 +72,7 @@ class EmployeeFormContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    validationErrors : state.employees.validation.error,
+    errors : state.employees.validation.error,
     pending : state.employees.validation.pending
   }
 )

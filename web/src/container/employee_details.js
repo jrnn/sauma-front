@@ -1,5 +1,6 @@
 import EmployeeFormContainer from "./employee_form"
 import React from "react"
+import Spinner from "../component/spinner"
 import { connect } from "react-redux"
 import { getEmployee, resetEmployee } from "../action/employee"
 import { withRouter } from "react-router-dom"
@@ -18,11 +19,11 @@ class EmployeeDetailsContainer extends React.Component {
     let { employee, error, isNew, pending } = this.props
 
     if ( pending ) return (
-      <h1 align="center">LOADING ...</h1>
+      <Spinner />
     )
 
-    if ( error.message ) return (
-      <h1 align="center">{error.message}</h1>
+    if ( error ) return (
+      <h1 align="center">{error}</h1>
     )
 
     return (

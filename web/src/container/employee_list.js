@@ -1,5 +1,6 @@
 import EmployeeList from "../component/employee_list"
 import React from "react"
+import Spinner from "../component/spinner"
 import { connect } from "react-redux"
 import { getEmployees, resetEmployees } from "../action/employee"
 import { withRouter } from "react-router-dom"
@@ -15,11 +16,11 @@ class EmployeeListContainer extends React.Component {
     let { employees, error, pending } = this.props
 
     if ( pending ) return (
-      <h1 align="center">LOADING ...</h1>
+      <Spinner />
     )
 
-    if ( error.message ) return (
-      <h1 align="center">{error.message}</h1>
+    if ( error ) return (
+      <h1 align="center">{error}</h1>
     )
 
     return (

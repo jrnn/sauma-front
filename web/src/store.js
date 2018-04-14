@@ -5,9 +5,9 @@ import {
   createStore
 } from "redux"
 
-import authReducer from "./reducer/auth_reducer"
+import authReducer from "./reducer/auth"
 import employeeReducer from "./reducer/employee"
-import notificationReducer from "./reducer/notification_reducer"
+import notificationReducer from "./reducer/notification"
 
 const reducers = combineReducers({
   auth : authReducer,

@@ -1,7 +1,8 @@
 import LoginForm from "../component/login_form"
 import React from "react"
 import { connect } from "react-redux"
-import { login, notify } from "../reducer/actions"
+import { login } from "../action/auth"
+import { notify } from "../action/notification"
 import { withRouter } from "react-router-dom"
 
 class LoginFormContainer extends React.Component {
