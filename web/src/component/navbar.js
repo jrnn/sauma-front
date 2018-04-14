@@ -12,7 +12,6 @@ const NavBar = ({ logout }) => (
     <Menu.Item
       as={Link} to="/clients"
       content="Asiakkaat"
-      disabled
     />
     <Menu.Item
       as={Link} to="/employees"

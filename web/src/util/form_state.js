@@ -1,10 +1,20 @@
 export const addressState = (a) => (
   {
+    city : a.city || "",
+    country : a.country || "",
     street : a.street || "",
     streetExt : a.streetExt || "",
-    zipCode : a.zipCode || "",
-    city : a.city || "",
-    country : a.country || ""
+    zipCode : a.zipCode || ""
+  }
+)
+
+export const clientState = (c) => (
+  {
+    businessId : c.businessId || "",
+    contactPerson : c.contactPerson || "",
+    email : c.email || "",
+    legalEntity : c.legalEntity || "",
+    phone : c.phone || ""
   }
 )
 
