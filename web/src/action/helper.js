@@ -13,19 +13,23 @@ export const errorHandler = (ex) => {
   switch (ex.response.status) {
     case 500 :
       return {
-        message : "Palvelin on nurin, kokeile hetken kuluttua uudelleen",
+        message : "Palvelin on nurin, kokeile hetken kuluttua uudelleen"
       }
     case 404 :
       return {
-        message : "Sivua/resurssia ei ole olemassa, tarkista osoite",
+        message : "Sivua/resurssia ei ole olemassa, tarkista osoite"
+      }
+    case 403 :
+      return {
+        message : "Sinulla ei ole oikeuksia tähän sivuun/resurssiin"
       }
     case 401 :
       return {
-        message : "Joko et ole kirjautunut tai käyttöoikeutesi eivät riitä",
+        message : "Virheellinen käyttäjätunnus tai salasana"
       }
     default :
       return {
-        message : "Voi vihveli, jotain meni nyt kaputt",
+        message : "Voi vihveli, jotain meni nyt kaputt"
       }
   }
 }

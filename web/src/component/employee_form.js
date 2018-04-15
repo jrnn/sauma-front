@@ -39,28 +39,30 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
         <FormError error={errors.lastName} />
       </Form.Field>
     </Form.Group>
-    <Form.Field error={errors.email !== undefined}>
-      <label>Email</label>
-      <Input
-        name="email"
-        onChange={onChange}
-        placeholder="sponge.bob@sauma.io"
-        readOnly={readOnly}
-        value={state.email}
-      />
-      <FormError error={errors.email} />
-    </Form.Field>
-    <Form.Field error={errors.phone !== undefined}>
-      <label>Puhelin</label>
-      <Input
-        name="phone"
-        onChange={onChange}
-        placeholder="040-123-4567"
-        readOnly={readOnly}
-        value={state.phone}
-      />
-      <FormError error={errors.phone} />
-    </Form.Field>
+    <Form.Group>
+      <Form.Field error={errors.phone !== undefined} width="5">
+        <label>Puhelin</label>
+        <Input
+          name="phone"
+          onChange={onChange}
+          placeholder="040-123-4567"
+          readOnly={readOnly}
+          value={state.phone}
+        />
+        <FormError error={errors.phone} />
+      </Form.Field>
+      <Form.Field error={errors.email !== undefined} width="11">
+        <label>Email</label>
+        <Input
+          name="email"
+          onChange={onChange}
+          placeholder="sponge.bob@sauma.io"
+          readOnly={readOnly}
+          value={state.email}
+        />
+        <FormError error={errors.email} />
+      </Form.Field>
+    </Form.Group>
     <Form.Group className="padded" widths="equal">
       <Form.Checkbox
         label="Työnjohtaja"

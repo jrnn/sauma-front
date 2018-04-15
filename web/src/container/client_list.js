@@ -6,14 +6,30 @@ import { getClients, resetClients } from "../action/client"
 import { withRouter } from "react-router-dom"
 
 class ClientListContainer extends React.Component {
+  constructor() {
+    super()
+    this.state = { filter : "" }
+  }
+
   componentDidMount = () =>
     this.props.getClients(this.props.auth.token)
 
   componentWillUnmount = () =>
     this.props.resetClients()
 
+  filterClients = () =>
+    this.props.clients
+      .filter(c =>
+        c.legalEntity.toLowerCase()
+          .includes(this.state.filter))
+      .sort((c1, c2) =>
+        c1.legalEntity.localeCompare(c2.legalEntity))
+
+  handleFilter = (e, { value }) =>
+    this.setState({ filter : value.toLowerCase() })
+
   render() {
-    let { clients, error, pending } = this.props
+    let { auth, error, pending } = this.props
 
     if ( pending ) return (
       <Spinner />
@@ -24,7 +40,12 @@ class ClientListContainer extends React.Component {
     )
 
     return (
-      <ClientList clients={clients} />
+      <ClientList
+        admin={auth.admin}
+        clients={this.filterClients()}
+        filter={this.state.filter}
+        onChange={this.handleFilter}
+      />
     )
   }
 }
