@@ -1,6 +1,22 @@
 body {
-  margin : 0rem 12rem;
+  margin : 0 auto;
+  max-width : 640px;
+  padding-bottom : 4rem;
 }
 .padded {
   padding : 1rem 0rem;
+}
+.top-header {
+  background-color : #67a3b3;
+  color : #ffffff;
+  padding : 1rem 0rem;
+  text-align : center;
+}
+
+.huom {
+  border : solid 1px #ea634d;
+  color : #ea634d;
+  padding : 1rem 1rem;
+  font-weight : bold;
+  text-align : center;
 }

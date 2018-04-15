@@ -1,3 +1,14 @@
+const formatDate = (date) => {
+  try {
+    return new Date(date)
+      .toISOString()
+      .substring(0, 10)
+
+  } catch (ex) {
+    return ""
+  }
+}
+
 export const addressState = (a) => (
   {
     city : a.city || "",
@@ -29,3 +40,23 @@ export const employeeState = (e) => (
     username : e.username || ""
   }
 )
+
+export const projectState = (p) => {
+  let state = { projectId : p.projectId || "" }
+
+  state.endDate = ( p.endDate )
+    ? formatDate(p.endDate)
+    : ""
+  state.startDate = ( p.startDate )
+    ? formatDate(p.startDate)
+    : ""
+
+  state.client = ( p.client )
+    ? p.client.id
+    : ""
+  state.manager = ( p.manager )
+    ? p.manager.id
+    : ""
+
+  return state
+}

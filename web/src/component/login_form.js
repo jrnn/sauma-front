@@ -29,6 +29,7 @@ const LoginForm = ({ onChange, onSubmit, state }) => {
           disabled={isDisabled}
           fluid
         />
+        <p className="huom">{"Tähän 'Forgot password?' josta emailiin vahvistuslinkki"}</p>
       </Form>
     </Container>
   )

@@ -1,23 +1,23 @@
 import AddressForm from "../component/address_form"
-import EmployeeForm from "../component/employee_form"
+import ProjectForm from "../component/project_form"
 import React from "react"
-import { addressState, employeeState } from "../util/form_state"
+import { addressState, projectState } from "../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { createEmployee, updateEmployee } from "../action/employee"
+import { createProject, updateProject } from "../action/project"
 import { withRouter } from "react-router-dom"
 
-const initState = (e) => {
-  let state = employeeState(e)
-  state.address = addressState(e.address || {})
+const initState = (p) => {
+  let state = projectState(p)
+  state.address = addressState(p.address || {})
 
   return state
 }
 
-class EmployeeFormContainer extends React.Component {
+class ProjectFormContainer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = initState(props.employee)
+    this.state = initState(props.project)
   }
 
   handleAddressChange = (e, { name, value }) => {
@@ -26,29 +26,24 @@ class EmployeeFormContainer extends React.Component {
     this.setState({ ...this.state, address })
   }
 
-  handleChange = (e, data) => {
-    let value = data.type === "checkbox"
-      ? data.checked
-      : data.value
-
-    this.setState({ [data.name] : value })
-  }
+  handleChange = (e, { name, value }) =>
+    this.setState({ [name] : value })
 
   handleSubmit = async (e) => {
     e.preventDefault()
-    let { auth, createEmployee, isNew, updateEmployee } = this.props
+    let { auth, createProject, isNew, updateProject } = this.props
 
     if ( isNew )
-      createEmployee(this.state, auth.token)
+      createProject(this.state, auth.token)
     else
-      updateEmployee(this.props.employee.id, this.state, auth.token)
+      updateProject(this.props.project.id, this.state, auth.token)
   }
 
   render() {
     let { errors, pending, readOnly } = this.props
 
     let buttons = ( readOnly )
-      ? <p className="huom">{"Huom. Taviskäyttäjä ei voi muokata eikä tallentaa. Tarkoitus muuttaa niin, että käyttäjä saa muokata omia tietojaan."}</p>
+      ? null
       : <Button content="Tallenna" fluid />
 
     return (
@@ -56,12 +51,16 @@ class EmployeeFormContainer extends React.Component {
         loading={pending}
         onSubmit={this.handleSubmit}
       >
-        <EmployeeForm
+        <ProjectForm
+          clients={this.props.clients}
           errors={errors}
+          isNew={this.props.isNew}
+          managers={this.props.managers}
           onChange={this.handleChange}
           readOnly={readOnly}
           state={this.state}
         />
+        <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
@@ -78,12 +77,12 @@ class EmployeeFormContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    errors : state.employees.validation.error,
-    pending : state.employees.validation.pending
+    errors : state.projects.validation.error,
+    pending : state.projects.validation.pending
   }
 )
 
 export default withRouter(connect(
   mapStateToProps,
-  { createEmployee, updateEmployee }
-)(EmployeeFormContainer))
+  { createProject, updateProject }
+)(ProjectFormContainer))

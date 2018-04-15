@@ -1,3 +1,4 @@
+import Header from "./component/header"
 import LoginFormContainer from "./container/login_form"
 import Notification from "./component/notification"
 import React from "react"
@@ -13,7 +14,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container className="padded">
+      <Container>
+        <Header />
         <Notification />
         {this.props.auth === null
           ? <LoginFormContainer />

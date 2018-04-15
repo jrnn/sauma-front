@@ -2,7 +2,7 @@ import FormError from "./form_error"
 import React from "react"
 import { Container, Form, Input } from "semantic-ui-react"
 
-const ClientForm = ({ errors, onChange, state }) => (
+const ClientForm = ({ errors, onChange, readOnly, state }) => (
   <Container>
     <Form.Field error={errors.legalEntity !== undefined}>
       <label>Toiminimi</label>
@@ -10,6 +10,7 @@ const ClientForm = ({ errors, onChange, state }) => (
         name="legalEntity"
         onChange={onChange}
         placeholder="Firma Oy"
+        readOnly={readOnly}
         value={state.legalEntity}
       />
       <FormError error={errors.legalEntity} />
@@ -21,6 +22,7 @@ const ClientForm = ({ errors, onChange, state }) => (
           name="businessId"
           onChange={onChange}
           placeholder="1234567-8"
+          readOnly={readOnly}
           value={state.businessId}
         />
         <FormError error={errors.businessId} />
@@ -31,6 +33,7 @@ const ClientForm = ({ errors, onChange, state }) => (
           name="contactPerson"
           onChange={onChange}
           placeholder="Spongebob Squarepants"
+          readOnly={readOnly}
           value={state.contactPerson}
         />
         <FormError error={errors.contactPerson} />
@@ -43,6 +46,7 @@ const ClientForm = ({ errors, onChange, state }) => (
           name="phone"
           onChange={onChange}
           placeholder="040-123-4567"
+          readOnly={readOnly}
           value={state.phone}
         />
         <FormError error={errors.phone} />
@@ -53,6 +57,7 @@ const ClientForm = ({ errors, onChange, state }) => (
           name="email"
           onChange={onChange}
           placeholder="sponge.bob@sauma.io"
+          readOnly={readOnly}
           value={state.email}
         />
         <FormError error={errors.email} />
