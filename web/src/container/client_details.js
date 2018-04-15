@@ -16,7 +16,7 @@ class ClientDetailsContainer extends React.Component {
     this.props.resetClient()
 
   render() {
-    let { client, error, isNew, pending } = this.props
+    let { auth, client, error, isNew, pending } = this.props
 
     if ( pending ) return (
       <Spinner />
@@ -30,6 +30,7 @@ class ClientDetailsContainer extends React.Component {
       <ClientFormContainer
         client={client}
         isNew={isNew}
+        readOnly={!auth.admin}
       />
     )
   }

@@ -2,27 +2,45 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { Menu } from "semantic-ui-react"
 
-const NavBar = ({ logout }) => (
-  <Menu>
-    <Menu.Item
-      as={Link} to="/projects"
-      content="Työmaat"
-      disabled
-    />
-    <Menu.Item
-      as={Link} to="/clients"
-      content="Asiakkaat"
-    />
-    <Menu.Item
-      as={Link} to="/employees"
-      content="Henkilöstö"
-    />
-    <Menu.Item
-      as={Link} to="/"
-      content="Kirjaudu ulos"
-      onClick={logout}
-    />
-  </Menu>
+const items = (logout) => [
+  {
+    key : "projects",
+    content : "Työmaat",
+    as : Link,
+    to : "/projects",
+    admin : 0
+  },
+  {
+    key : "clients",
+    content : "Asiakkaat",
+    as : Link,
+    to : "/clients",
+    admin : 1
+  },
+  {
+    key : "employees",
+    content : "Henkilöstö",
+    as : Link,
+    to : "/employees",
+    admin : 0
+  },
+  {
+    key : "logout",
+    content : "Kirjaudu ulos",
+    as : Link,
+    to : "/",
+    onClick : logout,
+    admin : 0
+  }
+]
+
+const NavBar = ({ admin, logout }) => (
+  <Menu
+    items={( admin )
+      ? items(logout)
+      : items(logout).filter(i => i.admin === 0)
+    }
+  />
 )
 
 export default NavBar

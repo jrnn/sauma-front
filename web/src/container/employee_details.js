@@ -16,7 +16,7 @@ class EmployeeDetailsContainer extends React.Component {
     this.props.resetEmployee()
 
   render() {
-    let { employee, error, isNew, pending } = this.props
+    let { auth, employee, error, isNew, pending } = this.props
 
     if ( pending ) return (
       <Spinner />
@@ -30,6 +30,7 @@ class EmployeeDetailsContainer extends React.Component {
       <EmployeeFormContainer
         employee={employee}
         isNew={isNew}
+        readOnly={!auth.admin}
       />
     )
   }

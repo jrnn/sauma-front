@@ -45,25 +45,31 @@ class EmployeeFormContainer extends React.Component {
   }
 
   render() {
-    let { pending, errors } = this.props
+    let { errors, pending, readOnly } = this.props
+
+    let buttons = ( readOnly )
+      ? null
+      : <Button content="Tallenna" fluid />
 
     return (
-      <Form loading={pending} onSubmit={this.handleSubmit}>
+      <Form
+        loading={pending}
+        onSubmit={this.handleSubmit}
+      >
         <EmployeeForm
           errors={errors}
           onChange={this.handleChange}
+          readOnly={readOnly}
           state={this.state}
         />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
-        <Button
-          content="Tallenna"
-          fluid
-        />
+        {buttons}
       </Form>
     )
   }

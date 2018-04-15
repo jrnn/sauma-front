@@ -4,6 +4,7 @@ import {
   combineReducers,
   createStore
 } from "redux"
+import { composeWithDevTools } from "redux-devtools-extension"
 
 import authReducer from "./reducer/auth"
 import clientReducer from "./reducer/client"
@@ -19,7 +20,8 @@ const reducers = combineReducers({
 
 const store = createStore(
   reducers,
-  applyMiddleware(thunk)
+  composeWithDevTools(
+    applyMiddleware(thunk))
 )
 
 export default store

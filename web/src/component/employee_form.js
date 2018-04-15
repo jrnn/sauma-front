@@ -2,7 +2,7 @@ import FormError from "./form_error"
 import React from "react"
 import { Container, Form, Input } from "semantic-ui-react"
 
-const EmployeeForm = ({ errors, onChange, state }) => (
+const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
   <Container>
     <Form.Field error={errors.username !== undefined}>
       <label>Käyttäjätunnus</label>
@@ -10,6 +10,7 @@ const EmployeeForm = ({ errors, onChange, state }) => (
         name="username"
         onChange={onChange}
         placeholder="Tällä kirjaudutaan sisään"
+        readOnly={readOnly}
         value={state.username}
       />
       <FormError error={errors.username} />
@@ -21,6 +22,7 @@ const EmployeeForm = ({ errors, onChange, state }) => (
           name="firstName"
           onChange={onChange}
           placeholder="Spongebob"
+          readOnly={readOnly}
           value={state.firstName}
         />
         <FormError error={errors.firstName} />
@@ -31,6 +33,7 @@ const EmployeeForm = ({ errors, onChange, state }) => (
           name="lastName"
           onChange={onChange}
           placeholder="Squarepants"
+          readOnly={readOnly}
           value={state.lastName}
         />
         <FormError error={errors.lastName} />
@@ -42,6 +45,7 @@ const EmployeeForm = ({ errors, onChange, state }) => (
         name="email"
         onChange={onChange}
         placeholder="sponge.bob@sauma.io"
+        readOnly={readOnly}
         value={state.email}
       />
       <FormError error={errors.email} />
@@ -52,6 +56,7 @@ const EmployeeForm = ({ errors, onChange, state }) => (
         name="phone"
         onChange={onChange}
         placeholder="040-123-4567"
+        readOnly={readOnly}
         value={state.phone}
       />
       <FormError error={errors.phone} />
@@ -62,12 +67,14 @@ const EmployeeForm = ({ errors, onChange, state }) => (
         checked={state.administrator}
         name="administrator"
         onChange={onChange}
+        readOnly={readOnly}
       />
       <Form.Checkbox
         label="Käyttöoikeudet"
         checked={state.enabled}
         name="enabled"
         onChange={onChange}
+        readOnly={readOnly}
       />
     </Form.Group>
   </Container>

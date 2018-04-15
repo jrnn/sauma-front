@@ -2,7 +2,7 @@ import FormError from "./form_error"
 import React from "react"
 import { Container, Form, Input } from "semantic-ui-react"
 
-const AddressForm = ({ errors, onChange, state }) => (
+const AddressForm = ({ errors, onChange, readOnly, state }) => (
   <Container>
     <Form.Field error={errors["address.street"] !== undefined}>
       <label>Osoite</label>
@@ -10,6 +10,7 @@ const AddressForm = ({ errors, onChange, state }) => (
         name="street"
         onChange={onChange}
         placeholder="Saumakuja 3"
+        readOnly={readOnly}
         value={state.address.street}
       />
     </Form.Field>
@@ -17,6 +18,7 @@ const AddressForm = ({ errors, onChange, state }) => (
       <Input
         name="streetExt"
         onChange={onChange}
+        readOnly={readOnly}
         value={state.address.streetExt}
       />
       <FormError error={errors["address.street"]} />
@@ -28,6 +30,7 @@ const AddressForm = ({ errors, onChange, state }) => (
           name="zipCode"
           onChange={onChange}
           placeholder="01300"
+          readOnly={readOnly}
           value={state.address.zipCode}
         />
         <FormError error={errors["address.zipCode"]} />
@@ -38,6 +41,7 @@ const AddressForm = ({ errors, onChange, state }) => (
           name="city"
           onChange={onChange}
           placeholder="Saumala"
+          readOnly={readOnly}
           value={state.address.city}
         />
         <FormError error={errors["address.city"]} />
@@ -49,6 +53,7 @@ const AddressForm = ({ errors, onChange, state }) => (
         name="country"
         onChange={onChange}
         placeholder="Suomi"
+        readOnly={readOnly}
         value={state.address.country}
       />
       <FormError error={errors["address.country"]} />

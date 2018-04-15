@@ -37,10 +37,8 @@ const employeeReducer = (state = initState, action) => {
       return { ...state, validation }
     }
     case "CREATE_EMPLOYEE_OK" : {
-      let all = { ...state.all, data : [ ...state.all.data, data ] }
       let one = { data, error : null, pending : false }
-
-      return { all, one, validation : initState.validation }
+      return { ...state, one, validation : initState.validation }
     }
     case "CREATE_EMPLOYEE_FAIL" : {
       let one = { ...state.one, error }
@@ -51,13 +49,8 @@ const employeeReducer = (state = initState, action) => {
       return { ...state, validation }
     }
     case "UPDATE_EMPLOYEE_OK" : {
-      let employees = state.all.data
-        .filter(e => e.id !== data.id)
-
-      let all = { ...state.all, data : employees }
       let one = { data, error : null, pending : false }
-
-      return { all, one, validation : initState.validation }
+      return { ...state, one, validation : initState.validation }
     }
     case "UPDATE_EMPLOYEE_FAIL" : {
       let one = { ...state.one, error }

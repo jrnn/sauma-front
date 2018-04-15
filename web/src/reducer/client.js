@@ -37,10 +37,8 @@ const clientReducer = (state = initState, action) => {
       return { ...state, validation }
     }
     case "CREATE_CLIENT_OK" : {
-      let all = { ...state.all, data : [ ...state.all.data, data ] }
       let one = { data, error : null, pending : false }
-
-      return { all, one, validation : initState.validation }
+      return { ...state, one, validation : initState.validation }
     }
     case "CREATE_CLIENT_FAIL" : {
       let one = { ...state.one, error }
@@ -51,13 +49,8 @@ const clientReducer = (state = initState, action) => {
       return { ...state, validation }
     }
     case "UPDATE_CLIENT_OK" : {
-      let clients = state.all.data
-        .filter(c => c.id !== data.id)
-
-      let all = { ...state.all, data : clients }
       let one = { data, error : null, pending : false }
-
-      return { all, one, validation : initState.validation }
+      return { ...state, one, validation : initState.validation }
     }
     case "UPDATE_CLIENT_FAIL" : {
       let one = { ...state.one, error }

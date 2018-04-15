@@ -13,12 +13,18 @@ class NavBarContainer extends React.Component {
 
   render() {
     return (
-      <NavBar logout={this.handleLogout} />
+      <NavBar
+        admin={this.props.auth.admin || false}
+        logout={this.handleLogout}
+      />
     )
   }
 }
 
+const mapStateToProps = (state) =>
+  ({ auth : state.auth })
+
 export default withRouter(connect(
-  null,
+  mapStateToProps,
   { logout, notify }
 )(NavBarContainer))
