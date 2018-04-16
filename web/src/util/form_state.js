@@ -29,17 +29,24 @@ export const clientState = (c) => (
   }
 )
 
-export const employeeState = (e) => (
-  {
-    administrator : e.administrator || false,
+export const employeeState = (e) => {
+  let state = {
     email : e.email || "",
-    enabled : e.enabled || true,
     firstName : e.firstName || "",
     lastName : e.lastName || "",
     phone : e.phone || "",
     username : e.username || ""
   }
-)
+
+  state.administrator = ( e )
+    ? e.administrator
+    : false
+  state.enabled = ( e )
+    ? e.enabled
+    : true
+
+  return state
+}
 
 export const projectState = (p) => {
   let state = { projectId : p.projectId || "" }

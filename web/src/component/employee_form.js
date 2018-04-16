@@ -1,9 +1,9 @@
 import FormError from "./form_error"
 import React from "react"
-import { Container, Form, Input } from "semantic-ui-react"
+import { Form, Input } from "semantic-ui-react"
 
 const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
-  <Container>
+  <div>
     <Form.Field error={errors.username !== undefined}>
       <label>Käyttäjätunnus</label>
       <Input
@@ -15,54 +15,50 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
       />
       <FormError error={errors.username} />
     </Form.Field>
-    <Form.Group widths="equal">
-      <Form.Field error={errors.firstName !== undefined}>
-        <label>Etunimi</label>
-        <Input
-          name="firstName"
-          onChange={onChange}
-          placeholder="Spongebob"
-          readOnly={readOnly}
-          value={state.firstName}
-        />
-        <FormError error={errors.firstName} />
-      </Form.Field>
-      <Form.Field error={errors.lastName !== undefined}>
-        <label>Sukunimi</label>
-        <Input
-          name="lastName"
-          onChange={onChange}
-          placeholder="Squarepants"
-          readOnly={readOnly}
-          value={state.lastName}
-        />
-        <FormError error={errors.lastName} />
-      </Form.Field>
-    </Form.Group>
-    <Form.Group>
-      <Form.Field error={errors.phone !== undefined} width="5">
-        <label>Puhelin</label>
-        <Input
-          name="phone"
-          onChange={onChange}
-          placeholder="040-123-4567"
-          readOnly={readOnly}
-          value={state.phone}
-        />
-        <FormError error={errors.phone} />
-      </Form.Field>
-      <Form.Field error={errors.email !== undefined} width="11">
-        <label>Email</label>
-        <Input
-          name="email"
-          onChange={onChange}
-          placeholder="sponge.bob@sauma.io"
-          readOnly={readOnly}
-          value={state.email}
-        />
-        <FormError error={errors.email} />
-      </Form.Field>
-    </Form.Group>
+    <Form.Field error={errors.firstName !== undefined}>
+      <label>Etunimi</label>
+      <Input
+        name="firstName"
+        onChange={onChange}
+        placeholder="Spongebob"
+        readOnly={readOnly}
+        value={state.firstName}
+      />
+      <FormError error={errors.firstName} />
+    </Form.Field>
+    <Form.Field error={errors.lastName !== undefined}>
+      <label>Sukunimi</label>
+      <Input
+        name="lastName"
+        onChange={onChange}
+        placeholder="Squarepants"
+        readOnly={readOnly}
+        value={state.lastName}
+      />
+      <FormError error={errors.lastName} />
+    </Form.Field>
+    <Form.Field error={errors.phone !== undefined}>
+      <label>Puhelin</label>
+      <Input
+        name="phone"
+        onChange={onChange}
+        placeholder="040-123-4567"
+        readOnly={readOnly}
+        value={state.phone}
+      />
+      <FormError error={errors.phone} />
+    </Form.Field>
+    <Form.Field error={errors.email !== undefined}>
+      <label>Email</label>
+      <Input
+        name="email"
+        onChange={onChange}
+        placeholder="sponge.bob@sauma.io"
+        readOnly={readOnly}
+        value={state.email}
+      />
+      <FormError error={errors.email} />
+    </Form.Field>
     <Form.Group className="padded" widths="equal">
       <Form.Checkbox
         label="Työnjohtaja"
@@ -79,7 +75,7 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
         readOnly={readOnly}
       />
     </Form.Group>
-  </Container>
+  </div>
 )
 
 export default EmployeeForm

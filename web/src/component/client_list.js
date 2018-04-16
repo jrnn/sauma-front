@@ -1,20 +1,28 @@
 import React from "react"
 import SearchField from "./search_field"
-import { Button, Container, Table } from "semantic-ui-react"
+import { Button, List } from "semantic-ui-react"
 import { Link } from "react-router-dom"
 
 const asRow = (c) => (
-  <Table.Row key={c.id}>
-    <Table.Cell content={
-      <Link to={`/clients/${c.id}`}>
-        {c.legalEntity}
-      </Link>}
+  <List.Item
+    key={c.id}
+    as={Link}
+    to={`/clients/${c.id}`}
+  >
+    <List.Icon
+      color="grey"
+      name="suitcase"
+      verticalAlign="middle"
     />
-    <Table.Cell
-      content="N/A"
-      textAlign="center"
-    />
-  </Table.Row>
+    <List.Content>
+      <List.Header
+        content={c.legalEntity}
+      />
+      <List.Description
+        content={c.businessId}
+      />
+    </List.Content>
+  </List.Item>
 )
 
 const buttons = (admin) => (
@@ -28,24 +36,16 @@ const buttons = (admin) => (
 )
 
 const ClientList = ({ admin, clients, filter, onChange }) => (
-  <Container>
+  <div>
     <SearchField
       onChange={onChange}
       value={filter}
     />
-    <Table singleLine>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell content="Toiminimi" />
-          <Table.HeaderCell content="Työmaita" />
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {clients.map(c => asRow(c))}
-      </Table.Body>
-    </Table>
+    <List divided relaxed>
+      {clients.map(c => asRow(c))}
+    </List>
     {buttons(admin)}
-  </Container>
+  </div>
 )
 
 export default ClientList

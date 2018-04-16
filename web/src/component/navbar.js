@@ -1,6 +1,6 @@
 import React from "react"
+import { Icon, Menu, Popup } from "semantic-ui-react"
 import { Link } from "react-router-dom"
-import { Menu } from "semantic-ui-react"
 
 const items = (logout) => [
   {
@@ -34,12 +34,32 @@ const items = (logout) => [
   }
 ]
 
-const NavBar = ({ admin, logout }) => (
+const menu = (admin, logout) => (
   <Menu
     items={( admin )
       ? items(logout)
       : items(logout).filter(i => i.admin === 0)
     }
+    secondary
+    vertical
+  />
+)
+
+const NavBar = ({ auth, logout }) => (
+  <Popup
+    content={( !auth )
+      ? null
+      : menu(auth.admin, logout)
+    }
+    on="click"
+    trigger={<Icon
+      inverted
+      name={( !auth )
+        ? ""
+        : "bars"
+      }
+      size="large"
+    />}
   />
 )
 

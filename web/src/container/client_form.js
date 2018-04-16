@@ -51,7 +51,6 @@ class ClientFormContainer extends React.Component {
         loading={pending}
         onSubmit={this.handleSubmit}
       >
-        <p className="huom">{"Alle voisi listata kaikki asiakkaan työmaat (linkkeinä)."}</p>
         <ClientForm
           errors={errors}
           onChange={this.handleChange}

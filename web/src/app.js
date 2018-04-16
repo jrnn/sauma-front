@@ -1,5 +1,6 @@
 import Header from "./component/header"
 import LoginFormContainer from "./container/login_form"
+import NavBarContainer from "./container/navbar"
 import Notification from "./component/notification"
 import React from "react"
 import RootContainer from "./container/root"
@@ -14,14 +15,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container>
+      <div>
         <Header />
-        <Notification />
-        {this.props.auth === null
-          ? <LoginFormContainer />
-          : <RootContainer />
-        }
-      </Container>
+        <NavBarContainer />
+        <div className="wrapper padded">
+          <Container>
+            <Notification />
+            {( this.props.auth === null )
+              ? <LoginFormContainer />
+              : <RootContainer />
+            }
+          </Container>
+        </div>
+      </div>
     )
   }
 }

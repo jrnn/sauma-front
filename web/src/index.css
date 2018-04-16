@@ -1,17 +1,22 @@
-body {
-  margin : 0 auto;
-  max-width : 640px;
-  padding-bottom : 4rem;
+.full-width-bg-black {
+  background-color : #2b2f35;
+}
+.full-width-bg-blue {
+  background-color : #478ba7;
 }
 .padded {
   padding : 1rem 0rem;
 }
 .top-header {
-  background-color : #67a3b3;
   color : #ffffff;
-  padding : 1rem 0rem;
   text-align : center;
 }
+.wrapper {
+  margin : 0 auto;
+  max-width : 640px;
+}
+
+
 
 .huom {
   border : solid 1px #ea634d;

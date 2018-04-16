@@ -1,9 +1,9 @@
 import FormError from "./form_error"
 import React from "react"
-import { Container, Form, Input } from "semantic-ui-react"
+import { Form, Input } from "semantic-ui-react"
 
 const AddressForm = ({ errors, onChange, readOnly, state }) => (
-  <Container>
+  <div>
     <Form.Field error={errors["address.street"] !== undefined}>
       <label>Osoite</label>
       <Input
@@ -23,30 +23,28 @@ const AddressForm = ({ errors, onChange, readOnly, state }) => (
       />
       <FormError error={errors["address.street"]} />
     </Form.Field>
-    <Form.Group widths="equal">
-      <Form.Field error={errors["address.zipCode"] !== undefined}>
-        <label>Postinumero</label>
-        <Input
-          name="zipCode"
-          onChange={onChange}
-          placeholder="01300"
-          readOnly={readOnly}
-          value={state.address.zipCode}
-        />
-        <FormError error={errors["address.zipCode"]} />
-      </Form.Field>
-      <Form.Field error={errors["address.city"] !== undefined}>
-        <label>Kaupunki</label>
-        <Input
-          name="city"
-          onChange={onChange}
-          placeholder="Saumala"
-          readOnly={readOnly}
-          value={state.address.city}
-        />
-        <FormError error={errors["address.city"]} />
-      </Form.Field>
-    </Form.Group>
+    <Form.Field error={errors["address.zipCode"] !== undefined}>
+      <label>Postinumero</label>
+      <Input
+        name="zipCode"
+        onChange={onChange}
+        placeholder="01300"
+        readOnly={readOnly}
+        value={state.address.zipCode}
+      />
+      <FormError error={errors["address.zipCode"]} />
+    </Form.Field>
+    <Form.Field error={errors["address.city"] !== undefined}>
+      <label>Kaupunki</label>
+      <Input
+        name="city"
+        onChange={onChange}
+        placeholder="Saumala"
+        readOnly={readOnly}
+        value={state.address.city}
+      />
+      <FormError error={errors["address.city"]} />
+    </Form.Field>
     <Form.Field error={errors["address.country"] !== undefined}>
       <label>Valtio</label>
       <Input
@@ -58,7 +56,7 @@ const AddressForm = ({ errors, onChange, readOnly, state }) => (
       />
       <FormError error={errors["address.country"]} />
     </Form.Field>
-  </Container>
+  </div>
 )
 
 export default AddressForm

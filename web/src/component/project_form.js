@@ -1,12 +1,12 @@
 import FormError from "./form_error"
 import React from "react"
-import { Container, Dropdown, Form, Input } from "semantic-ui-react"
+import { Dropdown, Form, Input } from "semantic-ui-react"
 
 const ProjectForm = (props) => {
   let { errors, onChange, readOnly, state } = props
 
   return (
-    <Container>
+    <div>
       <Form.Field error={errors.projectId !== undefined}>
         <label>Työnumero</label>
         <Input
@@ -17,60 +17,58 @@ const ProjectForm = (props) => {
         />
         <FormError error={errors.projectId} />
       </Form.Field>
-      <Form.Group widths="equal">
-        <Form.Field error={errors.startDate !== undefined}>
-          <label>Alkaa</label>
-          <Input
-            name="startDate"
-            onChange={onChange}
-            placeholder="pp-kk-vvvv"
-            readOnly={readOnly}
-            type="date"
-            value={state.startDate}
-          />
-          <FormError error={errors.startDate} />
-        </Form.Field>
-        <Form.Field error={errors.endDate !== undefined}>
-          <label>Päättyy</label>
-          <Input
-            name="endDate"
-            onChange={onChange}
-            placeholder="pp-kk-vvvv"
-            readOnly={readOnly}
-            type="date"
-            value={state.endDate}
-          />
-          <FormError error={errors.endDate} />
-        </Form.Field>
-      </Form.Group>
-      <Form.Group widths="equal">
-        <Form.Field error={errors.client !== undefined}>
-          <label>Asiakas</label>
-          <Dropdown
-            disabled={!props.isNew || readOnly}
-            name="client"
-            onChange={onChange}
-            options={props.clients}
-            readOnly={readOnly}
-            selection
-            value={state.client}
-          />
-          <FormError error={errors.client} />
-        </Form.Field>
-        <Form.Field error={errors.manager !== undefined}>
-          <label>Työnjohtaja</label>
-          <Dropdown
-            disabled={readOnly}
-            name="manager"
-            onChange={onChange}
-            options={props.managers}
-            selection
-            value={state.manager}
-          />
-          <FormError error={errors.manager} />
-        </Form.Field>
-      </Form.Group>
-    </Container>
+      <Form.Field error={errors.startDate !== undefined}>
+        <label>Alkaa</label>
+        <Input
+          icon="calendar"
+          name="startDate"
+          onChange={onChange}
+          placeholder="pp-kk-vvvv"
+          readOnly={readOnly}
+          type="date"
+          value={state.startDate}
+        />
+        <FormError error={errors.startDate} />
+      </Form.Field>
+      <Form.Field error={errors.endDate !== undefined}>
+        <label>Päättyy</label>
+        <Input
+          icon="calendar"
+          name="endDate"
+          onChange={onChange}
+          placeholder="pp-kk-vvvv"
+          readOnly={readOnly}
+          type="date"
+          value={state.endDate}
+        />
+        <FormError error={errors.endDate} />
+      </Form.Field>
+      <Form.Field error={errors.client !== undefined}>
+        <label>Asiakas</label>
+        <Dropdown
+          disabled={!props.isNew || readOnly}
+          name="client"
+          onChange={onChange}
+          options={props.clients}
+          readOnly={readOnly}
+          selection
+          value={state.client}
+        />
+        <FormError error={errors.client} />
+      </Form.Field>
+      <Form.Field error={errors.manager !== undefined}>
+        <label>Työnjohtaja</label>
+        <Dropdown
+          disabled={readOnly}
+          name="manager"
+          onChange={onChange}
+          options={props.managers}
+          selection
+          value={state.manager}
+        />
+        <FormError error={errors.manager} />
+      </Form.Field>
+    </div>
   )
 }
 

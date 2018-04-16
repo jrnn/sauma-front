@@ -1,12 +1,12 @@
 import React from "react"
-import { Button, Container, Form } from "semantic-ui-react"
+import { Button, Form } from "semantic-ui-react"
 
 const LoginForm = ({ onChange, onSubmit, state }) => {
   let { password, username } = state
   let isDisabled = password.length === 0 || username.length === 0
 
   return (
-    <Container>
+    <div>
       <h2 className="padded">Kirjaudu sisään</h2>
       <Form onSubmit={onSubmit}>
         <Form.Input
@@ -31,7 +31,7 @@ const LoginForm = ({ onChange, onSubmit, state }) => {
         />
         <p className="huom">{"Tähän 'Forgot password?' josta emailiin vahvistuslinkki"}</p>
       </Form>
-    </Container>
+    </div>
   )
 }
 
