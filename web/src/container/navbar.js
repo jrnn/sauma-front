@@ -3,18 +3,13 @@ import React from "react"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
 import { logout } from "../action/auth"
-import { notify } from "../action/notification"
 import { withRouter } from "react-router-dom"
 
 class NavBarContainer extends React.Component {
-  handleLogout = () => {
+  handleLogout = () =>
     this.props.logout()
-    this.props.notify("Olet nyt kirjautunut ulos", "success", 5)
-  }
 
-  render() {
-    let { auth } = this.props
-
+  render = () => {
     return (
       <div className="full-width-bg-black">
         <div
@@ -23,7 +18,7 @@ class NavBarContainer extends React.Component {
         >
           <Container textAlign="right">
             <NavBar
-              auth={auth}
+              auth={this.props.auth}
               logout={this.handleLogout}
             />
           </Container>
@@ -38,5 +33,5 @@ const mapStateToProps = (state) =>
 
 export default withRouter(connect(
   mapStateToProps,
-  { logout, notify }
+  { logout }
 )(NavBarContainer))

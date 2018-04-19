@@ -2,7 +2,6 @@ import LoginForm from "../component/login_form"
 import React from "react"
 import { connect } from "react-redux"
 import { login } from "../action/auth"
-import { notify } from "../action/notification"
 import { withRouter } from "react-router-dom"
 
 class LoginFormContainer extends React.Component {
@@ -17,25 +16,21 @@ class LoginFormContainer extends React.Component {
   handleChange = (e, { name, value }) =>
     this.setState({ [name] : value })
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
-
     let { password, username } = this.state
-    let { login, notify } = this.props
 
-    try {
-      await login(username, password)
-      notify("Olet nyt kirjautunut sisään", "success", 5)
-
-    } catch (ex) {
-      this.setState({ password : "", username : "" })
-      notify("Virheellinen tunnus tai salasana", "error", 5)
-    }
+    this.props.login(username, password)
+    this.setState({ password : "", username : "" })
   }
 
-  render() {
+  render = () => {
+    let { error, pending } = this.props
+
     return (
       <LoginForm
+        error={error}
+        loading={pending}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         state={this.state}
@@ -44,7 +39,14 @@ class LoginFormContainer extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => (
+  {
+    error : state.auth.error,
+    pending : state.auth.pending
+  }
+)
+
 export default withRouter(connect(
-  null,
-  { login, notify }
+  mapStateToProps,
+  { login }
 )(LoginFormContainer))

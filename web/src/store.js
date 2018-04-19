@@ -6,17 +6,17 @@ import {
 } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
 
-import authReducer from "./reducer/auth"
+import auth from "./reducer/auth"
 import clientReducer from "./reducer/client"
 import employees from "./reducer/employee"
-import notificationReducer from "./reducer/notification"
+import notification from "./reducer/notification"
 import projectReducer from "./reducer/project"
 
 const reducers = combineReducers({
-  auth : authReducer,
+  auth,
   clients : clientReducer,
   employees,
-  notification : notificationReducer,
+  notification,
   projects : projectReducer
 })
 

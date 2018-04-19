@@ -1,19 +1,33 @@
 import React from "react"
 import { connect } from "react-redux"
-import { Message } from "semantic-ui-react"
+import { Header, Modal } from "semantic-ui-react"
 
 const Notification = ({ notification }) => {
   if ( !notification.message )
     return null
 
-  let error = notification.type === "error"
+  let error = ( notification.type === "error" )
 
   return (
-    <Message positive={!error} negative={error}>
-      <Message.Header
+    <Modal
+      basic
+      closeOnDimmerClick={true}
+      defaultOpen={true}
+      size="mini"
+    >
+      <Header
+        color={( error )
+          ? "red"
+          : "green"
+        }
         content={notification.message}
+        icon={( error )
+          ? "warning sign"
+          : "checkmark"
+        }
+        inverted
       />
-    </Message>
+    </Modal>
   )
 }
 

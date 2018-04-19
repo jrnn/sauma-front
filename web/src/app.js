@@ -4,16 +4,16 @@ import NavBarContainer from "./container/navbar"
 import Notification from "./component/notification"
 import React from "react"
 import RootContainer from "./container/root"
+import { checkAuth } from "./action/auth"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
-import { getAuth } from "./action/auth"
 import { withRouter } from "react-router-dom"
 
 class App extends React.Component {
   componentDidMount = () =>
-    this.props.getAuth()
+    this.props.checkAuth()
 
-  render() {
+  render = () => {
     return (
       <div>
         <Header />
@@ -21,7 +21,7 @@ class App extends React.Component {
         <div className="wrapper padded">
           <Container>
             <Notification />
-            {( this.props.auth === null )
+            {( !this.props.auth.token )
               ? <LoginFormContainer />
               : <RootContainer />
             }
@@ -37,5 +37,5 @@ const mapStateToProps = (state) =>
 
 export default withRouter(connect(
   mapStateToProps,
-  { getAuth }
+  { checkAuth }
 )(App))

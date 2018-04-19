@@ -1,18 +1,33 @@
-const initState = null
+const initState = {
+  error : null,
+  pending : false
+}
 
-const authReducer = (state = initState, action) => {
-  let { data, type } = action
+const auth = (state = initState, action) => {
+  let { payload, type } = action
 
   switch ( type ) {
-    case "SET_AUTH" : {
-      return data || null
-    }
-    case "LOGOUT" : {
+    case "LOGIN" :
+      return {
+        ...state,
+        pending : true
+      }
+    case "LOGIN_ERROR" :
+      return {
+        error : payload,
+        pending : false
+      }
+    case "LOGOUT" :
       return initState
+    case "SET_AUTH" : {
+      payload.error = null
+      payload.pending = false
+
+      return payload
     }
     default :
       return state
   }
 }
 
-export default authReducer
+export default auth

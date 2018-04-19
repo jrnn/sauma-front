@@ -1,14 +1,16 @@
-export const notify = (message, type, timeout = 5) => {
+const timeout = 5000
+
+export const notify = (message, type) => {
   return async (dispatch) => {
     setTimeout(() =>
       dispatch({
         type : "HIDE_NOTIFICATION"
       }),
-      (timeout * 1000))
+    timeout)
 
     dispatch({
       type : "SET_NOTIFICATION",
-      data : {
+      payload : {
         message,
         type
       }

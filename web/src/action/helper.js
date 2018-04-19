@@ -25,7 +25,7 @@ export const errorHandler = (ex) => {
       }
     case 401 :
       return {
-        message : "Virheellinen käyttäjätunnus tai salasana"
+        message : "Istuntosi on vanhentunut, kirjaudu uudestaan"
       }
     default :
       return {

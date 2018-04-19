@@ -47,14 +47,14 @@ const menu = (admin, logout) => (
 
 const NavBar = ({ auth, logout }) => (
   <Popup
-    content={( !auth )
+    content={( !auth.token )
       ? null
       : menu(auth.admin, logout)
     }
     on="click"
     trigger={<Icon
       inverted
-      name={( !auth )
+      name={( !auth.token )
         ? ""
         : "bars"
       }
