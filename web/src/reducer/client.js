@@ -1,79 +1,88 @@
+import { combineReducers } from "redux"
+
 const initState = {
-  all : { data : [], error : null, pending : false },
-  one : { data : {}, error : null, pending : false },
-  validation : { error : {}, pending : false }
+  data : {
+    items : [],
+    error : null,
+    pending : false
+  },
+  write : {
+    errors : {},
+    pending : false
+  }
 }
 
-const clientReducer = (state = initState, action) => {
-  let { data, error, type } = action
+const data = (state = initState.data, action) => {
+  let { payload, type } = action
 
   switch ( type ) {
-    case "GET_CLIENTS" : {
-      let all = { ...state.all, error : null, pending : true }
-      return { ...state, all }
-    }
-    case "GET_CLIENTS_OK" : {
-      let all = { data, error : null, pending : false }
-      return { ...state, all }
-    }
-    case "GET_CLIENTS_FAIL" : {
-      let all = { ...state.all, error, pending : false }
-      return { ...state, all }
-    }
-    case "GET_CLIENT" : {
-      let one = { ...state.one, error : null, pending : true }
-      return { ...state, one }
-    }
-    case "GET_CLIENT_OK" : {
-      let one = { data, error : null, pending : false }
-      return { ...state, one }
-    }
-    case "GET_CLIENT_FAIL" : {
-      let one = { ...state.one, error, pending : false }
-      return { ...state, one }
-    }
-    case "CREATE_CLIENT" : {
-      let validation = { ...state.validation, pending : true }
-      return { ...state, validation }
-    }
-    case "CREATE_CLIENT_OK" : {
-      let one = { data, error : null, pending : false }
-      return { ...state, one, validation : initState.validation }
-    }
-    case "CREATE_CLIENT_FAIL" : {
-      let one = { ...state.one, error }
-      return { ...state, one, validation : initState.validation }
-    }
-    case "UPDATE_CLIENT" : {
-      let validation = { ...state.validation, pending : true }
-      return { ...state, validation }
-    }
+    case "REQUEST_CLIENTS" :
+      return {
+        ...state,
+        pending : true
+      }
+    case "REQUEST_CLIENTS_OK" :
+      return {
+        items : payload,
+        error : null,
+        pending : false
+      }
+    case "REQUEST_CLIENTS_ERROR" :
+      return {
+        ...state,
+        error : payload,
+        pending : false
+      }
+    case "CREATE_CLIENT_OK" :
+      return {
+        ...state,
+        items : [ ...state.items, payload ]
+      }
     case "UPDATE_CLIENT_OK" : {
-      let one = { data, error : null, pending : false }
-      return { ...state, one, validation : initState.validation }
+      let items = state.items
+        .filter(c => c.id !== payload.id)
+
+      return {
+        ...state,
+        items : [ ...items, payload ]
+      }
     }
-    case "UPDATE_CLIENT_FAIL" : {
-      let one = { ...state.one, error }
-      return { ...state, one, validation : initState.validation }
-    }
-    case "CLIENT_VALIDATION_FAIL" : {
-      let validation = { error, pending : false }
-      return { ...state, validation }
-    }
-    case "RESET_CLIENTS" : {
-      let one = state.one
-      return { ...initState, one }
-    }
-    case "RESET_CLIENT" : {
-      let all = state.all
-      return { ...initState, all }
-    }
-    case "LOGOUT" : {
-      return initState
-    }
+    case "RESET_CLIENTS" :
+      return initState.data
     default :
       return state
   }
 }
 
-export default clientReducer
+const write = (state = initState.write, action) => {
+  let { payload, type } = action
+
+  switch ( type ) {
+    case "WRITE_CLIENT" :
+      return {
+        ...state,
+        pending : true
+      }
+    case "WRITE_CLIENT_ERROR" :
+      return {
+        ...state,
+        pending : false
+      }
+    case "WRITE_CLIENT_INVALID" :
+      return {
+        errors : payload,
+        pending : false
+      }
+    case "RESET_WRITE_CLIENT" :
+      return initState.write
+    default :
+      return state
+  }
+}
+
+const clients = combineReducers({
+  data,
+  write
+})
+
+export default clients

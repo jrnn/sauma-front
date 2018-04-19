@@ -2,7 +2,7 @@ import ProjectFormContainer from "./project_form"
 import React from "react"
 import Spinner from "../component/spinner"
 import { connect } from "react-redux"
-import { getClients, resetClients } from "../action/client"
+//import { getClients, resetClients } from "../action/client"
 //import { getEmployees, resetEmployees } from "../action/employee"
 import { getProject, resetProject } from "../action/project"
 import { withRouter } from "react-router-dom"
@@ -96,10 +96,10 @@ const mapStateToProps = (state) => (
 export default withRouter(connect(
   mapStateToProps,
   {
-    getClients,
+//    getClients,
 //    getEmployees,
     getProject,
-    resetClients,
+//    resetClients,
 //    resetEmployees,
     resetProject
   }
