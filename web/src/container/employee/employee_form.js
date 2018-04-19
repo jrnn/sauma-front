@@ -1,10 +1,10 @@
-import AddressForm from "../component/address_form"
-import EmployeeForm from "../component/employee_form"
+import AddressForm from "../../component/address_form"
+import EmployeeForm from "../../component/employee_form"
 import React from "react"
-import { addressState, employeeState } from "../util/form_state"
+import { addressState, employeeState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { createEmployee, updateEmployee } from "../action/employee"
+import { resetWriteEmployee } from "../../action/employee"
 import { withRouter } from "react-router-dom"
 
 const initState = (e) => {
@@ -19,6 +19,9 @@ class EmployeeFormContainer extends React.Component {
     super(props)
     this.state = initState(props.employee)
   }
+
+  componentWillUnmount = () =>
+    this.props.resetWriteEmployee()
 
   handleAddressChange = (e, { name, value }) => {
     let { address } = this.state
@@ -36,19 +39,14 @@ class EmployeeFormContainer extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault()
-    let { auth, createEmployee, isNew, updateEmployee } = this.props
-
-    if ( isNew )
-      createEmployee(this.state, auth.token)
-    else
-      updateEmployee(this.props.employee.id, this.state, auth.token)
+    this.props.onSubmit(this.state)
   }
 
-  render() {
-    let { errors, pending, readOnly } = this.props
+  render = () => {
+    let { auth, errors, pending } = this.props
 
-    let buttons = ( readOnly )
-      ? <p className="huom">{"Huom. Taviskäyttäjä ei voi muokata eikä tallentaa. Tarkoitus muuttaa niin, että käyttäjä saa muokata omia tietojaan."}</p>
+    let buttons = ( !auth.admin )
+      ? null
       : <Button content="Tallenna" fluid />
 
     return (
@@ -59,13 +57,13 @@ class EmployeeFormContainer extends React.Component {
         <EmployeeForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={readOnly}
+          readOnly={!auth.admin}
           state={this.state}
         />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={readOnly}
+          readOnly={!auth.admin}
           state={this.state}
         />
         <Divider hidden />
@@ -78,12 +76,12 @@ class EmployeeFormContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    errors : state.employees.validation.error,
-    pending : state.employees.validation.pending
+    errors : state.employees.write.errors,
+    pending : state.employees.write.pending
   }
 )
 
 export default withRouter(connect(
   mapStateToProps,
-  { createEmployee, updateEmployee }
+  { resetWriteEmployee }
 )(EmployeeFormContainer))

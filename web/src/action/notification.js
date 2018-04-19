@@ -1,4 +1,4 @@
-export const notify = (message, type, timeout) => {
+export const notify = (message, type, timeout = 5) => {
   return async (dispatch) => {
     setTimeout(() =>
       dispatch({

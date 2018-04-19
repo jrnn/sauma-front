@@ -6,8 +6,8 @@ export const errorHandler = (ex) => {
 
   if ( ValidationError )
     return {
-      message : ValidationError,
-      validation : true
+      message : "Virheellinen tai puutteellinen syöte, tarkista antamasi tiedot",
+      validation : ValidationError
     }
 
   switch (ex.response.status) {
@@ -29,7 +29,7 @@ export const errorHandler = (ex) => {
       }
     default :
       return {
-        message : "Voi vihveli, jotain meni nyt kaputt"
+        message : "Voi vihveli, jotain meni nyt kaputt. Kokeilepa hetken kuluttua uudelleen...?"
       }
   }
 }

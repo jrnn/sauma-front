@@ -3,7 +3,7 @@ import React from "react"
 import Spinner from "../component/spinner"
 import { connect } from "react-redux"
 import { getClients, resetClients } from "../action/client"
-import { getEmployees, resetEmployees } from "../action/employee"
+//import { getEmployees, resetEmployees } from "../action/employee"
 import { getProject, resetProject } from "../action/project"
 import { withRouter } from "react-router-dom"
 
@@ -97,10 +97,10 @@ export default withRouter(connect(
   mapStateToProps,
   {
     getClients,
-    getEmployees,
+//    getEmployees,
     getProject,
     resetClients,
-    resetEmployees,
+//    resetEmployees,
     resetProject
   }
 )(ProjectDetailsContainer))

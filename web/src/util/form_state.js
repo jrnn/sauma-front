@@ -38,10 +38,10 @@ export const employeeState = (e) => {
     username : e.username || ""
   }
 
-  state.administrator = ( e )
+  state.administrator = ( e.id )
     ? e.administrator
     : false
-  state.enabled = ( e )
+  state.enabled = ( e.id )
     ? e.enabled
     : true
 

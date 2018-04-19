@@ -8,14 +8,14 @@ import { composeWithDevTools } from "redux-devtools-extension"
 
 import authReducer from "./reducer/auth"
 import clientReducer from "./reducer/client"
-import employeeReducer from "./reducer/employee"
+import employees from "./reducer/employee"
 import notificationReducer from "./reducer/notification"
 import projectReducer from "./reducer/project"
 
 const reducers = combineReducers({
   auth : authReducer,
   clients : clientReducer,
-  employees : employeeReducer,
+  employees,
   notification : notificationReducer,
   projects : projectReducer
 })
