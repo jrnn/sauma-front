@@ -57,13 +57,13 @@ class EmployeeFormContainer extends React.Component {
         <EmployeeForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={!auth.admin}
+          readOnly={( !auth.admin )}
           state={this.state}
         />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={!auth.admin}
+          readOnly={( !auth.admin )}
           state={this.state}
         />
         <Divider hidden />

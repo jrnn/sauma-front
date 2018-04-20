@@ -52,14 +52,14 @@ class ClientFormContainer extends React.Component {
         <ClientForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={!auth.admin}
+          readOnly={( !auth.admin )}
           state={this.state}
         />
         <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={!auth.admin}
+          readOnly={( !auth.admin )}
           state={this.state}
         />
         <Divider hidden />

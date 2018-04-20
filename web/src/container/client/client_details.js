@@ -6,18 +6,17 @@ import { withRouter } from "react-router-dom"
 
 class ClientDetailsContainer extends React.Component {
   save = (client) => {
-    let id = this.props.match.params.id
-    let { auth, createClient, updateClient } = this.props
+    let { id } = this.props.match.params
+    let { auth, createClient, isNew, updateClient } = this.props
 
-    if ( id === "new" )
+    if ( isNew )
       createClient(client, auth.token)
     else
       updateClient(id, client, auth.token)
   }
 
   render = () => {
-    let { client, match } = this.props
-    let isNew = ( match.params.id === "new" )
+    let { client, isNew } = this.props
 
     if ( !isNew && !client ) return (
       <h1 align="center">
@@ -38,7 +37,8 @@ const mapStateToProps = (state, props) => (
   {
     auth : state.auth,
     client : state.clients.data.items
-      .find(c => c.id === props.match.params.id)
+      .find(c => c.id === props.match.params.id),
+    isNew : ( props.match.params.id === "new" )
   }
 )
 

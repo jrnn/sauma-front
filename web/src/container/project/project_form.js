@@ -1,10 +1,10 @@
-import AddressForm from "../component/address_form"
-import ProjectForm from "../component/project_form"
+import AddressForm from "../../component/address_form"
+import ProjectForm from "../../component/project_form"
 import React from "react"
-import { addressState, projectState } from "../util/form_state"
+import { addressState, projectState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { createProject, updateProject } from "../action/project"
+import { resetWriteProject } from "../../action/project"
 import { withRouter } from "react-router-dom"
 
 const initState = (p) => {
@@ -20,6 +20,9 @@ class ProjectFormContainer extends React.Component {
     this.state = initState(props.project)
   }
 
+  componentWillUnmount = () =>
+    this.props.resetWriteProject()
+
   handleAddressChange = (e, { name, value }) => {
     let { address } = this.state
     address[name] = value
@@ -31,18 +34,13 @@ class ProjectFormContainer extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault()
-    let { auth, createProject, isNew, updateProject } = this.props
-
-    if ( isNew )
-      createProject(this.state, auth.token)
-    else
-      updateProject(this.props.project.id, this.state, auth.token)
+    this.props.onSubmit(this.state)
   }
 
-  render() {
-    let { errors, pending, readOnly } = this.props
+  render = () => {
+    let { auth, errors, pending } = this.props
 
-    let buttons = ( readOnly )
+    let buttons = ( !auth.admin )
       ? null
       : <Button content="Tallenna" fluid />
 
@@ -57,14 +55,14 @@ class ProjectFormContainer extends React.Component {
           isNew={this.props.isNew}
           managers={this.props.managers}
           onChange={this.handleChange}
-          readOnly={readOnly}
+          readOnly={( !auth.admin )}
           state={this.state}
         />
         <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={readOnly}
+          readOnly={( !auth.admin )}
           state={this.state}
         />
         <Divider hidden />
@@ -77,12 +75,12 @@ class ProjectFormContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    errors : state.projects.validation.error,
-    pending : state.projects.validation.pending
+    errors : state.projects.write.errors,
+    pending : state.projects.write.pending
   }
 )
 
 export default withRouter(connect(
   mapStateToProps,
-  { createProject, updateProject }
+  { resetWriteProject }
 )(ProjectFormContainer))

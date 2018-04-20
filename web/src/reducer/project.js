@@ -1,79 +1,88 @@
+import { combineReducers } from "redux"
+
 const initState = {
-  all : { data : [], error : null, pending : false },
-  one : { data : {}, error : null, pending : false },
-  validation : { error : {}, pending : false }
+  data : {
+    items : [],
+    error : null,
+    pending : false
+  },
+  write : {
+    errors : {},
+    pending : false
+  }
 }
 
-const projectReducer = (state = initState, action) => {
-  let { data, error, type } = action
+const data = (state = initState.data, action) => {
+  let { payload, type } = action
 
   switch ( type ) {
-    case "GET_PROJECTS" : {
-      let all = { ...state.all, error : null, pending : true }
-      return { ...state, all }
-    }
-    case "GET_PROJECTS_OK" : {
-      let all = { data, error : null, pending : false }
-      return { ...state, all }
-    }
-    case "GET_PROJECTS_FAIL" : {
-      let all = { ...state.all, error, pending : false }
-      return { ...state, all }
-    }
-    case "GET_PROJECT" : {
-      let one = { ...state.one, error : null, pending : true }
-      return { ...state, one }
-    }
-    case "GET_PROJECT_OK" : {
-      let one = { data, error : null, pending : false }
-      return { ...state, one }
-    }
-    case "GET_PROJECT_FAIL" : {
-      let one = { ...state.one, error, pending : false }
-      return { ...state, one }
-    }
-    case "CREATE_PROJECT" : {
-      let validation = { ...state.validation, pending : true }
-      return { ...state, validation }
-    }
-    case "CREATE_PROJECT_OK" : {
-      let one = { data, error : null, pending : false }
-      return { ...state, one, validation : initState.validation }
-    }
-    case "CREATE_PROJECT_FAIL" : {
-      let one = { ...state.one, error }
-      return { ...state, one, validation : initState.validation }
-    }
-    case "UPDATE_PROJECT" : {
-      let validation = { ...state.validation, pending : true }
-      return { ...state, validation }
-    }
+    case "REQUEST_PROJECTS" :
+      return {
+        ...state,
+        pending : true
+      }
+    case "REQUEST_PROJECTS_OK" :
+      return {
+        items : payload,
+        error : null,
+        pending : false
+      }
+    case "REQUEST_PROJECTS_ERROR" :
+      return {
+        ...state,
+        error : payload,
+        pending : false
+      }
+    case "CREATE_PROJECT_OK" :
+      return {
+        ...state,
+        items : [ ...state.items, payload ]
+      }
     case "UPDATE_PROJECT_OK" : {
-      let one = { data, error : null, pending : false }
-      return { ...state, one, validation : initState.validation }
+      let items = state.items
+        .filter(e => e.id !== payload.id)
+
+      return {
+        ...state,
+        items : [ ...items, payload ]
+      }
     }
-    case "UPDATE_PROJECT_FAIL" : {
-      let one = { ...state.one, error }
-      return { ...state, one, validation : initState.validation }
-    }
-    case "PROJECT_VALIDATION_FAIL" : {
-      let validation = { error, pending : false }
-      return { ...state, validation }
-    }
-    case "RESET_PROJECTS" : {
-      let one = state.one
-      return { ...initState, one }
-    }
-    case "RESET_PROJECT" : {
-      let all = state.all
-      return { ...initState, all }
-    }
-    case "LOGOUT" : {
-      return initState
-    }
+    case "RESET_PROJECTS" :
+      return initState.data
     default :
       return state
   }
 }
 
-export default projectReducer
+const write = (state = initState.write, action) => {
+  let { payload, type } = action
+
+  switch ( type ) {
+    case "WRITE_PROJECT" :
+      return {
+        ...state,
+        pending : true
+      }
+    case "WRITE_PROJECT_ERROR" :
+      return {
+        ...state,
+        pending : false
+      }
+    case "WRITE_PROJECT_INVALID" :
+      return {
+        errors : payload,
+        pending : false
+      }
+    case "RESET_WRITE_PROJECT" :
+      return initState.write
+    default :
+      return state
+  }
+}
+
+const projects = combineReducers({
+  data,
+  write
+})
+
+export default projects

@@ -1,112 +1,118 @@
 import axios from "axios"
 import { bearer, errorHandler } from "./helper"
+import { notify } from "./notification"
 
 const url = "/api/projects"
 
-export const getProjects = (token) => {
+/*
+ *  ACTION CREATORS
+ */
+const requestProjects = () =>
+  ({ type : "REQUEST_PROJECTS" })
+
+const requestProjectsOk = (projects) => ({
+  type : "REQUEST_PROJECTS_OK",
+  payload : projects
+})
+
+const requestProjectsError = (error) => ({
+  type : "REQUEST_PROJECTS_ERROR",
+  payload : error
+})
+
+const writeProject = () =>
+  ({ type : "WRITE_PROJECT" })
+
+const writeProjectError = () =>
+  ({ type : "WRITE_PROJECT_ERROR" })
+
+const writeProjectInvalid = (validationErrors) => ({
+  type : "WRITE_PROJECT_INVALID",
+  payload : validationErrors
+})
+
+const createProjectOk = (project) => ({
+  type : "CREATE_PROJECT_OK",
+  payload : project
+})
+
+const updateProjectOk = (project) => ({
+  type : "UPDATE_PROJECT_OK",
+  payload : project
+})
+
+export const resetProjects = () =>
+  ({ type : "RESET_PROJECTS" })
+
+export const resetWriteProject = () =>
+  ({ type : "RESET_WRITE_PROJECT" })
+
+/*
+ *  THUNKS
+ */
+export const fetchProjects = (token) => {
   return async (dispatch) => {
-    dispatch({ type : "GET_PROJECTS" })
+    dispatch(requestProjects())
 
     try {
       let res = await axios
         .get(url, bearer(token))
 
-      dispatch({
-        type : "GET_PROJECTS_OK",
-        data : res.data
-      })
+      dispatch(requestProjectsOk(res.data))
 
     } catch (ex) {
       let error = errorHandler(ex)
-
-      dispatch({
-        type : "GET_PROJECTS_FAIL",
-        error : error.message
-      })
-    }
-  }
-}
-
-export const getProject = (id, token) => {
-  return async (dispatch) => {
-    dispatch({ type : "GET_PROJECT" })
-
-    try {
-      let res = await axios
-        .get(`${url}/${id}`, bearer(token))
-
-      dispatch({
-        type : "GET_PROJECT_OK",
-        data : res.data
-      })
-
-    } catch (ex) {
-      let error = errorHandler(ex)
-
-      dispatch({
-        type : "GET_PROJECT_FAIL",
-        error : error.message
-      })
+      dispatch(requestProjectsError(error.message))
     }
   }
 }
 
 export const createProject = (project, token) => {
   return async (dispatch) => {
-    dispatch({ type : "CREATE_PROJECT" })
+    dispatch(writeProject())
 
     try {
       let res = await axios
         .post(url, project, bearer(token))
 
-      dispatch({
-        type : "CREATE_PROJECT_OK",
-        data : res.data
-      })
+      dispatch(resetWriteProject())
+      dispatch(createProjectOk(res.data))
+      dispatch(notify("Uusi työntekijä lisätty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
-      let type = ( error.validation )
-        ? "PROJECT_VALIDATION_FAIL"
-        : "CREATE_PROJECT_FAIL"
 
-      dispatch({
-        type,
-        error : error.message
-      })
+      if ( error.validation )
+        dispatch(writeProjectInvalid(error.validation))
+      else
+        dispatch(writeProjectError())
+
+      dispatch(notify(error.message, "error"))
     }
   }
 }
 
 export const updateProject = (id, project, token) => {
   return async (dispatch) => {
-    dispatch({ type : "UPDATE_PROJECT" })
+    dispatch(writeProject())
 
     try {
       let res = await axios
         .put(`${url}/${id}`, project, bearer(token))
 
-      dispatch({
-        type : "UPDATE_PROJECT_OK",
-        data : res.data
-      })
+      dispatch(resetWriteProject())
+      dispatch(updateProjectOk(res.data))
+      dispatch(notify("Työntekijän tiedot päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
-      let type = ( error.validation )
-        ? "PROJECT_VALIDATION_FAIL"
-        : "UPDATE_PROJECT_FAIL"
 
-      dispatch({
-        type,
-        error : error.message
-      })
+      if ( error.validation )
+        dispatch(writeProjectInvalid(error.validation))
+      else
+        dispatch(writeProjectError())
+
+      dispatch(notify(error.message, "error"))
     }
   }
 }
-
-export const resetProjects = () =>
-  ({ type : "RESET_PROJECTS" })
-
-export const resetProject = () =>
-  ({ type : "RESET_PROJECT" })

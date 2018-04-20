@@ -10,14 +10,14 @@ import auth from "./reducer/auth"
 import clients from "./reducer/client"
 import employees from "./reducer/employee"
 import notification from "./reducer/notification"
-import projectReducer from "./reducer/project"
+import projects from "./reducer/project"
 
 const reducers = combineReducers({
   auth,
   clients,
   employees,
   notification,
-  projects : projectReducer
+  projects
 })
 
 const store = createStore(

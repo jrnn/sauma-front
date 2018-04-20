@@ -3,16 +3,9 @@ import ClientListContaner from "./client_list"
 import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
-import { fetchClients, resetClients } from "../../action/client"
 import { Route, withRouter } from "react-router-dom"
 
 class ClientContainer extends React.Component {
-  componentDidMount = () =>
-    this.props.fetchClients(this.props.auth.token)
-
-  componentWillUnmount = () =>
-    this.props.resetClients()
-
   render = () => {
     let { error, match, pending } = this.props
 
@@ -50,5 +43,5 @@ const mapStateToProps = (state) => (
 
 export default withRouter(connect(
   mapStateToProps,
-  { fetchClients, resetClients }
+  null
 )(ClientContainer))

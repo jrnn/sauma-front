@@ -1,36 +1,61 @@
 import ClientContainer from "./client/client"
 import EmployeeContainer from "./employee/employee"
-import ProjectDetailsContainer from "./project_details"
-import ProjectListContainer from "./project_list"
+import ProjectContainer from "./project/project"
 import React from "react"
+import { connect } from "react-redux"
+import { fetchClients, resetClients } from "../action/client"
+import { fetchEmployees, resetEmployees } from "../action/employee"
+import { fetchProjects, resetProjects } from "../action/project"
 import { Redirect, Route, Switch } from "react-router-dom"
+import { withRouter } from "react-router-dom"
 
-const RootContainer = () => (
-  <Switch>
-    <Route
-      exact path="/projects/:id"
-      render={props =>
-        <ProjectDetailsContainer
-          isNew={props.match.params.id === "new"}
-          {...props}
+class RootContainer extends React.Component {
+  componentDidMount = () =>
+    this.props.initState(this.props.auth.token)
+
+  componentWillUnMount = () =>
+    this.props.resetState()
+
+  render = () => {
+    return (
+      <Switch>
+        <Route
+          path="/clients"
+          component={ClientContainer}
         />
-      }
-    />
-    <Route
-      exact path="/projects"
-      component={ProjectListContainer}
-    />
+        <Route
+          path="/employees"
+          component={EmployeeContainer}
+        />
+        <Route
+          path="/projects"
+          component={ProjectContainer}
+        />
+        <Redirect to="/" />
+      </Switch>
+    )
+  }
+}
 
-    <Route
-      path="/clients"
-      component={ClientContainer}
-    />
-    <Route
-      path="/employees"
-      component={EmployeeContainer}
-    />
-    <Redirect to="/" />
-  </Switch>
+const mapStateToProps = (state) =>
+  ({ auth : state.auth })
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    initState : (token) => {
+      dispatch(fetchClients(token))
+      dispatch(fetchEmployees(token))
+      dispatch(fetchProjects(token))
+    },
+    resetState : () => {
+      dispatch(resetClients())
+      dispatch(resetEmployees())
+      dispatch(resetProjects())
+    }
+  }
 )
 
-export default RootContainer
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RootContainer))

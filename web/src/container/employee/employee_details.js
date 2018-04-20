@@ -6,18 +6,17 @@ import { withRouter } from "react-router-dom"
 
 class EmployeeDetailsContainer extends React.Component {
   save = (employee) => {
-    let id = this.props.match.params.id
-    let { auth, createEmployee, updateEmployee } = this.props
+    let { id } = this.props.match.params
+    let { auth, createEmployee, isNew, updateEmployee } = this.props
 
-    if ( id === "new" )
+    if ( isNew )
       createEmployee(employee, auth.token)
     else
       updateEmployee(id, employee, auth.token)
   }
 
   render = () => {
-    let { employee, match } = this.props
-    let isNew = ( match.params.id === "new" )
+    let { employee, isNew } = this.props
 
     if ( !isNew && !employee ) return (
       <h1 align="center">
@@ -38,7 +37,8 @@ const mapStateToProps = (state, props) => (
   {
     auth : state.auth,
     employee : state.employees.data.items
-      .find(e => e.id === props.match.params.id)
+      .find(e => e.id === props.match.params.id),
+    isNew : ( props.match.params.id === "new" )
   }
 )
 

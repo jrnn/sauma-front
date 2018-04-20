@@ -1,8 +1,6 @@
-import ProjectList from "../component/project_list"
+import ProjectList from "../../component/project_list"
 import React from "react"
-import Spinner from "../component/spinner"
 import { connect } from "react-redux"
-import { getProjects, resetProjects } from "../action/project"
 import { withRouter } from "react-router-dom"
 
 class ProjectListContainer extends React.Component {
@@ -10,12 +8,6 @@ class ProjectListContainer extends React.Component {
     super()
     this.state = { filter : "" }
   }
-
-  componentDidMount = () =>
-    this.props.getProjects(this.props.auth.token)
-
-  componentWillUnmount = () =>
-    this.props.resetProjects()
 
   filterProjects = () => {
     let { filter } = this.state
@@ -31,20 +23,10 @@ class ProjectListContainer extends React.Component {
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })
 
-  render() {
-    let { auth, error, pending } = this.props
-
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
-    )
-
+  render = () => {
     return (
       <ProjectList
-        admin={auth.admin}
+        admin={this.props.auth.admin}
         filter={this.state.filter}
         onChange={this.handleFilter}
         projects={this.filterProjects()}
@@ -56,13 +38,11 @@ class ProjectListContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    error : state.projects.all.error,
-    pending : state.projects.all.pending,
-    projects : state.projects.all.data
+    projects : state.projects.data.items
   }
 )
 
 export default withRouter(connect(
   mapStateToProps,
-  { getProjects, resetProjects }
+  null
 )(ProjectListContainer))

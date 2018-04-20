@@ -1,11 +1,11 @@
-import EmployeeDetailsContainer from "./employee_details"
-import EmployeeListContaner from "./employee_list"
+import ProjectDetailsContainer from "./project_details"
+import ProjectListContaner from "./project_list"
 import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
 import { Route, withRouter } from "react-router-dom"
 
-class EmployeeContainer extends React.Component {
+class ProjectContainer extends React.Component {
   render = () => {
     let { error, match, pending } = this.props
 
@@ -19,14 +19,14 @@ class EmployeeContainer extends React.Component {
 
     return (
       <div>
-        <h2 className="padded">Henkilöstö</h2>
+        <h2 className="padded">Työmaat</h2>
         <Route
           exact path={`${match.path}/:id`}
-          component={EmployeeDetailsContainer}
+          component={ProjectDetailsContainer}
         />
         <Route
           exact path={match.path}
-          component={EmployeeListContaner}
+          component={ProjectListContaner}
         />
       </div>
     )
@@ -36,12 +36,12 @@ class EmployeeContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    error : state.employees.data.error,
-    pending : state.employees.data.pending
+    error : state.projects.data.error,
+    pending : state.projects.data.pending
   }
 )
 
 export default withRouter(connect(
   mapStateToProps,
   null
-)(EmployeeContainer))
+)(ProjectContainer))
