@@ -50,7 +50,9 @@ const ProjectForm = (props) => {
           name="client"
           onChange={onChange}
           options={props.clients}
+          placeholder="Valitse asiakas"
           readOnly={readOnly}
+          search={true}
           selection
           value={state.client}
         />
@@ -63,6 +65,8 @@ const ProjectForm = (props) => {
           name="manager"
           onChange={onChange}
           options={props.managers}
+          placeholder="Valitse työnjohtaja"
+          search={true}
           selection
           value={state.manager}
         />

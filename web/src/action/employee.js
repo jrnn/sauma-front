@@ -1,5 +1,5 @@
 import axios from "axios"
-import { bearer, errorHandler } from "./helper"
+import { bearer, cacheLifespan, errorHandler } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/employees"
@@ -41,9 +41,6 @@ const updateEmployeeOk = (employee) => ({
   payload : employee
 })
 
-export const resetEmployees = () =>
-  ({ type : "RESET_EMPLOYEES" })
-
 export const resetWriteEmployee = () =>
   ({ type : "RESET_WRITE_EMPLOYEE" })
 
@@ -64,6 +61,15 @@ export const fetchEmployees = (token) => {
       let error = errorHandler(ex)
       dispatch(requestEmployeesError(error.message))
     }
+  }
+}
+
+export const fetchEmployeesIfNeeded = (token) => {
+  return async (dispatch, getState) => {
+    if ( shouldFetchEmployees(getState()) )
+      dispatch(fetchEmployees(token))
+    else
+      return Promise.resolve()
   }
 }
 
@@ -115,4 +121,16 @@ export const updateEmployee = (id, employee, token) => {
       dispatch(notify(error.message, "error"))
     }
   }
+}
+
+/*
+ *  HELPERS
+ */
+const shouldFetchEmployees = (state) => {
+  let { data } = state.employees
+
+  if ( !data.updated || data.pending )
+    return false
+
+  return ( cacheLifespan < (Date.now() - data.updated) )
 }

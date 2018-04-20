@@ -3,9 +3,9 @@ import EmployeeContainer from "./employee/employee"
 import ProjectContainer from "./project/project"
 import React from "react"
 import { connect } from "react-redux"
-import { fetchClients, resetClients } from "../action/client"
-import { fetchEmployees, resetEmployees } from "../action/employee"
-import { fetchProjects, resetProjects } from "../action/project"
+import { fetchClients, fetchClientsIfNeeded } from "../action/client"
+import { fetchEmployees, fetchEmployeesIfNeeded } from "../action/employee"
+import { fetchProjects, fetchProjectsIfNeeded } from "../action/project"
 import { Redirect, Route, Switch } from "react-router-dom"
 import { withRouter } from "react-router-dom"
 
@@ -13,8 +13,8 @@ class RootContainer extends React.Component {
   componentDidMount = () =>
     this.props.initState(this.props.auth.token)
 
-  componentWillUnMount = () =>
-    this.props.resetState()
+  componentDidUpdate = () =>
+    this.props.refreshState(this.props.auth.token)
 
   render = () => {
     return (
@@ -47,10 +47,10 @@ const mapDispatchToProps = (dispatch) => (
       dispatch(fetchEmployees(token))
       dispatch(fetchProjects(token))
     },
-    resetState : () => {
-      dispatch(resetClients())
-      dispatch(resetEmployees())
-      dispatch(resetProjects())
+    refreshState : (token) => {
+      dispatch(fetchClientsIfNeeded(token)),
+      dispatch(fetchEmployeesIfNeeded(token)),
+      dispatch(fetchProjectsIfNeeded(token))
     }
   }
 )

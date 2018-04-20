@@ -60,10 +60,10 @@ export const projectState = (p) => {
 
   state.client = ( p.client )
     ? p.client.id
-    : ""
+    : null
   state.manager = ( p.manager )
     ? p.manager.id
-    : ""
+    : null
 
   return state
 }

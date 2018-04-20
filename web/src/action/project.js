@@ -1,5 +1,5 @@
 import axios from "axios"
-import { bearer, errorHandler } from "./helper"
+import { bearer, cacheLifespan, errorHandler } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/projects"
@@ -41,9 +41,6 @@ const updateProjectOk = (project) => ({
   payload : project
 })
 
-export const resetProjects = () =>
-  ({ type : "RESET_PROJECTS" })
-
 export const resetWriteProject = () =>
   ({ type : "RESET_WRITE_PROJECT" })
 
@@ -64,6 +61,15 @@ export const fetchProjects = (token) => {
       let error = errorHandler(ex)
       dispatch(requestProjectsError(error.message))
     }
+  }
+}
+
+export const fetchProjectsIfNeeded = (token) => {
+  return async (dispatch, getState) => {
+    if ( shouldFetchProjects(getState()) )
+      dispatch(fetchProjects(token))
+    else
+      return Promise.resolve()
   }
 }
 
@@ -115,4 +121,16 @@ export const updateProject = (id, project, token) => {
       dispatch(notify(error.message, "error"))
     }
   }
+}
+
+/*
+ *  HELPERS
+ */
+const shouldFetchProjects = (state) => {
+  let { data } = state.projects
+
+  if ( !data.updated || data.pending )
+    return false
+
+  return ( cacheLifespan < (Date.now() - data.updated) )
 }

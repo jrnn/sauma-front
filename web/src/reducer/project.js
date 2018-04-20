@@ -4,7 +4,8 @@ const initState = {
   data : {
     items : [],
     error : null,
-    pending : false
+    pending : false,
+    updated : null
   },
   write : {
     errors : {},
@@ -25,7 +26,8 @@ const data = (state = initState.data, action) => {
       return {
         items : payload,
         error : null,
-        pending : false
+        pending : false,
+        updated : Date.now()
       }
     case "REQUEST_PROJECTS_ERROR" :
       return {
@@ -47,7 +49,7 @@ const data = (state = initState.data, action) => {
         items : [ ...items, payload ]
       }
     }
-    case "RESET_PROJECTS" :
+    case "LOGOUT" :
       return initState.data
     default :
       return state

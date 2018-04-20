@@ -1,3 +1,5 @@
+export const cacheLifespan = 10 * 60000  // 1 min = 60000 ms
+
 export const bearer = (token) =>
   ({ headers : { "authorization" : `bearer ${token}` } })
 
