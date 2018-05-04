@@ -41,6 +41,11 @@ const updateProjectOk = (project) => ({
   payload : project
 })
 
+const assignEmployeeOk = (project, employee) => ({
+  type : "ASSIGN_EMPLOYEE_OK",
+  payload : { project, employee }
+})
+
 export const resetWriteProject = () =>
   ({ type : "RESET_WRITE_PROJECT" })
 
@@ -83,7 +88,7 @@ export const createProject = (project, token, history) => {
 
       dispatch(resetWriteProject())
       dispatch(createProjectOk(res.data))
-      dispatch(notify("Uusi työntekijä lisätty", "ok"))
+      dispatch(notify("Uusi työmaa lisätty", "ok"))
       history.replace(`/projects/${res.data.id}`)
 
     } catch (ex) {
@@ -109,7 +114,7 @@ export const updateProject = (id, project, token) => {
 
       dispatch(resetWriteProject())
       dispatch(updateProjectOk(res.data))
-      dispatch(notify("Työntekijän tiedot päivitetty", "ok"))
+      dispatch(notify("Työmaan tiedot päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
@@ -119,6 +124,27 @@ export const updateProject = (id, project, token) => {
       else
         dispatch(writeProjectError())
 
+      dispatch(notify(error.message, "error"))
+    }
+  }
+}
+
+export const assignEmployeeToProject = (id, employee, token) => {
+  return async (dispatch) => {
+    dispatch(writeProject())
+
+    try {
+      let res = await axios
+        .post(`${url}/${id}/employees`, employee, bearer(token))
+
+      dispatch(resetWriteProject())
+      dispatch(assignEmployeeOk(res.data, employee.id))
+      dispatch(notify("Työntekijä osoitettu työmaalle", "ok"))
+
+    } catch (ex) {
+      let error = errorHandler(ex)
+
+      dispatch(writeProjectError())
       dispatch(notify(error.message, "error"))
     }
   }

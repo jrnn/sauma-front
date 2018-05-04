@@ -8,7 +8,7 @@ const items = (logout) => [
     content : "Työmaat",
     as : Link,
     to : "/projects",
-    admin : 1
+    admin : 0
   },
   {
     key : "clients",

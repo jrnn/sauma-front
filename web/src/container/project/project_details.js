@@ -1,12 +1,24 @@
 import Accordion from "../../component/accordion"
 import EmbeddedMap from "../../component/embedded_map"
+import ProjectEmployees from "../../component/project_employees"
 import ProjectFormContainer from "./project_form"
 import React from "react"
 import { connect } from "react-redux"
-import { createProject, updateProject } from "../../action/project"
+import {
+  assignEmployeeToProject,
+  createProject,
+  updateProject
+} from "../../action/project"
 import { withRouter } from "react-router-dom"
 
 class ProjectDetailsContainer extends React.Component {
+  assign = (employee) => {
+    let { id } = this.props.match.params
+    let { assignEmployeeToProject, auth } = this.props
+
+    assignEmployeeToProject(id, employee, auth.token)
+  }
+
   save = (project) => {
     let { id } = this.props.match.params
     let { auth, createProject, history, isNew, updateProject } = this.props
@@ -38,6 +50,21 @@ class ProjectDetailsContainer extends React.Component {
         c1.text.localeCompare(c2.text))
   }
 
+  dropdownEmployees = () => {
+    let { employees, project } = this.props
+    let assignedIds = project.employees.map(e => e.id)
+
+    return employees
+      .filter(e => !assignedIds.includes(e.id))
+      .map(e => ({
+        key : e.id,
+        text : `${e.lastName}, ${e.firstName}`,
+        value : e.id
+      }))
+      .sort((e1, e2) =>
+        e1.text.localeCompare(e2.text))
+  }
+
   dropdownManagers = () =>
     this.props.employees
       .filter(e => e.administrator)
@@ -50,7 +77,7 @@ class ProjectDetailsContainer extends React.Component {
         e1.text.localeCompare(e2.text))
 
   render = () => {
-    let { isNew, project } = this.props
+    let { auth, isNew, project } = this.props
 
     if ( !isNew && !project ) return (
       <h1 align="center">
@@ -73,12 +100,20 @@ class ProjectDetailsContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="Työntekijät">
-              <p>TULOSSA</p>
+              <ProjectEmployees
+                assigned={project.employees}
+                onSubmit={this.assign}
+                readOnly={( !auth.admin )}
+                unassigned={this.dropdownEmployees()}
+              />
             </Accordion>
             <Accordion title="Tehtävät">
               <p>TULOSSA</p>
             </Accordion>
-            <EmbeddedMap address={project.address} />
+            <EmbeddedMap
+              address={project.address}
+              id={project.id}
+            />
           </div>
         }
       </div>
@@ -99,5 +134,5 @@ const mapStateToProps = (state, props) => (
 
 export default withRouter(connect(
   mapStateToProps,
-  { createProject, updateProject }
+  { assignEmployeeToProject, createProject, updateProject }
 )(ProjectDetailsContainer))

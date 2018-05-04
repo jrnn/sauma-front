@@ -49,6 +49,21 @@ const data = (state = initState.data, action) => {
         items : [ ...items, payload ]
       }
     }
+    case "ASSIGN_EMPLOYEE_OK" : {
+      let { employee, project } = payload
+
+      let items = state.items
+        .filter(e => e.id !== employee)
+      let item = state.items
+        .find(e => e.id === employee)
+
+      item.projects = item.projects.concat(project.id)
+
+      return {
+        ...state,
+        items : [ ...items, item ]
+      }
+    }
     case "LOGOUT" :
       return initState.data
     default :

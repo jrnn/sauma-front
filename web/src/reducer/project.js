@@ -42,11 +42,21 @@ const data = (state = initState.data, action) => {
       }
     case "UPDATE_PROJECT_OK" : {
       let items = state.items
-        .filter(e => e.id !== payload.id)
+        .filter(p => p.id !== payload.id)
 
       return {
         ...state,
         items : [ ...items, payload ]
+      }
+    }
+    case "ASSIGN_EMPLOYEE_OK" : {
+      let { project } = payload
+      let items = state.items
+        .filter(p => p.id !== project.id)
+
+      return {
+        ...state,
+        items : [ ...items, project ]
       }
     }
     case "LOGOUT" :

@@ -7,12 +7,13 @@ const url = ({ city, street, zipCode }) => {
   return `https://www.google.com/maps/embed/v1/place?key=${key}&q=${q}`
 }
 
-const EmbeddedMap = ({ address }) => (
+const EmbeddedMap = ({ address, id }) => (
   <div className="padded">
     <iframe
       frameBorder="0"
       height="320"
       style={{ border: 0 }}
+      title={id}
       width="640"
       src={url(address)}
     >
