@@ -4,9 +4,7 @@ const formatDate = (date) => {
       .toISOString()
       .substring(0, 10)
 
-  } catch (ex) {
-    return ""
-  }
+  } catch (ex) { return "" }
 }
 
 export const addressState = (a) => (
@@ -47,6 +45,15 @@ export const employeeState = (e) => {
 
   return state
 }
+
+export const materialState = (m) => (
+  {
+    name : m.name || "",
+    color : m.color || "",
+    unit : m.unit || "",
+    unitCost : m.unitCost || ""
+  }
+)
 
 export const projectState = (p) => {
   let state = { projectId : p.projectId || "" }
