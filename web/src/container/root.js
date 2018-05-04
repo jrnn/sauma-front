@@ -48,8 +48,8 @@ const mapDispatchToProps = (dispatch) => (
       dispatch(fetchProjects(token))
     },
     refreshState : (token) => {
-      dispatch(fetchClientsIfNeeded(token)),
-      dispatch(fetchEmployeesIfNeeded(token)),
+      dispatch(fetchClientsIfNeeded(token))
+      dispatch(fetchEmployeesIfNeeded(token))
       dispatch(fetchProjectsIfNeeded(token))
     }
   }

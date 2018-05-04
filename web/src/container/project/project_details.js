@@ -1,3 +1,4 @@
+import Accordion from "../../component/accordion"
 import ProjectFormContainer from "./project_form"
 import React from "react"
 import { connect } from "react-redux"
@@ -57,13 +58,23 @@ class ProjectDetailsContainer extends React.Component {
     )
 
     return (
-      <ProjectFormContainer
-        clients={this.dropdownClients()}
-        isNew={isNew}
-        managers={this.dropdownManagers()}
-        onSubmit={this.save}
-        project={project || {}}
-      />
+      <div>
+        <Accordion title="Perustiedot">
+          <ProjectFormContainer
+            clients={this.dropdownClients()}
+            isNew={isNew}
+            managers={this.dropdownManagers()}
+            onSubmit={this.save}
+            project={project || {}}
+          />
+        </Accordion>
+        <Accordion title="Työntekijät">
+          <p>TULOSSA</p>
+        </Accordion>
+        <Accordion title="Tehtävät">
+          <p>TULOSSA</p>
+        </Accordion>
+      </div>
     )
   }
 }
