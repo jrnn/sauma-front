@@ -1,4 +1,5 @@
 import Accordion from "../../component/accordion"
+import EmbeddedMap from "../../component/embedded_map"
 import ProjectFormContainer from "./project_form"
 import React from "react"
 import { connect } from "react-redux"
@@ -77,6 +78,7 @@ class ProjectDetailsContainer extends React.Component {
             <Accordion title="Tehtävät">
               <p>TULOSSA</p>
             </Accordion>
+            <EmbeddedMap address={project.address} />
           </div>
         }
       </div>
