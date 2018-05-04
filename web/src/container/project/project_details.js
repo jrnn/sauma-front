@@ -8,10 +8,10 @@ import { withRouter } from "react-router-dom"
 class ProjectDetailsContainer extends React.Component {
   save = (project) => {
     let { id } = this.props.match.params
-    let { auth, createProject, isNew, updateProject } = this.props
+    let { auth, createProject, history, isNew, updateProject } = this.props
 
     if ( isNew )
-      createProject(project, auth.token)
+      createProject(project, auth.token, history)
     else
       updateProject(id, project, auth.token)
   }
@@ -59,7 +59,7 @@ class ProjectDetailsContainer extends React.Component {
 
     return (
       <div>
-        <Accordion title="Perustiedot">
+        <Accordion active={isNew} title="Perustiedot">
           <ProjectFormContainer
             clients={this.dropdownClients()}
             isNew={isNew}
@@ -68,12 +68,17 @@ class ProjectDetailsContainer extends React.Component {
             project={project || {}}
           />
         </Accordion>
-        <Accordion title="Työntekijät">
-          <p>TULOSSA</p>
-        </Accordion>
-        <Accordion title="Tehtävät">
-          <p>TULOSSA</p>
-        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="Työntekijät">
+              <p>TULOSSA</p>
+            </Accordion>
+            <Accordion title="Tehtävät">
+              <p>TULOSSA</p>
+            </Accordion>
+          </div>
+        }
       </div>
     )
   }

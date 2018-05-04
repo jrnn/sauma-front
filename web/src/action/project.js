@@ -73,7 +73,7 @@ export const fetchProjectsIfNeeded = (token) => {
   }
 }
 
-export const createProject = (project, token) => {
+export const createProject = (project, token, history) => {
   return async (dispatch) => {
     dispatch(writeProject())
 
@@ -84,6 +84,7 @@ export const createProject = (project, token) => {
       dispatch(resetWriteProject())
       dispatch(createProjectOk(res.data))
       dispatch(notify("Uusi työntekijä lisätty", "ok"))
+      history.replace(`/projects/${res.data.id}`)
 
     } catch (ex) {
       let error = errorHandler(ex)

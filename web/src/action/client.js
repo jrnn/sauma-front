@@ -73,7 +73,7 @@ export const fetchClientsIfNeeded = (token) => {
   }
 }
 
-export const createClient = (client, token) => {
+export const createClient = (client, token, history) => {
   return async (dispatch) => {
     dispatch(writeClient())
 
@@ -84,6 +84,7 @@ export const createClient = (client, token) => {
       dispatch(resetWriteClient())
       dispatch(createClientOk(res.data))
       dispatch(notify("Uusi asiakas lisätty", "ok"))
+      history.replace(`/clients/${res.data.id}`)
 
     } catch (ex) {
       let error = errorHandler(ex)

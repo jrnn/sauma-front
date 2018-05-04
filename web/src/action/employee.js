@@ -73,7 +73,7 @@ export const fetchEmployeesIfNeeded = (token) => {
   }
 }
 
-export const createEmployee = (employee, token) => {
+export const createEmployee = (employee, token, history) => {
   return async (dispatch) => {
     dispatch(writeEmployee())
 
@@ -84,6 +84,7 @@ export const createEmployee = (employee, token) => {
       dispatch(resetWriteEmployee())
       dispatch(createEmployeeOk(res.data))
       dispatch(notify("Uusi työntekijä lisätty", "ok"))
+      history.replace(`/employees/${res.data.id}`)
 
     } catch (ex) {
       let error = errorHandler(ex)

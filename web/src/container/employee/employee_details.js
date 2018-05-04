@@ -1,3 +1,4 @@
+import Accordion from "../../component/accordion"
 import EmployeeFormContainer from "./employee_form"
 import React from "react"
 import { connect } from "react-redux"
@@ -7,10 +8,10 @@ import { withRouter } from "react-router-dom"
 class EmployeeDetailsContainer extends React.Component {
   save = (employee) => {
     let { id } = this.props.match.params
-    let { auth, createEmployee, isNew, updateEmployee } = this.props
+    let { auth, createEmployee, history, isNew, updateEmployee } = this.props
 
     if ( isNew )
-      createEmployee(employee, auth.token)
+      createEmployee(employee, auth.token, history)
     else
       updateEmployee(id, employee, auth.token)
   }
@@ -25,10 +26,25 @@ class EmployeeDetailsContainer extends React.Component {
     )
 
     return (
-      <EmployeeFormContainer
-        employee={employee || {}}
-        onSubmit={this.save}
-      />
+      <div>
+        <Accordion active={isNew} title="Perustiedot">
+          <EmployeeFormContainer
+            employee={employee || {}}
+            onSubmit={this.save}
+          />
+        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="<Placeholder>">
+              <p>JOTAIN MUUTA VIELÄ...?</p>
+            </Accordion>
+            <Accordion title="<Placeholder>">
+              <p>JOTAIN MUUTA VIELÄ...?</p>
+            </Accordion>
+          </div>
+        }
+      </div>
     )
   }
 }

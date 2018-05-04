@@ -1,3 +1,4 @@
+import Accordion from "../../component/accordion"
 import ClientFormContainer from "./client_form"
 import React from "react"
 import { connect } from "react-redux"
@@ -7,10 +8,10 @@ import { withRouter } from "react-router-dom"
 class ClientDetailsContainer extends React.Component {
   save = (client) => {
     let { id } = this.props.match.params
-    let { auth, createClient, isNew, updateClient } = this.props
+    let { auth, createClient, history, isNew, updateClient } = this.props
 
     if ( isNew )
-      createClient(client, auth.token)
+      createClient(client, auth.token, history)
     else
       updateClient(id, client, auth.token)
   }
@@ -25,10 +26,25 @@ class ClientDetailsContainer extends React.Component {
     )
 
     return (
-      <ClientFormContainer
-        client={client || {}}
-        onSubmit={this.save}
-      />
+      <div>
+        <Accordion active={isNew} title="Perustiedot">
+          <ClientFormContainer
+            client={client || {}}
+            onSubmit={this.save}
+          />
+        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="Asiakkaan työmaat">
+              <p>TULOSSA</p>
+            </Accordion>
+            <Accordion title="<Placeholder>">
+              <p>JOTAIN MUUTA VIELÄ...?</p>
+            </Accordion>
+          </div>
+        }
+      </div>
     )
   }
 }
