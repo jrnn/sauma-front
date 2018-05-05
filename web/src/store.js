@@ -12,6 +12,7 @@ import employees from "./reducer/employee"
 import materials from "./reducer/material"
 import notification from "./reducer/notification"
 import projects from "./reducer/project"
+import tasks from "./reducer/task"
 
 const reducers = combineReducers({
   auth,
@@ -19,7 +20,8 @@ const reducers = combineReducers({
   employees,
   materials,
   notification,
-  projects
+  projects,
+  tasks
 })
 
 const store = createStore(

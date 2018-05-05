@@ -11,6 +11,13 @@ const items = (logout) => [
     admin : 0
   },
   {
+    key : "tasks",
+    content : "Tehtävät",
+    as : Link,
+    to : "/tasks",
+    admin : 0
+  },
+  {
     key : "clients",
     content : "Asiakkaat",
     as : Link,

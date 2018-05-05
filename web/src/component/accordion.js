@@ -19,7 +19,7 @@ class Accordion extends React.Component {
           onClick={this.toggle}
           style={{
             cursor : "pointer",
-            padding : "1rem 0rem"
+            padding : "1.5rem 0rem"
           }}
         >
           <Grid.Column floated="left" width={13}>
@@ -36,7 +36,7 @@ class Accordion extends React.Component {
         </Grid>
         <div style={{
           display : ( active ) ? "" : "none",
-          padding : "1rem 0rem"
+          padding : "1rem 0rem 3rem 0rem"
         }}>
           {this.props.children}
         </div>

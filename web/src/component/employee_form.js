@@ -61,15 +61,15 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
     </Form.Field>
     <Form.Group className="padded" widths="equal">
       <Form.Checkbox
-        label="Työnjohtaja"
         checked={state.administrator}
+        label="Työnjohtaja"
         name="administrator"
         onChange={onChange}
         readOnly={readOnly}
       />
       <Form.Checkbox
-        label="Käyttöoikeudet"
         checked={state.enabled}
+        label="Käyttöoikeudet"
         name="enabled"
         onChange={onChange}
         readOnly={readOnly}

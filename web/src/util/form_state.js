@@ -1,11 +1,4 @@
-const formatDate = (date) => {
-  try {
-    return new Date(date)
-      .toISOString()
-      .substring(0, 10)
-
-  } catch (ex) { return "" }
-}
+import { formatDate } from "./parser"
 
 export const addressState = (a) => (
   {
@@ -71,6 +64,25 @@ export const projectState = (p) => {
   state.manager = ( p.manager )
     ? p.manager.id
     : null
+
+  return state
+}
+
+export const taskState = (t) => {
+  let state = {
+    description : t.description || "",
+    daysNeeded : t.daysNeeded || ""
+  }
+
+  state.endDate = ( t.endDate )
+    ? formatDate(t.endDate)
+    : ""
+  state.startDate = ( t.startDate )
+    ? formatDate(t.startDate)
+    : ""
+  state.completed = ( t.id )
+    ? t.completed
+    : false
 
   return state
 }

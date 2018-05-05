@@ -13,7 +13,8 @@ const asRow = (e) => (
       color="grey"
       name={( e.enabled )
         ? "check"
-        : "ban"}
+        : "ban"
+      }
       verticalAlign="middle"
     />
     <List.Content>

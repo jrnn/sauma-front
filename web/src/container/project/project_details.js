@@ -2,13 +2,14 @@ import Accordion from "../../component/accordion"
 import EmbeddedMap from "../../component/embedded_map"
 import ProjectEmployees from "../../component/project_employees"
 import ProjectFormContainer from "./project_form"
+import ProjectTasks from "../../component/project_tasks"
 import React from "react"
-import { connect } from "react-redux"
 import {
   assignEmployeeToProject,
   createProject,
   updateProject
 } from "../../action/project"
+import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 
 class ProjectDetailsContainer extends React.Component {
@@ -77,7 +78,7 @@ class ProjectDetailsContainer extends React.Component {
         e1.text.localeCompare(e2.text))
 
   render = () => {
-    let { auth, isNew, project } = this.props
+    let { auth, isNew, project, tasks } = this.props
 
     if ( !isNew && !project ) return (
       <h1 align="center">
@@ -108,7 +109,11 @@ class ProjectDetailsContainer extends React.Component {
               />
             </Accordion>
             <Accordion title="Tehtävät">
-              <p>TULOSSA</p>
+              <ProjectTasks
+                admin={auth.admin}
+                projectId={project.id}
+                tasks={tasks}
+              />
             </Accordion>
             <EmbeddedMap
               address={project.address}
@@ -121,16 +126,20 @@ class ProjectDetailsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => (
-  {
+const mapStateToProps = (state, props) => {
+  let { id } = props.match.params
+
+  return {
     auth : state.auth,
     clients : state.clients.data.items,
     employees : state.employees.data.items,
-    isNew : ( props.match.params.id === "new" ),
+    isNew : ( id === "new" ),
     project : state.projects.data.items
-      .find(p => p.id === props.match.params.id)
+      .find(p => p.id === id),
+    tasks : state.tasks.data.items
+      .filter(t => t.project.id === id)
   }
-)
+}
 
 export default withRouter(connect(
   mapStateToProps,
