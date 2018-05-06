@@ -56,23 +56,15 @@ const TaskForm = (props) => {
       <Form.Field error={errors.daysNeeded !== undefined}>
         <label>Työmääräarvio</label>
         <Input
+          label={{ basic : true, content : "päivää" }}
+          labelPosition="right"
           name="daysNeeded"
           onChange={onChange}
-          placeholder="Työpäivinä"
           readOnly={readOnly}
           type="number"
           value={state.daysNeeded}
         />
         <FormError error={errors.daysNeeded} />
-      </Form.Field>
-      <Form.Field className="padded">
-        <Form.Checkbox
-          checked={state.completed}
-          label="Suoritettu loppuun"
-          name="completed"
-          onChange={onChange}
-          readOnly={readOnly}
-        />
       </Form.Field>
     </div>
   )

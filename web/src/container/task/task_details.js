@@ -11,15 +11,22 @@ class TaskDetailsContainer extends React.Component {
     let { id } = this.props.match.params
     let { auth, createTask, history, isNew, project, updateTask } = this.props
 
+    let payload = {
+      ...task,
+      quotas : task.quotas
+        .filter(q => q.quantity !== "" && q.quantity > 0)
+        .map(q => ({ ...q, material : q.material.id }))
+    }
+
     if ( isNew ) {
-      task.project = project.id
-      createTask(task, auth.token, history)
+      payload.project = project.id
+      createTask(payload, auth.token, history)
     } else
-      updateTask(id, task, auth.token)
+      updateTask(id, payload, auth.token)
   }
 
   render = () => {
-    let { isNew, project, task } = this.props
+    let { isNew, materials, project, task } = this.props
 
     if ( !isNew && !task ) return (
       <h1 align="center">
@@ -38,6 +45,7 @@ class TaskDetailsContainer extends React.Component {
         <Accordion active={isNew} title="Perustiedot">
           <TaskFormContainer
             isNew={isNew}
+            materials={materials}
             onSubmit={this.save}
             task={task || { project }}
           />
@@ -64,6 +72,7 @@ const mapStateToProps = (state, props) => {
   return {
     auth : state.auth,
     isNew : ( id === "new" ),
+    materials : state.materials.data.items,
     project : state.projects.data.items
       .find(p => p.id === parseUrlQuery(props.location.search).id),
     task : state.tasks.data.items

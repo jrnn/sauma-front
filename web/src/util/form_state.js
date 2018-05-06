@@ -71,7 +71,8 @@ export const projectState = (p) => {
 export const taskState = (t) => {
   let state = {
     description : t.description || "",
-    daysNeeded : t.daysNeeded || ""
+    daysNeeded : t.daysNeeded || "",
+    quotas : t.quotas || []
   }
 
   state.endDate = ( t.endDate )
