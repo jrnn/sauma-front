@@ -102,6 +102,7 @@ class TaskFormContainer extends React.Component {
           onChange={this.handleQuotaChange}
           onDelete={this.handleQuotaDelete}
           options={this.dropdownMaterials()}
+          readOnly={( !auth.admin )}
           state={this.state}
         />
         <Divider />

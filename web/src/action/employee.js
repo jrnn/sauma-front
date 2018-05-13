@@ -124,6 +124,30 @@ export const updateEmployee = (id, employee, token) => {
   }
 }
 
+export const changePassword = (id, passwords, token) => {
+  return async (dispatch) => {
+    dispatch(writeEmployee())
+
+    try {
+      await axios
+        .put(`${url}/${id}/password`, passwords, bearer(token))
+
+      dispatch(resetWriteEmployee())
+      dispatch(notify("Salasana vaihdettu", "ok"))
+
+    } catch (ex) {
+      let error = errorHandler(ex)
+
+      if ( error.validation )
+        dispatch(writeEmployeeInvalid(error.validation))
+      else
+        dispatch(writeEmployeeError())
+
+      dispatch(notify(error.message, "error"))
+    }
+  }
+}
+
 /*
  *  HELPERS
  */

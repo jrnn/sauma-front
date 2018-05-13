@@ -39,10 +39,7 @@ class MaterialDetailsContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="<Placeholder>">
-              <p>JOTAIN MUUTA VIELÄ...?</p>
-            </Accordion>
-            <Accordion title="<Placeholder>">
-              <p>JOTAIN MUUTA VIELÄ...?</p>
+              <p>Jotain muuta vielä...?</p>
             </Accordion>
           </div>
         }

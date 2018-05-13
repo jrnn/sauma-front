@@ -46,6 +46,7 @@ const MaterialForm = ({ errors, onChange, readOnly, state }) => (
         onChange={onChange}
         placeholder="12.50 (huom piste!)"
         readOnly={readOnly}
+        type="number"
         value={state.unitCost}
       />
       <FormError error={errors.unitCost} />

@@ -1,6 +1,7 @@
 import ClientContainer from "./client/client"
 import EmployeeContainer from "./employee/employee"
 import MaterialContainer from "./material/material"
+import MyDetailsContainer from "./my/my_details"
 import ProjectContainer from "./project/project"
 import React from "react"
 import TaskContainer from "./task/task"
@@ -42,6 +43,10 @@ class RootContainer extends React.Component {
         <Route
           path="/tasks"
           component={TaskContainer}
+        />
+        <Route
+          path="/my"
+          component={MyDetailsContainer}
         />
         <Redirect to="/" />
       </Switch>

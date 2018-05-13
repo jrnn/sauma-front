@@ -115,6 +115,9 @@ class ProjectDetailsContainer extends React.Component {
                 tasks={tasks}
               />
             </Accordion>
+            <Accordion title="<Placeholder>">
+              <p>Jotain muuta vielä...?</p>
+            </Accordion>
             <EmbeddedMap
               address={project.address}
               id={project.id}

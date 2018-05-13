@@ -59,22 +59,6 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
       />
       <FormError error={errors.email} />
     </Form.Field>
-    <Form.Group className="padded" widths="equal">
-      <Form.Checkbox
-        checked={state.administrator}
-        label="Työnjohtaja"
-        name="administrator"
-        onChange={onChange}
-        readOnly={readOnly}
-      />
-      <Form.Checkbox
-        checked={state.enabled}
-        label="Käyttöoikeudet"
-        name="enabled"
-        onChange={onChange}
-        readOnly={readOnly}
-      />
-    </Form.Group>
   </div>
 )
 

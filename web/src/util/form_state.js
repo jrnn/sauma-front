@@ -70,6 +70,7 @@ export const projectState = (p) => {
 
 export const taskState = (t) => {
   let state = {
+    name : t.name || "",
     description : t.description || "",
     daysNeeded : t.daysNeeded || "",
     quotas : t.quotas || []

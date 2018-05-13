@@ -14,6 +14,17 @@ const TaskForm = (props) => {
           value={props.project.projectId || ""}
         />
       </Form.Field>
+      <Form.Field error={errors.name !== undefined}>
+        <label>Otsikko</label>
+        <Input
+          name="name"
+          onChange={onChange}
+          placeholder="Näkyy tehtäviä listattaessa"
+          readOnly={readOnly}
+          value={state.name}
+        />
+        <FormError error={errors.name} />
+      </Form.Field>
       <Form.Field error={errors.description !== undefined}>
         <label>Kuvaus</label>
         <TextArea

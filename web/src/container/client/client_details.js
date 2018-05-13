@@ -37,10 +37,10 @@ class ClientDetailsContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="Asiakkaan työmaat">
-              <p>TULOSSA</p>
+              <p>TULOSSA PIAN</p>
             </Accordion>
             <Accordion title="<Placeholder>">
-              <p>JOTAIN MUUTA VIELÄ...?</p>
+              <p>Jotain muuta vielä...?</p>
             </Accordion>
           </div>
         }

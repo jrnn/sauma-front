@@ -11,10 +11,13 @@ const initState = (e) => {
   let state = employeeState(e)
   state.address = addressState(e.address || {})
 
+  delete state.administrator
+  delete state.enabled
+
   return state
 }
 
-class EmployeeFormContainer extends React.Component {
+class MyFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = initState(props.employee)
@@ -29,13 +32,8 @@ class EmployeeFormContainer extends React.Component {
     this.setState({ ...this.state, address })
   }
 
-  handleChange = (e, data) => {
-    let value = data.type === "checkbox"
-      ? data.checked
-      : data.value
-
-    this.setState({ [data.name] : value })
-  }
+  handleChange = (e, { name, value }) =>
+    this.setState({ [name] : value })
 
   handleSubmit = async (e) => {
     e.preventDefault()
@@ -43,11 +41,7 @@ class EmployeeFormContainer extends React.Component {
   }
 
   render = () => {
-    let { auth, errors, pending } = this.props
-
-    let buttons = ( !auth.admin )
-      ? null
-      : <Button content="Tallenna" fluid />
+    let { errors, pending } = this.props
 
     return (
       <Form
@@ -57,35 +51,18 @@ class EmployeeFormContainer extends React.Component {
         <EmployeeForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={( !auth.admin )}
+          readOnly={false}
           state={this.state}
         />
         <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={( !auth.admin )}
+          readOnly={false}
           state={this.state}
         />
         <Divider hidden />
-        <Form.Group widths="equal">
-          <Form.Checkbox
-            checked={this.state.administrator}
-            label="Työnjohtaja"
-            name="administrator"
-            onChange={this.handleChange}
-            readOnly={( !auth.admin )}
-          />
-          <Form.Checkbox
-            checked={this.state.enabled}
-            label="Käyttöoikeudet"
-            name="enabled"
-            onChange={this.handleChange}
-            readOnly={( !auth.admin )}
-          />
-        </Form.Group>
-        <Divider hidden />
-        {buttons}
+        <Button content="Tallenna" fluid />
       </Form>
     )
   }
@@ -93,7 +70,6 @@ class EmployeeFormContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
     errors : state.employees.write.errors,
     pending : state.employees.write.pending
   }
@@ -102,4 +78,4 @@ const mapStateToProps = (state) => (
 export default withRouter(connect(
   mapStateToProps,
   { resetWriteEmployee }
-)(EmployeeFormContainer))
+)(MyFormContainer))

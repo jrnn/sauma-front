@@ -20,10 +20,10 @@ const asRow = (t) => (
     />
     <List.Content>
       <List.Header
-        content={`${t.project.projectId} — ${t.description.substring(0, 33)}...`}
+        content={`${t.project.projectId} — ${t.name}`}
       />
       <List.Description
-        content={`${formatDate(t.startDate)}—${formatDate(t.endDate)}`}
+        content={`${formatDate(t.startDate)} — ${formatDate(t.endDate)}`}
       />
     </List.Content>
   </List.Item>

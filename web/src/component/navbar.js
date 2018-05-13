@@ -39,6 +39,13 @@ const items = (logout) => [
     admin : 0
   },
   {
+    key : "my",
+    content : "Oma sivu",
+    as : Link,
+    to : "/my",
+    admin : 0
+  },
+  {
     key : "logout",
     content : "Kirjaudu ulos",
     as : Link,

@@ -1,59 +1,62 @@
 import React from "react"
-import { Button, Dropdown, Form, Input, Label, List } from "semantic-ui-react"
+import { Button, Dropdown, Form, Input, List } from "semantic-ui-react"
 
-const asRow = (m, qty, onChange, onDelete) =>
+const asRow = (m, qty, onChange, onDelete, readOnly) =>
   <List.Item key={m.id}>
     <List.Content floated="right">
       <Input
-        labelPosition="right"
         name={m.id}
         onChange={onChange}
+        readOnly={readOnly}
+        style={{ width : "60px" }}
         type="number"
+        transparent
         value={qty}
-      >
-        <input />
-        <Label
+      />
+      {( readOnly )
+        ? null
+        : <Button
           basic
-          content={m.unit}
-        />
-        <Button
-          basic
+          compact
           icon="delete"
           name={m.id}
           onClick={onDelete}
         />
-      </Input>
+      }
     </List.Content>
     <List.Content>
       <List.Header content={m.name} />
-      <List.Description content={m.color || "--"} />
+      <List.Description content={`(${m.unit}) ${m.color || ""}`} />
     </List.Content>
   </List.Item>
 
 const QuotaForm = (props) => {
-  let { dropdownChange, onChange, onDelete, options, state } = props
+  let { dropdownChange, onChange, onDelete, options, readOnly, state } = props
 
   return (
     <div>
       <Form.Field>
         <label>Materiaaliarvio</label>
-        <List divided verticalAlign="middle">
+        <List divided relaxed verticalAlign="middle">
           {state.quotas
-            .map(q => asRow(q.material, q.quantity, onChange, onDelete))
+            .map(q => asRow(q.material, q.quantity, onChange, onDelete, readOnly))
           }
         </List>
       </Form.Field>
-      <Form.Field>
-        <Dropdown
-          name="material"
-          onChange={dropdownChange}
-          options={options}
-          placeholder="Lisää uusi materiaali"
-          search={true}
-          selection
-          value=""
-        />
-      </Form.Field>
+      {( readOnly )
+        ? null
+        : <Form.Field>
+          <Dropdown
+            name="material"
+            onChange={dropdownChange}
+            options={options}
+            placeholder="Lisää uusi materiaali"
+            search={true}
+            selection
+            value=""
+          />
+        </Form.Field>
+      }
     </div>
   )
 }

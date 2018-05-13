@@ -53,11 +53,11 @@ class TaskDetailsContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
-            <Accordion title="<Placeholder>">
-              <p>TULOSSA</p>
+            <Accordion title="Suoritteet">
+              <p>TULOSSA PIAN</p>
             </Accordion>
             <Accordion title="<Placeholder>">
-              <p>TULOSSA</p>
+              <p>Jotain muuta vielä...?</p>
             </Accordion>
           </div>
         }
