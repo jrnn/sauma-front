@@ -1,5 +1,25 @@
 import { formatDate } from "./parser"
 
+export const activityState = (a) => {
+  let state = {
+    description : a.description || "",
+    hours : a.hours || "",
+    quotas : a.quotas || []
+  }
+
+  state.date = ( a.date )
+    ? formatDate(a.date)
+    : ""
+  state.contractScope = ( a.id )
+    ? a.contractScope
+    : true
+  state.signed = ( a.id )
+    ? a.signed
+    : false
+
+  return state
+}
+
 export const addressState = (a) => (
   {
     city : a.city || "",

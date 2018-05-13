@@ -43,6 +43,9 @@ class MyDetailsContainer extends React.Component {
             onSubmit={this.changePassword}
           />
         </Accordion>
+        <Accordion title="Suoritteet">
+          <p>TULOSSA PIAN</p>
+        </Accordion>
         <Accordion title="<Placeholder>">
           <p>Jotain muuta vielä...?</p>
         </Accordion>

@@ -1,3 +1,4 @@
+import ActivityDetailsContainer from "./activity/activity_details"
 import ClientContainer from "./client/client"
 import EmployeeContainer from "./employee/employee"
 import MaterialContainer from "./material/material"
@@ -6,6 +7,7 @@ import ProjectContainer from "./project/project"
 import React from "react"
 import TaskContainer from "./task/task"
 import { connect } from "react-redux"
+import { fetchActivities, fetchActivitiesIfNeeded } from "../action/activity"
 import { fetchClients, fetchClientsIfNeeded } from "../action/client"
 import { fetchEmployees, fetchEmployeesIfNeeded } from "../action/employee"
 import { fetchMaterials, fetchMaterialsIfNeeded } from "../action/material"
@@ -25,6 +27,10 @@ class RootContainer extends React.Component {
     return (
       <Switch>
         <Route
+          path="/activities/:id"
+          component={ActivityDetailsContainer}
+        />
+        <Route
           path="/clients"
           component={ClientContainer}
         />
@@ -37,16 +43,16 @@ class RootContainer extends React.Component {
           component={MaterialContainer}
         />
         <Route
+          path="/my"
+          component={MyDetailsContainer}
+        />
+        <Route
           path="/projects"
           component={ProjectContainer}
         />
         <Route
           path="/tasks"
           component={TaskContainer}
-        />
-        <Route
-          path="/my"
-          component={MyDetailsContainer}
         />
         <Redirect to="/" />
       </Switch>
@@ -60,6 +66,7 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps = (dispatch) => (
   {
     initState : (token) => {
+      dispatch(fetchActivities(token))
       dispatch(fetchClients(token))
       dispatch(fetchEmployees(token))
       dispatch(fetchMaterials(token))
@@ -67,6 +74,7 @@ const mapDispatchToProps = (dispatch) => (
       dispatch(fetchTasks(token))
     },
     refreshState : (token) => {
+      dispatch(fetchActivitiesIfNeeded(token))
       dispatch(fetchClientsIfNeeded(token))
       dispatch(fetchEmployeesIfNeeded(token))
       dispatch(fetchMaterialsIfNeeded(token))

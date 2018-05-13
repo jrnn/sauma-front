@@ -6,6 +6,7 @@ import {
 } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
 
+import activities from "./reducer/activity"
 import auth from "./reducer/auth"
 import clients from "./reducer/client"
 import employees from "./reducer/employee"
@@ -15,6 +16,7 @@ import projects from "./reducer/project"
 import tasks from "./reducer/task"
 
 const reducers = combineReducers({
+  activities,
   auth,
   clients,
   employees,

@@ -36,6 +36,9 @@ class EmployeeDetailsContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
+            <Accordion title="Suoritteet">
+              <p>TULOSSA PIAN</p>
+            </Accordion>
             <Accordion title="<Placeholder>">
               <p>Jotain muuta vielä...?</p>
             </Accordion>

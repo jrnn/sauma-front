@@ -36,7 +36,7 @@ const QuotaForm = (props) => {
   return (
     <div>
       <Form.Field>
-        <label>Materiaaliarvio</label>
+        <label>{props.header || ""}</label>
         <List divided relaxed verticalAlign="middle">
           {state.quotas
             .map(q => asRow(q.material, q.quantity, onChange, onDelete, readOnly))

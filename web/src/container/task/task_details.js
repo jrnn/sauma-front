@@ -1,5 +1,6 @@
 import Accordion from "../../component/accordion"
 import React from "react"
+import TaskActivities from "../../component/task_activities"
 import TaskFormContainer from "./task_form"
 import { connect } from "react-redux"
 import { createTask, updateTask } from "../../action/task"
@@ -9,7 +10,7 @@ import { withRouter } from "react-router-dom"
 class TaskDetailsContainer extends React.Component {
   save = (task) => {
     let { id } = this.props.match.params
-    let { auth, createTask, history, isNew, project, updateTask } = this.props
+    let { auth, history, isNew, project } = this.props
 
     let payload = {
       ...task,
@@ -20,13 +21,13 @@ class TaskDetailsContainer extends React.Component {
 
     if ( isNew ) {
       payload.project = project.id
-      createTask(payload, auth.token, history)
+      this.props.createTask(payload, auth.token, history)
     } else
-      updateTask(id, payload, auth.token)
+      this.props.updateTask(id, payload, auth.token)
   }
 
   render = () => {
-    let { isNew, materials, project, task } = this.props
+    let { activities, auth, isNew, materials, project, task } = this.props
 
     if ( !isNew && !task ) return (
       <h1 align="center">
@@ -54,7 +55,11 @@ class TaskDetailsContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="Suoritteet">
-              <p>TULOSSA PIAN</p>
+              <TaskActivities
+                activities={activities}
+                canAdd={( task.project.employees.includes(auth.id) )}
+                task={task}
+              />
             </Accordion>
             <Accordion title="<Placeholder>">
               <p>Jotain muuta vielä...?</p>
@@ -70,6 +75,8 @@ const mapStateToProps = (state, props) => {
   let { id } = props.match.params
 
   return {
+    activities : state.activities.data.items
+      .filter(a => a.task.id === id),
     auth : state.auth,
     isNew : ( id === "new" ),
     materials : state.materials.data.items,

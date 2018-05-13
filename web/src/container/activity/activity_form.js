@@ -1,20 +1,20 @@
+import ActivityForm from "../../component/activity_form"
 import QuotaForm from "../../component/quota_form"
 import React from "react"
-import TaskForm from "../../component/task_form"
+import { activityState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { resetWriteTask } from "../../action/task"
-import { taskState } from "../../util/form_state"
+import { resetWriteActivity } from "../../action/activity"
 import { withRouter } from "react-router-dom"
 
-class TaskFormContainer extends React.Component {
+class ActivityFormContainer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = taskState(props.task)
+    this.state = activityState(props.activity)
   }
 
   componentWillUnmount = () =>
-    this.props.resetWriteTask()
+    this.props.resetWriteActivity()
 
   dropdownMaterials = () => {
     let { quotas } = this.state
@@ -72,51 +72,65 @@ class TaskFormContainer extends React.Component {
     })
   }
 
-  handleSubmit = async (e) => {
+  handleSave = async (e) => {
     e.preventDefault(e)
-    this.props.onSubmit(this.state)
+    this.props.onSave(this.state)
+  }
+
+  handleSign = async (e) => {
+    e.preventDefault(e)
+    this.props.onSign(this.state)
   }
 
   render = () => {
-    let { auth, errors, pending, task } = this.props
+    let { activity, auth, errors, isNew, pending } = this.props
 
-    let buttons = ( !auth.admin )
+    let canSign = ( isNew )
+      ? false
+      : ( auth.admin && !activity.signed )
+    let isOwner = ( isNew )
+      ? true
+      : ( !activity.signed && auth.id === activity.owner.id )
+
+    let saveButton = ( !isOwner )
       ? null
-      : <Button content="Tallenna" fluid />
+      : <Button
+        content="Tallenna"
+        fluid
+        onClick={this.handleSave}
+      />
+
+    let signButton = ( !canSign )
+      ? null
+      : <Button
+        content="Hyväksy"
+        fluid
+        onClick={this.handleSign}
+      />
 
     return (
-      <Form
-        loading={pending}
-        onSubmit={this.handleSubmit}
-      >
-        <TaskForm
+      <Form loading={pending}>
+        <ActivityForm
+          activity={activity}
           errors={errors}
           onChange={this.handleChange}
-          project={task.project || {}}
-          readOnly={( !auth.admin )}
+          readOnly={( !isOwner )}
           state={this.state}
         />
         <Divider />
         <QuotaForm
           dropdownChange={this.handleDropdown}
-          header="Materiaaliarvio"
+          header="Käytetyt materiaalit"
           onChange={this.handleQuotaChange}
           onDelete={this.handleQuotaDelete}
           options={this.dropdownMaterials()}
-          readOnly={( !auth.admin )}
+          readOnly={( !isOwner )}
           state={this.state}
         />
-        <Divider />
-        <Form.Field className="padded">
-          <Form.Checkbox
-            checked={this.state.completed}
-            label="Suoritettu loppuun"
-            name="completed"
-            onChange={this.handleChange}
-            readOnly={( !auth.admin )}
-          />
-        </Form.Field>
-        {buttons}
+        <Divider hidden />
+        {saveButton}
+        <Divider hidden />
+        {signButton}
       </Form>
     )
   }
@@ -125,12 +139,12 @@ class TaskFormContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    errors : state.tasks.write.errors,
-    pending : state.tasks.write.pending
+    errors : state.activities.write.errors,
+    pending : state.activities.write.pending
   }
 )
 
 export default withRouter(connect(
   mapStateToProps,
-  { resetWriteTask }
-)(TaskFormContainer))
+  { resetWriteActivity }
+)(ActivityFormContainer))
