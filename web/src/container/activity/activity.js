@@ -1,12 +1,13 @@
-import ClientDetailsContainer from "./client_details"
-import ClientListContaner from "./client_list"
+import ActivityDetailsContainer from "./activity_details"
 import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
-import { fetchClientsIfNeeded } from "../../action/client"
+import { fetchActivitiesIfNeeded } from "../../action/activity"
+import { fetchMaterialsIfNeeded } from "../../action/material"
+import { fetchTasksIfNeeded } from "../../action/task"
 import { Route, withRouter } from "react-router-dom"
 
-class ClientContainer extends React.Component {
+class ActivityContainer extends React.Component {
   componentDidMount = () =>
     this.props.refreshState(this.props.auth.token)
 
@@ -23,14 +24,10 @@ class ClientContainer extends React.Component {
 
     return (
       <div>
-        <h2 className="padded">Asiakkaat</h2>
+        <h2 className="padded">Suoritteet</h2>
         <Route
           exact path={`${match.path}/:id`}
-          component={ClientDetailsContainer}
-        />
-        <Route
-          exact path={match.path}
-          component={ClientListContaner}
+          component={ActivityDetailsContainer}
         />
       </div>
     )
@@ -40,15 +37,17 @@ class ClientContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    error : state.clients.data.error,
-    pending : state.clients.data.pending
+    error : state.activities.data.error,
+    pending : state.activities.data.pending
   }
 )
 
 const mapDispatchToProps = (dispatch) => (
   {
     refreshState : (token) => {
-      dispatch(fetchClientsIfNeeded(token))
+      dispatch(fetchActivitiesIfNeeded(token))
+      dispatch(fetchMaterialsIfNeeded(token))
+      dispatch(fetchTasksIfNeeded(token))
     }
   }
 )
@@ -56,4 +55,4 @@ const mapDispatchToProps = (dispatch) => (
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ClientContainer))
+)(ActivityContainer))

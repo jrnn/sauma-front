@@ -1,34 +1,22 @@
-import ActivityDetailsContainer from "./activity/activity_details"
+import ActivityContainer from "./activity/activity"
 import ClientContainer from "./client/client"
 import EmployeeContainer from "./employee/employee"
 import MaterialContainer from "./material/material"
-import MyDetailsContainer from "./my/my_details"
+import MyContainer from "./my/my"
 import ProjectContainer from "./project/project"
 import React from "react"
 import TaskContainer from "./task/task"
 import { connect } from "react-redux"
-import { fetchActivities, fetchActivitiesIfNeeded } from "../action/activity"
-import { fetchClients, fetchClientsIfNeeded } from "../action/client"
-import { fetchEmployees, fetchEmployeesIfNeeded } from "../action/employee"
-import { fetchMaterials, fetchMaterialsIfNeeded } from "../action/material"
-import { fetchProjects, fetchProjectsIfNeeded } from "../action/project"
-import { fetchTasks, fetchTasksIfNeeded } from "../action/task"
 import { Redirect, Route, Switch } from "react-router-dom"
 import { withRouter } from "react-router-dom"
 
 class RootContainer extends React.Component {
-  componentDidMount = () =>
-    this.props.initState(this.props.auth.token)
-
-  componentDidUpdate = () =>
-    this.props.refreshState(this.props.auth.token)
-
   render = () => {
     return (
       <Switch>
         <Route
-          path="/activities/:id"
-          component={ActivityDetailsContainer}
+          path="/activities"
+          component={ActivityContainer}
         />
         <Route
           path="/clients"
@@ -44,7 +32,7 @@ class RootContainer extends React.Component {
         />
         <Route
           path="/my"
-          component={MyDetailsContainer}
+          component={MyContainer}
         />
         <Route
           path="/projects"
@@ -63,28 +51,7 @@ class RootContainer extends React.Component {
 const mapStateToProps = (state) =>
   ({ auth : state.auth })
 
-const mapDispatchToProps = (dispatch) => (
-  {
-    initState : (token) => {
-      dispatch(fetchActivities(token))
-      dispatch(fetchClients(token))
-      dispatch(fetchEmployees(token))
-      dispatch(fetchMaterials(token))
-      dispatch(fetchProjects(token))
-      dispatch(fetchTasks(token))
-    },
-    refreshState : (token) => {
-      dispatch(fetchActivitiesIfNeeded(token))
-      dispatch(fetchClientsIfNeeded(token))
-      dispatch(fetchEmployeesIfNeeded(token))
-      dispatch(fetchMaterialsIfNeeded(token))
-      dispatch(fetchProjectsIfNeeded(token))
-      dispatch(fetchTasksIfNeeded(token))
-    }
-  }
-)
-
 export default withRouter(connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(RootContainer))

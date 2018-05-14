@@ -1,5 +1,5 @@
 import axios from "axios"
-import { bearer, cacheLifespan, errorHandler } from "./helper"
+import { bearer, errorHandler, shouldFetch } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/clients"
@@ -47,7 +47,7 @@ export const resetWriteClient = () =>
 /*
  *  THUNKS
  */
-export const fetchClients = (token) => {
+const fetchClients = (token) => {
   return async (dispatch) => {
     dispatch(requestClients())
 
@@ -66,7 +66,7 @@ export const fetchClients = (token) => {
 
 export const fetchClientsIfNeeded = (token) => {
   return async (dispatch, getState) => {
-    if ( shouldFetchClients(getState()) )
+    if ( shouldFetch(getState(), "clients") )
       dispatch(fetchClients(token))
     else
       return Promise.resolve()
@@ -122,16 +122,4 @@ export const updateClient = (id, client, token) => {
       dispatch(notify(error.message, "error"))
     }
   }
-}
-
-/*
- *  HELPERS
- */
-const shouldFetchClients = (state) => {
-  let { data } = state.clients
-
-  if ( !data.updated || data.pending )
-    return false
-
-  return ( cacheLifespan < (Date.now() - data.updated) )
 }

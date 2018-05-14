@@ -5,7 +5,7 @@ const initState = {
     items : [],
     error : null,
     pending : false,
-    updated : null
+    updated : 1
   },
   write : {
     errors : {},

@@ -3,9 +3,16 @@ import ProjectListContaner from "./project_list"
 import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
+import { fetchClientsIfNeeded } from "../../action/client"
+import { fetchEmployeesIfNeeded } from "../../action/employee"
+import { fetchProjectsIfNeeded } from "../../action/project"
+import { fetchTasksIfNeeded } from "../../action/task"
 import { Route, withRouter } from "react-router-dom"
 
 class ProjectContainer extends React.Component {
+  componentDidMount = () =>
+    this.props.refreshState(this.props.auth.token)
+
   render = () => {
     let { error, match, pending } = this.props
 
@@ -41,7 +48,18 @@ const mapStateToProps = (state) => (
   }
 )
 
+const mapDispatchToProps = (dispatch) => (
+  {
+    refreshState : (token) => {
+      dispatch(fetchClientsIfNeeded(token))
+      dispatch(fetchEmployeesIfNeeded(token))
+      dispatch(fetchProjectsIfNeeded(token))
+      dispatch(fetchTasksIfNeeded(token))
+    }
+  }
+)
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ProjectContainer))

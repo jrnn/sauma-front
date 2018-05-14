@@ -1,12 +1,11 @@
-import ClientDetailsContainer from "./client_details"
-import ClientListContaner from "./client_list"
+import MyDetailsContainer from "./my_details"
 import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
-import { fetchClientsIfNeeded } from "../../action/client"
+import { fetchEmployeesIfNeeded } from "../../action/employee"
 import { Route, withRouter } from "react-router-dom"
 
-class ClientContainer extends React.Component {
+class MyContainer extends React.Component {
   componentDidMount = () =>
     this.props.refreshState(this.props.auth.token)
 
@@ -23,14 +22,10 @@ class ClientContainer extends React.Component {
 
     return (
       <div>
-        <h2 className="padded">Asiakkaat</h2>
-        <Route
-          exact path={`${match.path}/:id`}
-          component={ClientDetailsContainer}
-        />
+        <h2 className="padded">Omat tietoni</h2>
         <Route
           exact path={match.path}
-          component={ClientListContaner}
+          component={MyDetailsContainer}
         />
       </div>
     )
@@ -40,15 +35,15 @@ class ClientContainer extends React.Component {
 const mapStateToProps = (state) => (
   {
     auth : state.auth,
-    error : state.clients.data.error,
-    pending : state.clients.data.pending
+    error : state.employees.data.error,
+    pending : state.employees.data.pending
   }
 )
 
 const mapDispatchToProps = (dispatch) => (
   {
     refreshState : (token) => {
-      dispatch(fetchClientsIfNeeded(token))
+      dispatch(fetchEmployeesIfNeeded(token))
     }
   }
 )
@@ -56,4 +51,4 @@ const mapDispatchToProps = (dispatch) => (
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ClientContainer))
+)(MyContainer))

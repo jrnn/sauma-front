@@ -1,4 +1,4 @@
-export const cacheLifespan = 10 * 60000  // 1 min = 60000 ms
+const cacheLifespan = 5 * 60000  // 1 min = 60000 ms
 
 export const bearer = (token) =>
   ({ headers : { "authorization" : `bearer ${token}` } })
@@ -34,4 +34,13 @@ export const errorHandler = (ex) => {
         message : "Voi vihveli, jotain meni nyt kaputt. Kokeilepa hetken kuluttua uudelleen...?"
       }
   }
+}
+
+export const shouldFetch = (state, key) => {
+  let { data } = state[key]
+
+  if ( !data.updated || data.pending )
+    return false
+
+  return ( cacheLifespan < (Date.now() - data.updated) )
 }

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { bearer, cacheLifespan, errorHandler } from "./helper"
+import { bearer, errorHandler, shouldFetch } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/projects"
@@ -52,7 +52,7 @@ export const resetWriteProject = () =>
 /*
  *  THUNKS
  */
-export const fetchProjects = (token) => {
+const fetchProjects = (token) => {
   return async (dispatch) => {
     dispatch(requestProjects())
 
@@ -71,7 +71,7 @@ export const fetchProjects = (token) => {
 
 export const fetchProjectsIfNeeded = (token) => {
   return async (dispatch, getState) => {
-    if ( shouldFetchProjects(getState()) )
+    if ( shouldFetch(getState(), "projects") )
       dispatch(fetchProjects(token))
     else
       return Promise.resolve()
@@ -148,16 +148,4 @@ export const assignEmployeeToProject = (id, employee, token) => {
       dispatch(notify(error.message, "error"))
     }
   }
-}
-
-/*
- *  HELPERS
- */
-const shouldFetchProjects = (state) => {
-  let { data } = state.projects
-
-  if ( !data.updated || data.pending )
-    return false
-
-  return ( cacheLifespan < (Date.now() - data.updated) )
 }

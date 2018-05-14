@@ -3,9 +3,13 @@ import MaterialListContaner from "./material_list"
 import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
+import { fetchMaterialsIfNeeded } from "../../action/material"
 import { Route, withRouter } from "react-router-dom"
 
 class MaterialContainer extends React.Component {
+  componentDidMount = () =>
+    this.props.refreshState(this.props.auth.token)
+
   render = () => {
     let { error, match, pending } = this.props
 
@@ -41,7 +45,15 @@ const mapStateToProps = (state) => (
   }
 )
 
+const mapDispatchToProps = (dispatch) => (
+  {
+    refreshState : (token) => {
+      dispatch(fetchMaterialsIfNeeded(token))
+    }
+  }
+)
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MaterialContainer))

@@ -3,9 +3,13 @@ import EmployeeListContaner from "./employee_list"
 import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
+import { fetchEmployeesIfNeeded } from "../../action/employee"
 import { Route, withRouter } from "react-router-dom"
 
 class EmployeeContainer extends React.Component {
+  componentDidMount = () =>
+    this.props.refreshState(this.props.auth.token)
+
   render = () => {
     let { error, match, pending } = this.props
 
@@ -41,7 +45,15 @@ const mapStateToProps = (state) => (
   }
 )
 
+const mapDispatchToProps = (dispatch) => (
+  {
+    refreshState : (token) => {
+      dispatch(fetchEmployeesIfNeeded(token))
+    }
+  }
+)
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(EmployeeContainer))

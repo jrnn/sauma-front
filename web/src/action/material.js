@@ -1,5 +1,5 @@
 import axios from "axios"
-import { bearer, cacheLifespan, errorHandler } from "./helper"
+import { bearer, errorHandler, shouldFetch } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/materials"
@@ -47,7 +47,7 @@ export const resetWriteMaterial = () =>
 /*
  *  THUNKS
  */
-export const fetchMaterials = (token) => {
+const fetchMaterials = (token) => {
   return async (dispatch) => {
     dispatch(requestMaterials())
 
@@ -66,7 +66,7 @@ export const fetchMaterials = (token) => {
 
 export const fetchMaterialsIfNeeded = (token) => {
   return async (dispatch, getState) => {
-    if ( shouldFetchMaterials(getState()) )
+    if ( shouldFetch(getState(), "materials") )
       dispatch(fetchMaterials(token))
     else
       return Promise.resolve()
@@ -122,16 +122,4 @@ export const updateMaterial = (id, material, token) => {
       dispatch(notify(error.message, "error"))
     }
   }
-}
-
-/*
- *  HELPERS
- */
-const shouldFetchMaterials = (state) => {
-  let { data } = state.materials
-
-  if ( !data.updated || data.pending )
-    return false
-
-  return ( cacheLifespan < (Date.now() - data.updated) )
 }
