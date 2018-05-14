@@ -5,7 +5,6 @@ import { addressState, employeeState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { resetWriteEmployee } from "../../action/employee"
-import { withRouter } from "react-router-dom"
 
 const initState = (e) => {
   let state = employeeState(e)
@@ -99,7 +98,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { resetWriteEmployee }
-)(EmployeeFormContainer))
+)(EmployeeFormContainer)

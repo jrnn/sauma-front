@@ -1,7 +1,6 @@
 import ClientList from "../../component/client_list"
 import React from "react"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 
 class ClientListContainer extends React.Component {
   constructor() {
@@ -39,7 +38,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   null
-)(ClientListContainer))
+)(ClientListContainer)

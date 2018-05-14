@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchTasksIfNeeded } from "../../action/task"
-import { Route, withRouter } from "react-router-dom"
+import { Route } from "react-router-dom"
 
 class ActivityContainer extends React.Component {
   componentDidMount = () =>
@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ActivityContainer))
+)(ActivityContainer)

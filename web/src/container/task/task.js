@@ -7,7 +7,7 @@ import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchProjectsIfNeeded } from "../../action/project"
 import { fetchTasksIfNeeded } from "../../action/task"
-import { Route, withRouter } from "react-router-dom"
+import { Route } from "react-router-dom"
 
 class TaskContainer extends React.Component {
   componentDidMount = () =>
@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TaskContainer))
+)(TaskContainer)

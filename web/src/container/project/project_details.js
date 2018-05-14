@@ -10,7 +10,6 @@ import {
   updateProject
 } from "../../action/project"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 
 class ProjectDetailsContainer extends React.Component {
   assign = (employee) => {
@@ -30,27 +29,6 @@ class ProjectDetailsContainer extends React.Component {
       updateProject(id, project, auth.token)
   }
 
-  dropdownClients = () => {
-    let { clients, project } = this.props
-
-    return ( project && project.client )
-      ? [
-        {
-          key : project.client.id,
-          text : project.client.legalEntity,
-          value : project.client.id
-        }
-      ]
-      : clients.map(c => (
-        {
-          key : c.id,
-          text : c.legalEntity,
-          value : c.id
-        }
-      )).sort((c1, c2) =>
-        c1.text.localeCompare(c2.text))
-  }
-
   dropdownEmployees = () => {
     let { employees, project } = this.props
     let assignedIds = project.employees.map(e => e.id)
@@ -66,17 +44,6 @@ class ProjectDetailsContainer extends React.Component {
         e1.text.localeCompare(e2.text))
   }
 
-  dropdownManagers = () =>
-    this.props.employees
-      .filter(e => e.administrator)
-      .map(e => ({
-        key : e.id,
-        text : e.lastName,
-        value : e.id
-      }))
-      .sort((e1, e2) =>
-        e1.text.localeCompare(e2.text))
-
   render = () => {
     let { auth, isNew, project, tasks } = this.props
 
@@ -90,9 +57,7 @@ class ProjectDetailsContainer extends React.Component {
       <div>
         <Accordion active={isNew} title="Perustiedot">
           <ProjectFormContainer
-            clients={this.dropdownClients()}
             isNew={isNew}
-            managers={this.dropdownManagers()}
             onSubmit={this.save}
             project={project || {}}
           />
@@ -134,7 +99,6 @@ const mapStateToProps = (state, props) => {
 
   return {
     auth : state.auth,
-    clients : state.clients.data.items,
     employees : state.employees.data.items,
     isNew : ( id === "new" ),
     project : state.projects.data.items
@@ -144,7 +108,7 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { assignEmployeeToProject, createProject, updateProject }
-)(ProjectDetailsContainer))
+)(ProjectDetailsContainer)

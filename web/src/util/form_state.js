@@ -70,6 +70,7 @@ export const materialState = (m) => (
 
 export const projectState = (p) => {
   let state = { projectId : p.projectId || "" }
+  state.address = addressState(p.address || {})
 
   state.endDate = ( p.endDate )
     ? formatDate(p.endDate)

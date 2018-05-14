@@ -3,7 +3,6 @@ import ClientFormContainer from "./client_form"
 import React from "react"
 import { connect } from "react-redux"
 import { createClient, updateClient } from "../../action/client"
-import { withRouter } from "react-router-dom"
 
 class ClientDetailsContainer extends React.Component {
   save = (client) => {
@@ -58,7 +57,7 @@ const mapStateToProps = (state, props) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { createClient, updateClient }
-)(ClientDetailsContainer))
+)(ClientDetailsContainer)

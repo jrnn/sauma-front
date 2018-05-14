@@ -3,7 +3,6 @@ import MaterialFormContainer from "./material_form"
 import React from "react"
 import { connect } from "react-redux"
 import { createMaterial, updateMaterial } from "../../action/material"
-import { withRouter } from "react-router-dom"
 
 class MaterialDetailsContainer extends React.Component {
   save = (material) => {
@@ -55,7 +54,7 @@ const mapStateToProps = (state, props) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { createMaterial, updateMaterial }
-)(MaterialDetailsContainer))
+)(MaterialDetailsContainer)

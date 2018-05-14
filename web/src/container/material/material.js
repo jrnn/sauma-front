@@ -4,7 +4,7 @@ import React from "react"
 import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
 import { fetchMaterialsIfNeeded } from "../../action/material"
-import { Route, withRouter } from "react-router-dom"
+import { Route } from "react-router-dom"
 
 class MaterialContainer extends React.Component {
   componentDidMount = () =>
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MaterialContainer))
+)(MaterialContainer)

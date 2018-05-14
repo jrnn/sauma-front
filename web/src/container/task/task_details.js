@@ -5,7 +5,6 @@ import TaskFormContainer from "./task_form"
 import { connect } from "react-redux"
 import { createTask, updateTask } from "../../action/task"
 import { parseUrlQuery } from "../../util/parser"
-import { withRouter } from "react-router-dom"
 
 class TaskDetailsContainer extends React.Component {
   save = (task) => {
@@ -87,7 +86,7 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { createTask, updateTask }
-)(TaskDetailsContainer))
+)(TaskDetailsContainer)

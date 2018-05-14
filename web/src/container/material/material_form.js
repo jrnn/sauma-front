@@ -4,7 +4,6 @@ import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { materialState } from "../../util/form_state"
 import { resetWriteMaterial } from "../../action/material"
-import { withRouter } from "react-router-dom"
 
 const initState = (m) => {
   let state = materialState(m)
@@ -61,7 +60,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { resetWriteMaterial }
-)(MaterialFormContainer))
+)(MaterialFormContainer)

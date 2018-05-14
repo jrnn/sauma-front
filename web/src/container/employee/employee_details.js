@@ -3,7 +3,6 @@ import EmployeeFormContainer from "./employee_form"
 import React from "react"
 import { connect } from "react-redux"
 import { createEmployee, updateEmployee } from "../../action/employee"
-import { withRouter } from "react-router-dom"
 
 class EmployeeDetailsContainer extends React.Component {
   save = (employee) => {
@@ -58,7 +57,7 @@ const mapStateToProps = (state, props) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { createEmployee, updateEmployee }
-)(EmployeeDetailsContainer))
+)(EmployeeDetailsContainer)

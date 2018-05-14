@@ -2,7 +2,6 @@ import LoginForm from "../component/login_form"
 import React from "react"
 import { connect } from "react-redux"
 import { login } from "../action/auth"
-import { withRouter } from "react-router-dom"
 
 class LoginFormContainer extends React.Component {
   constructor() {
@@ -46,7 +45,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { login }
-)(LoginFormContainer))
+)(LoginFormContainer)

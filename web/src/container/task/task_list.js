@@ -1,7 +1,6 @@
 import React from "react"
 import TaskList from "../../component/task_list"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 
 class TaskListContainer extends React.Component {
   constructor() {
@@ -44,7 +43,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   null
-)(TaskListContainer))
+)(TaskListContainer)

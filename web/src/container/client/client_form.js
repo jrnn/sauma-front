@@ -5,7 +5,6 @@ import { addressState, clientState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { resetWriteClient } from "../../action/client"
-import { withRouter } from "react-router-dom"
 
 const initState = (c) => {
   let state = clientState(c)
@@ -77,7 +76,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { resetWriteClient }
-)(ClientFormContainer))
+)(ClientFormContainer)

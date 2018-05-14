@@ -1,7 +1,6 @@
 import MaterialList from "../../component/material_list"
 import React from "react"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 
 class MaterialListContainer extends React.Component {
   constructor() {
@@ -40,7 +39,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   null
-)(MaterialListContainer))
+)(MaterialListContainer)

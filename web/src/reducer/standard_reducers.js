@@ -1,5 +1,5 @@
 import { combineReducers } from "redux"
-import { standardDataReducer, standardWriteReducer } from "./generic"
+import { standardDataReducer, standardWriteReducer } from "./helper"
 import { types as activity } from "../action/activity"
 import { types as client } from "../action/client"
 import { types as material } from "../action/material"

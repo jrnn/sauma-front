@@ -4,7 +4,6 @@ import MyPasswordContainer from "./my_password"
 import React from "react"
 import { changePassword, updateEmployee } from "../../action/employee"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 
 class MyDetailsContainer extends React.Component {
   changePassword = (passwords) => {
@@ -52,7 +51,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { changePassword, updateEmployee }
-)(MyDetailsContainer))
+)(MyDetailsContainer)

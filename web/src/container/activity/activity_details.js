@@ -8,7 +8,6 @@ import {
   updateActivity
 } from "../../action/activity"
 import { parseUrlQuery } from "../../util/parser"
-import { withRouter } from "react-router-dom"
 
 class ActivityDetailsContainer extends React.Component {
   save = (activity) => {
@@ -89,7 +88,7 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { createActivity, signOffActivity, updateActivity }
-)(ActivityDetailsContainer))
+)(ActivityDetailsContainer)

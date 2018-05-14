@@ -7,7 +7,7 @@ import { fetchClientsIfNeeded } from "../../action/client"
 import { fetchEmployeesIfNeeded } from "../../action/employee"
 import { fetchProjectsIfNeeded } from "../../action/project"
 import { fetchTasksIfNeeded } from "../../action/task"
-import { Route, withRouter } from "react-router-dom"
+import { Route } from "react-router-dom"
 
 class ProjectContainer extends React.Component {
   componentDidMount = () =>
@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProjectContainer))
+)(ProjectContainer)

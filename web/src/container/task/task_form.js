@@ -5,7 +5,6 @@ import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { resetWriteTask } from "../../action/task"
 import { taskState } from "../../util/form_state"
-import { withRouter } from "react-router-dom"
 
 class TaskFormContainer extends React.Component {
   constructor(props) {
@@ -130,7 +129,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { resetWriteTask }
-)(TaskFormContainer))
+)(TaskFormContainer)

@@ -5,7 +5,6 @@ import { activityState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { resetWriteActivity } from "../../action/activity"
-import { withRouter } from "react-router-dom"
 
 class ActivityFormContainer extends React.Component {
   constructor(props) {
@@ -144,7 +143,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { resetWriteActivity }
-)(ActivityFormContainer))
+)(ActivityFormContainer)

@@ -7,7 +7,6 @@ import RootContainer from "./container/root"
 import { checkAuth } from "./action/auth"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
-import { withRouter } from "react-router-dom"
 
 class App extends React.Component {
   componentDidMount = () =>
@@ -35,7 +34,7 @@ class App extends React.Component {
 const mapStateToProps = (state) =>
   ({ auth : state.auth })
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { checkAuth }
-)(App))
+)(App)

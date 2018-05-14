@@ -3,7 +3,6 @@ import React from "react"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
 import { logout } from "../action/auth"
-import { withRouter } from "react-router-dom"
 
 class NavBarContainer extends React.Component {
   handleLogout = () =>
@@ -31,7 +30,7 @@ class NavBarContainer extends React.Component {
 const mapStateToProps = (state) =>
   ({ auth : state.auth })
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   { logout }
-)(NavBarContainer))
+)(NavBarContainer)
