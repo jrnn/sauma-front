@@ -9,7 +9,7 @@ const AddressForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="street"
         onChange={onChange}
-        placeholder="Saumakuja 3"
+        placeholder="Saumakuja 313"
         readOnly={readOnly}
         value={state.address.street}
       />

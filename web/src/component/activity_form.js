@@ -60,8 +60,8 @@ const ActivityForm = (props) => {
           labelPosition="right"
           name="hours"
           onChange={onChange}
+          placeholder="Huom. pyöristyy lähimpään kokonaislukuun"
           readOnly={readOnly}
-          type="number"
           value={state.hours}
         />
         <FormError error={errors.hours} />

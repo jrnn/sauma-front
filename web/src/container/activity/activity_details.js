@@ -7,18 +7,24 @@ import {
   signOffActivity,
   updateActivity
 } from "../../action/activity"
-import { parseUrlQuery } from "../../util/parser"
+import { parseNumber, parseUrlQuery } from "../../util/parser"
 
 class ActivityDetailsContainer extends React.Component {
   save = (activity) => {
     let { id } = this.props.match.params
     let { auth, history, isNew, task } = this.props
 
+    activity.quotas = activity.quotas
+      .filter(q => q.quantity > 0 && parseNumber(q.quantity) !== "NaN")
+
     let payload = {
       ...activity,
+      hours : parseNumber(activity.hours),
       quotas : activity.quotas
-        .filter(q => q.quantity !== "" && q.quantity > 0)
-        .map(q => ({ ...q, material : q.material.id }))
+        .map(q => ({
+          material : q.material.id,
+          quantity : parseNumber(q.quantity)
+        }))
     }
 
     if ( isNew ) {

@@ -31,7 +31,7 @@ const ClientForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="contactPerson"
         onChange={onChange}
-        placeholder="Spongebob Squarepants"
+        placeholder="Paavo Pesusieni"
         readOnly={readOnly}
         value={state.contactPerson}
       />
@@ -53,7 +53,7 @@ const ClientForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="email"
         onChange={onChange}
-        placeholder="sponge.bob@sauma.io"
+        placeholder="paavo@firma.io"
         readOnly={readOnly}
         value={state.email}
       />

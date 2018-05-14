@@ -9,7 +9,7 @@ const MaterialForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="name"
         onChange={onChange}
-        placeholder="Sikamässy silikoni 15 mm"
+        placeholder="Esim. tuotenimi ja saumaleveys"
         readOnly={readOnly}
         value={state.name}
       />
@@ -20,7 +20,7 @@ const MaterialForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="color"
         onChange={onChange}
-        placeholder="Poltettu umbra"
+        placeholder="(Muutettava siten että useampi väri per materiaali)"
         readOnly={readOnly}
         value={state.color}
       />
@@ -44,9 +44,8 @@ const MaterialForm = ({ errors, onChange, readOnly, state }) => (
         iconPosition="left"
         name="unitCost"
         onChange={onChange}
-        placeholder="12.50 (huom piste!)"
+        placeholder="13.37"
         readOnly={readOnly}
-        type="number"
         value={state.unitCost}
       />
       <FormError error={errors.unitCost} />

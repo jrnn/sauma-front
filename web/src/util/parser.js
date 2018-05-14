@@ -7,6 +7,17 @@ export const formatDate = (date) => {
   } catch (ex) { return "" }
 }
 
+export const parseNumber = (num) => {
+  if ( num.trim().length === 0 )
+    return "NaN"
+
+  let val = Number(num.replace(",", "."))
+
+  return ( isNaN(val) )
+    ? "NaN"
+    : val
+}
+
 export const parseUrlQuery = (query, res = {}) => {
   if ( query[0] !== "?" )
     return res

@@ -20,7 +20,7 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="firstName"
         onChange={onChange}
-        placeholder="Spongebob"
+        placeholder="Paavo"
         readOnly={readOnly}
         value={state.firstName}
       />
@@ -31,7 +31,7 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="lastName"
         onChange={onChange}
-        placeholder="Squarepants"
+        placeholder="Pesusieni"
         readOnly={readOnly}
         value={state.lastName}
       />
@@ -53,7 +53,7 @@ const EmployeeForm = ({ errors, onChange, readOnly, state }) => (
       <Input
         name="email"
         onChange={onChange}
-        placeholder="sponge.bob@sauma.io"
+        placeholder="paavo@firma.io"
         readOnly={readOnly}
         value={state.email}
       />

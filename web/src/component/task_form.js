@@ -71,8 +71,8 @@ const TaskForm = (props) => {
           labelPosition="right"
           name="daysNeeded"
           onChange={onChange}
+          placeholder="Pyöristyy lähimpään kokonaislukuun"
           readOnly={readOnly}
-          type="number"
           value={state.daysNeeded}
         />
         <FormError error={errors.daysNeeded} />

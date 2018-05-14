@@ -4,18 +4,24 @@ import TaskActivities from "../../component/task_activities"
 import TaskFormContainer from "./task_form"
 import { connect } from "react-redux"
 import { createTask, updateTask } from "../../action/task"
-import { parseUrlQuery } from "../../util/parser"
+import { parseNumber, parseUrlQuery } from "../../util/parser"
 
 class TaskDetailsContainer extends React.Component {
   save = (task) => {
     let { id } = this.props.match.params
     let { auth, history, isNew, project } = this.props
 
+    task.quotas = task.quotas
+      .filter(q => q.quantity > 0 && parseNumber(q.quantity) !== "NaN")
+
     let payload = {
       ...task,
+      daysNeeded : parseNumber(task.daysNeeded),
       quotas : task.quotas
-        .filter(q => q.quantity !== "" && q.quantity > 0)
-        .map(q => ({ ...q, material : q.material.id }))
+        .map(q => ({
+          material : q.material.id,
+          quantity : parseNumber(q.quantity)
+        }))
     }
 
     if ( isNew ) {

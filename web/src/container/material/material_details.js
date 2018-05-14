@@ -3,16 +3,22 @@ import MaterialFormContainer from "./material_form"
 import React from "react"
 import { connect } from "react-redux"
 import { createMaterial, updateMaterial } from "../../action/material"
+import { parseNumber } from "../../util/parser"
 
 class MaterialDetailsContainer extends React.Component {
   save = (material) => {
     let { id } = this.props.match.params
     let { auth, createMaterial, history, isNew, updateMaterial } = this.props
 
+    let payload = {
+      ...material,
+      unitCost : parseNumber(material.unitCost)
+    }
+
     if ( isNew )
-      createMaterial(material, auth.token, history)
+      createMaterial(payload, auth.token, history)
     else
-      updateMaterial(id, material, auth.token)
+      updateMaterial(id, payload, auth.token)
   }
 
   render = () => {

@@ -9,7 +9,6 @@ const asRow = (m, qty, onChange, onDelete, readOnly) =>
         onChange={onChange}
         readOnly={readOnly}
         style={{ width : "60px" }}
-        type="number"
         transparent
         value={qty}
       />
