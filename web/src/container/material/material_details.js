@@ -10,8 +10,6 @@ class MaterialDetailsContainer extends React.Component {
     let { id } = this.props.match.params
     let { auth, createMaterial, history, isNew, updateMaterial } = this.props
 
-    material.unitCost = Number(material.unitCost.replace(/,/g, "."))
-
     if ( isNew )
       createMaterial(material, auth.token, history)
     else

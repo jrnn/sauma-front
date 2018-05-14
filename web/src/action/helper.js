@@ -44,3 +44,40 @@ export const shouldFetch = (state, key) => {
 
   return ( cacheLifespan < (Date.now() - data.updated) )
 }
+
+/*
+ *  STANDARD ACTION CREATORS
+ */
+export const standardActions = (types) => (
+  {
+    fetch : () => ({
+      type : types.FETCH
+    }),
+    fetchOk : (items) => ({
+      type : types.FETCH_OK,
+      payload : items
+    }),
+    fetchError : (error) => ({
+      type : types.FETCH_ERROR,
+      payload : error
+    }),
+    createOk : (item) => ({
+      type : types.CREATED,
+      payload : item
+    }),
+    updateOk : (item) => ({
+      type : types.UPDATED,
+      payload : item
+    }),
+    write : () => ({
+      type : types.WRITE
+    }),
+    writeError : () => ({
+      type : types.WRITE_ERROR
+    }),
+    writeInvalid : (validationErrors) => ({
+      type : types.WRITE_INVALID,
+      payload : validationErrors
+    })
+  }
+)

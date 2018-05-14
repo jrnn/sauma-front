@@ -1,70 +1,57 @@
 import axios from "axios"
-import { bearer, errorHandler, shouldFetch } from "./helper"
+import { bearer, errorHandler, shouldFetch, standardActions } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/projects"
 
 /*
+ *  ACTION TYPES
+ */
+export const types = {
+  FETCH : "FETCH_PROJECTS",
+  FETCH_OK : "FETCH_PROJECTS_OK",
+  FETCH_ERROR : "FETCH_PROJECTS_ERROR",
+  WRITE : "WRITE_PROJECT",
+  WRITE_ERROR : "WRITE_PROJECT_ERROR",
+  WRITE_INVALID : "WRITE_PROJECT_INVALID",
+  WRITE_RESET : "RESET_WRITE_PROJECT",
+  CREATED : "CREATE_PROJECT_OK",
+  UPDATED : "UPDATE_PROJECT_OK",
+  ASSIGNED : "ASSIGN_EMPLOYEE_OK"
+}
+
+/*
  *  ACTION CREATORS
  */
-const requestProjects = () =>
-  ({ type : "REQUEST_PROJECTS" })
+const actions = standardActions(types)
 
-const requestProjectsOk = (projects) => ({
-  type : "REQUEST_PROJECTS_OK",
-  payload : projects
-})
-
-const requestProjectsError = (error) => ({
-  type : "REQUEST_PROJECTS_ERROR",
-  payload : error
-})
-
-const writeProject = () =>
-  ({ type : "WRITE_PROJECT" })
-
-const writeProjectError = () =>
-  ({ type : "WRITE_PROJECT_ERROR" })
-
-const writeProjectInvalid = (validationErrors) => ({
-  type : "WRITE_PROJECT_INVALID",
-  payload : validationErrors
-})
-
-const createProjectOk = (project) => ({
-  type : "CREATE_PROJECT_OK",
-  payload : project
-})
-
-const updateProjectOk = (project) => ({
-  type : "UPDATE_PROJECT_OK",
-  payload : project
-})
-
+/*
+ *  ACTION CREATORS
+ */
 const assignEmployeeOk = (project, employee) => ({
-  type : "ASSIGN_EMPLOYEE_OK",
+  type : types.ASSIGNED,
   payload : { project, employee }
 })
 
 export const resetWriteProject = () =>
-  ({ type : "RESET_WRITE_PROJECT" })
+  ({ type : types.WRITE_RESET })
 
 /*
  *  THUNKS
  */
 const fetchProjects = (token) => {
   return async (dispatch) => {
-    dispatch(requestProjects())
+    dispatch(actions.fetch())
 
     try {
       let res = await axios
         .get(url, bearer(token))
 
-      dispatch(requestProjectsOk(res.data))
+      dispatch(actions.fetchOk(res.data))
 
     } catch (ex) {
       let error = errorHandler(ex)
-      dispatch(requestProjectsError(error.message))
+      dispatch(actions.fetchError(error.message))
     }
   }
 }
@@ -80,14 +67,14 @@ export const fetchProjectsIfNeeded = (token) => {
 
 export const createProject = (project, token, history) => {
   return async (dispatch) => {
-    dispatch(writeProject())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .post(url, project, bearer(token))
 
       dispatch(resetWriteProject())
-      dispatch(createProjectOk(res.data))
+      dispatch(actions.createOk(res.data))
       dispatch(notify("Uusi työmaa lisätty", "ok"))
       history.replace(`/projects/${res.data.id}`)
 
@@ -95,9 +82,9 @@ export const createProject = (project, token, history) => {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeProjectInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeProjectError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
@@ -106,23 +93,23 @@ export const createProject = (project, token, history) => {
 
 export const updateProject = (id, project, token) => {
   return async (dispatch) => {
-    dispatch(writeProject())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .put(`${url}/${id}`, project, bearer(token))
 
       dispatch(resetWriteProject())
-      dispatch(updateProjectOk(res.data))
+      dispatch(actions.updateOk(res.data))
       dispatch(notify("Työmaan tiedot päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeProjectInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeProjectError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
@@ -131,7 +118,7 @@ export const updateProject = (id, project, token) => {
 
 export const assignEmployeeToProject = (id, employee, token) => {
   return async (dispatch) => {
-    dispatch(writeProject())
+    dispatch(actions.write())
 
     try {
       let res = await axios
@@ -144,7 +131,7 @@ export const assignEmployeeToProject = (id, employee, token) => {
     } catch (ex) {
       let error = errorHandler(ex)
 
-      dispatch(writeProjectError())
+      dispatch(actions.writeError())
       dispatch(notify(error.message, "error"))
     }
   }

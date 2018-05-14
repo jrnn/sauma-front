@@ -1,4 +1,5 @@
 import { combineReducers } from "redux"
+import { types } from "../action/task"
 
 const initState = {
   data : {
@@ -17,30 +18,30 @@ const data = (state = initState.data, action) => {
   let { payload, type } = action
 
   switch ( type ) {
-    case "REQUEST_TASKS" :
+    case types.FETCH :
       return {
         ...state,
         pending : true
       }
-    case "REQUEST_TASKS_OK" :
+    case types.FETCH_OK :
       return {
         items : payload,
         error : null,
         pending : false,
         updated : Date.now()
       }
-    case "REQUEST_TASKS_ERROR" :
+    case types.FETCH_ERROR :
       return {
         ...state,
         error : payload,
         pending : false
       }
-    case "CREATE_TASK_OK" :
+    case types.CREATED :
       return {
         ...state,
         items : [ ...state.items, payload ]
       }
-    case "UPDATE_TASK_OK" : {
+    case types.UPDATED : {
       let items = state.items
         .filter(t => t.id !== payload.id)
 
@@ -60,22 +61,22 @@ const write = (state = initState.write, action) => {
   let { payload, type } = action
 
   switch ( type ) {
-    case "WRITE_TASK" :
+    case types.WRITE :
       return {
         ...state,
         pending : true
       }
-    case "WRITE_TASK_ERROR" :
+    case types.WRITE_ERROR :
       return {
         ...state,
         pending : false
       }
-    case "WRITE_TASK_INVALID" :
+    case types.WRITE_INVALID :
       return {
         errors : payload,
         pending : false
       }
-    case "RESET_WRITE_TASK" :
+    case types.WRITE_RESET :
       return initState.write
     default :
       return state

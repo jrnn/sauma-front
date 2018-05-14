@@ -1,65 +1,48 @@
 import axios from "axios"
-import { bearer, errorHandler, shouldFetch } from "./helper"
+import { bearer, errorHandler, shouldFetch, standardActions } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/materials"
 
 /*
+ *  ACTION TYPES
+ */
+export const types = {
+  FETCH : "FETCH_MATERIALS",
+  FETCH_OK : "FETCH_MATERIALS_OK",
+  FETCH_ERROR : "FETCH_MATERIALS_ERROR",
+  WRITE : "WRITE_MATERIAL",
+  WRITE_ERROR : "WRITE_MATERIAL_ERROR",
+  WRITE_INVALID : "WRITE_MATERIAL_INVALID",
+  WRITE_RESET : "RESET_WRITE_MATERIAL",
+  CREATED : "CREATE_MATERIAL_OK",
+  UPDATED : "UPDATE_MATERIAL_OK"
+}
+
+/*
  *  ACTION CREATORS
  */
-const requestMaterials = () =>
-  ({ type : "REQUEST_MATERIALS" })
-
-const requestMaterialsOk = (materials) => ({
-  type : "REQUEST_MATERIALS_OK",
-  payload : materials
-})
-
-const requestMaterialsError = (error) => ({
-  type : "REQUEST_MATERIALS_ERROR",
-  payload : error
-})
-
-const writeMaterial = () =>
-  ({ type : "WRITE_MATERIAL" })
-
-const writeMaterialError = () =>
-  ({ type : "WRITE_MATERIAL_ERROR" })
-
-const writeMaterialInvalid = (validationErrors) => ({
-  type : "WRITE_MATERIAL_INVALID",
-  payload : validationErrors
-})
-
-const createMaterialOk = (material) => ({
-  type : "CREATE_MATERIAL_OK",
-  payload : material
-})
-
-const updateMaterialOk = (material) => ({
-  type : "UPDATE_MATERIAL_OK",
-  payload : material
-})
+const actions = standardActions(types)
 
 export const resetWriteMaterial = () =>
-  ({ type : "RESET_WRITE_MATERIAL" })
+  ({ type : types.WRITE_RESET })
 
 /*
  *  THUNKS
  */
 const fetchMaterials = (token) => {
   return async (dispatch) => {
-    dispatch(requestMaterials())
+    dispatch(actions.fetch())
 
     try {
       let res = await axios
         .get(url, bearer(token))
 
-      dispatch(requestMaterialsOk(res.data))
+      dispatch(actions.fetchOk(res.data))
 
     } catch (ex) {
       let error = errorHandler(ex)
-      dispatch(requestMaterialsError(error.message))
+      dispatch(actions.fetchError(error.message))
     }
   }
 }
@@ -75,14 +58,14 @@ export const fetchMaterialsIfNeeded = (token) => {
 
 export const createMaterial = (material, token, history) => {
   return async (dispatch) => {
-    dispatch(writeMaterial())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .post(url, material, bearer(token))
 
       dispatch(resetWriteMaterial())
-      dispatch(createMaterialOk(res.data))
+      dispatch(actions.createOk(res.data))
       dispatch(notify("Materiaali lisätty", "ok"))
       history.replace(`/materials/${res.data.id}`)
 
@@ -90,9 +73,9 @@ export const createMaterial = (material, token, history) => {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeMaterialInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeMaterialError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
@@ -101,23 +84,23 @@ export const createMaterial = (material, token, history) => {
 
 export const updateMaterial = (id, material, token) => {
   return async (dispatch) => {
-    dispatch(writeMaterial())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .put(`${url}/${id}`, material, bearer(token))
 
       dispatch(resetWriteMaterial())
-      dispatch(updateMaterialOk(res.data))
+      dispatch(actions.updateOk(res.data))
       dispatch(notify("Materiaalitiedot päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeMaterialInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeMaterialError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }

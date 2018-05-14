@@ -1,65 +1,48 @@
 import axios from "axios"
-import { bearer, errorHandler, shouldFetch } from "./helper"
+import { bearer, errorHandler, shouldFetch, standardActions } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/activities"
 
 /*
+ *  ACTION TYPES
+ */
+export const types = {
+  FETCH : "FETCH_ACTIVITIES",
+  FETCH_OK : "FETCH_ACTIVITIES_OK",
+  FETCH_ERROR : "FETCH_ACTIVITIES_ERROR",
+  WRITE : "WRITE_ACTIVITY",
+  WRITE_ERROR : "WRITE_ACTIVITY_ERROR",
+  WRITE_INVALID : "WRITE_ACTIVITY_INVALID",
+  WRITE_RESET : "RESET_WRITE_ACTIVITY",
+  CREATED : "CREATE_ACTIVITY_OK",
+  UPDATED : "UPDATE_ACTIVITY_OK"
+}
+
+/*
  *  ACTION CREATORS
  */
-const requestActivities = () =>
-  ({ type : "REQUEST_ACTIVITIES" })
-
-const requestActivitiesOk = (activities) => ({
-  type : "REQUEST_ACTIVITIES_OK",
-  payload : activities
-})
-
-const requestActivitiesError = (error) => ({
-  type : "REQUEST_ACTIVITIES_ERROR",
-  payload : error
-})
-
-const writeActivity = () =>
-  ({ type : "WRITE_ACTIVITY" })
-
-const writeActivityError = () =>
-  ({ type : "WRITE_ACTIVITY_ERROR" })
-
-const writeActivityInvalid = (validationErrors) => ({
-  type : "WRITE_ACTIVITY_INVALID",
-  payload : validationErrors
-})
-
-const createActivityOk = (activity) => ({
-  type : "CREATE_ACTIVITY_OK",
-  payload : activity
-})
-
-const updateActivityOk = (activity) => ({
-  type : "UPDATE_ACTIVITY_OK",
-  payload : activity
-})
+const actions = standardActions(types)
 
 export const resetWriteActivity = () =>
-  ({ type : "RESET_WRITE_ACTIVITY" })
+  ({ type : types.WRITE_RESET })
 
 /*
  *  THUNKS
  */
 const fetchActivities = (token) => {
   return async (dispatch) => {
-    dispatch(requestActivities())
+    dispatch(actions.fetch())
 
     try {
       let res = await axios
         .get(url, bearer(token))
 
-      dispatch(requestActivitiesOk(res.data))
+      dispatch(actions.fetchOk(res.data))
 
     } catch (ex) {
       let error = errorHandler(ex)
-      dispatch(requestActivitiesError(error.message))
+      dispatch(actions.fetchError(error.message))
     }
   }
 }
@@ -75,14 +58,14 @@ export const fetchActivitiesIfNeeded = (token) => {
 
 export const createActivity = (activity, token, history) => {
   return async (dispatch) => {
-    dispatch(writeActivity())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .post(url, activity, bearer(token))
 
       dispatch(resetWriteActivity())
-      dispatch(createActivityOk(res.data))
+      dispatch(actions.createOk(res.data))
       dispatch(notify("Suorite lisätty", "ok"))
       history.replace(`/activities/${res.data.id}`)
 
@@ -90,9 +73,9 @@ export const createActivity = (activity, token, history) => {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeActivityInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeActivityError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
@@ -101,23 +84,23 @@ export const createActivity = (activity, token, history) => {
 
 export const updateActivity = (id, activity, token) => {
   return async (dispatch) => {
-    dispatch(writeActivity())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .put(`${url}/${id}`, activity, bearer(token))
 
       dispatch(resetWriteActivity())
-      dispatch(updateActivityOk(res.data))
+      dispatch(actions.updateOk(res.data))
       dispatch(notify("Suorite päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeActivityInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeActivityError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
@@ -126,20 +109,20 @@ export const updateActivity = (id, activity, token) => {
 
 export const signOffActivity = (id, token) => {
   return async (dispatch) => {
-    dispatch(writeActivity())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .put(`${url}/${id}/sign`, {}, bearer(token))
 
       dispatch(resetWriteActivity())
-      dispatch(updateActivityOk(res.data))
+      dispatch(actions.updateOk(res.data))
       dispatch(notify("Suorite kirjattu hyväksytyksi", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
 
-      dispatch(writeActivityError())
+      dispatch(actions.writeError())
       dispatch(notify(error.message, "error"))
     }
   }

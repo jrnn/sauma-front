@@ -1,4 +1,5 @@
 import { combineReducers } from "redux"
+import { types } from "../action/client"
 
 const initState = {
   data : {
@@ -17,30 +18,30 @@ const data = (state = initState.data, action) => {
   let { payload, type } = action
 
   switch ( type ) {
-    case "REQUEST_CLIENTS" :
+    case types.FETCH :
       return {
         ...state,
         pending : true
       }
-    case "REQUEST_CLIENTS_OK" :
+    case types.FETCH_OK :
       return {
         items : payload,
         error : null,
         pending : false,
         updated : Date.now()
       }
-    case "REQUEST_CLIENTS_ERROR" :
+    case types.FETCH_ERROR :
       return {
         ...state,
         error : payload,
         pending : false
       }
-    case "CREATE_CLIENT_OK" :
+    case types.CREATED :
       return {
         ...state,
         items : [ ...state.items, payload ]
       }
-    case "UPDATE_CLIENT_OK" : {
+    case types.UPDATED : {
       let items = state.items
         .filter(c => c.id !== payload.id)
 
@@ -60,22 +61,22 @@ const write = (state = initState.write, action) => {
   let { payload, type } = action
 
   switch ( type ) {
-    case "WRITE_CLIENT" :
+    case types.WRITE :
       return {
         ...state,
         pending : true
       }
-    case "WRITE_CLIENT_ERROR" :
+    case types.WRITE_ERROR :
       return {
         ...state,
         pending : false
       }
-    case "WRITE_CLIENT_INVALID" :
+    case types.WRITE_INVALID :
       return {
         errors : payload,
         pending : false
       }
-    case "RESET_WRITE_CLIENT" :
+    case types.WRITE_RESET :
       return initState.write
     default :
       return state

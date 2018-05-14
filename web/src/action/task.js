@@ -1,65 +1,48 @@
 import axios from "axios"
-import { bearer, errorHandler, shouldFetch } from "./helper"
+import { bearer, errorHandler, shouldFetch, standardActions } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/tasks"
 
 /*
+ *  ACTION TYPES
+ */
+export const types = {
+  FETCH : "FETCH_TASKS",
+  FETCH_OK : "FETCH_TASKS_OK",
+  FETCH_ERROR : "FETCH_TASKS_ERROR",
+  WRITE : "WRITE_TASK",
+  WRITE_ERROR : "WRITE_TASK_ERROR",
+  WRITE_INVALID : "WRITE_TASK_INVALID",
+  WRITE_RESET : "RESET_WRITE_TASK",
+  CREATED : "CREATE_TASK_OK",
+  UPDATED : "UPDATE_TASK_OK"
+}
+
+/*
  *  ACTION CREATORS
  */
-const requestTasks = () =>
-  ({ type : "REQUEST_TASKS" })
-
-const requestTasksOk = (tasks) => ({
-  type : "REQUEST_TASKS_OK",
-  payload : tasks
-})
-
-const requestTasksError = (error) => ({
-  type : "REQUEST_TASKS_ERROR",
-  payload : error
-})
-
-const writeTask = () =>
-  ({ type : "WRITE_TASK" })
-
-const writeTaskError = () =>
-  ({ type : "WRITE_TASK_ERROR" })
-
-const writeTaskInvalid = (validationErrors) => ({
-  type : "WRITE_TASK_INVALID",
-  payload : validationErrors
-})
-
-const createTaskOk = (task) => ({
-  type : "CREATE_TASK_OK",
-  payload : task
-})
-
-const updateTaskOk = (task) => ({
-  type : "UPDATE_TASK_OK",
-  payload : task
-})
+const actions = standardActions(types)
 
 export const resetWriteTask = () =>
-  ({ type : "RESET_WRITE_TASK" })
+  ({ type : types.WRITE_RESET })
 
 /*
  *  THUNKS
  */
 const fetchTasks = (token) => {
   return async (dispatch) => {
-    dispatch(requestTasks())
+    dispatch(actions.fetch())
 
     try {
       let res = await axios
         .get(url, bearer(token))
 
-      dispatch(requestTasksOk(res.data))
+      dispatch(actions.fetchOk(res.data))
 
     } catch (ex) {
       let error = errorHandler(ex)
-      dispatch(requestTasksError(error.message))
+      dispatch(actions.fetchError(error.message))
     }
   }
 }
@@ -75,14 +58,14 @@ export const fetchTasksIfNeeded = (token) => {
 
 export const createTask = (task, token, history) => {
   return async (dispatch) => {
-    dispatch(writeTask())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .post(url, task, bearer(token))
 
       dispatch(resetWriteTask())
-      dispatch(createTaskOk(res.data))
+      dispatch(actions.createOk(res.data))
       dispatch(notify("Tehtävä lisätty", "ok"))
       history.replace(`/tasks/${res.data.id}`)
 
@@ -90,9 +73,9 @@ export const createTask = (task, token, history) => {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeTaskInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeTaskError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
@@ -101,23 +84,23 @@ export const createTask = (task, token, history) => {
 
 export const updateTask = (id, task, token) => {
   return async (dispatch) => {
-    dispatch(writeTask())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .put(`${url}/${id}`, task, bearer(token))
 
       dispatch(resetWriteTask())
-      dispatch(updateTaskOk(res.data))
+      dispatch(actions.updateOk(res.data))
       dispatch(notify("Tehtävä päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeTaskInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeTaskError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }

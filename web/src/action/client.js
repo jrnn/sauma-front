@@ -1,65 +1,48 @@
 import axios from "axios"
-import { bearer, errorHandler, shouldFetch } from "./helper"
+import { bearer, errorHandler, shouldFetch, standardActions } from "./helper"
 import { notify } from "./notification"
 
 const url = "/api/clients"
 
 /*
+ *  ACTION TYPES
+ */
+export const types = {
+  FETCH : "FETCH_CLIENTS",
+  FETCH_OK : "FETCH_CLIENTS_OK",
+  FETCH_ERROR : "FETCH_CLIENTS_ERROR",
+  WRITE : "WRITE_CLIENT",
+  WRITE_ERROR : "WRITE_CLIENT_ERROR",
+  WRITE_INVALID : "WRITE_CLIENT_INVALID",
+  WRITE_RESET : "RESET_WRITE_CLIENT",
+  CREATED : "CREATE_CLIENT_OK",
+  UPDATED : "UPDATE_CLIENT_OK"
+}
+
+/*
  *  ACTION CREATORS
  */
-const requestClients = () =>
-  ({ type : "REQUEST_CLIENTS" })
-
-const requestClientsOk = (clients) => ({
-  type : "REQUEST_CLIENTS_OK",
-  payload : clients
-})
-
-const requestClientsError = (error) => ({
-  type : "REQUEST_CLIENTS_ERROR",
-  payload : error
-})
-
-const writeClient = () =>
-  ({ type : "WRITE_CLIENT" })
-
-const writeClientError = () =>
-  ({ type : "WRITE_CLIENT_ERROR" })
-
-const writeClientInvalid = (validationErrors) => ({
-  type : "WRITE_CLIENT_INVALID",
-  payload : validationErrors
-})
-
-const createClientOk = (client) => ({
-  type : "CREATE_CLIENT_OK",
-  payload : client
-})
-
-const updateClientOk = (client) => ({
-  type : "UPDATE_CLIENT_OK",
-  payload : client
-})
+const actions = standardActions(types)
 
 export const resetWriteClient = () =>
-  ({ type : "RESET_WRITE_CLIENT" })
+  ({ type : types.WRITE_RESET })
 
 /*
  *  THUNKS
  */
 const fetchClients = (token) => {
   return async (dispatch) => {
-    dispatch(requestClients())
+    dispatch(actions.fetch())
 
     try {
       let res = await axios
         .get(url, bearer(token))
 
-      dispatch(requestClientsOk(res.data))
+      dispatch(actions.fetchOk(res.data))
 
     } catch (ex) {
       let error = errorHandler(ex)
-      dispatch(requestClientsError(error.message))
+      dispatch(actions.fetchError(error.message))
     }
   }
 }
@@ -75,14 +58,14 @@ export const fetchClientsIfNeeded = (token) => {
 
 export const createClient = (client, token, history) => {
   return async (dispatch) => {
-    dispatch(writeClient())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .post(url, client, bearer(token))
 
       dispatch(resetWriteClient())
-      dispatch(createClientOk(res.data))
+      dispatch(actions.createOk(res.data))
       dispatch(notify("Uusi asiakas lisätty", "ok"))
       history.replace(`/clients/${res.data.id}`)
 
@@ -90,9 +73,9 @@ export const createClient = (client, token, history) => {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeClientInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeClientError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
@@ -101,23 +84,23 @@ export const createClient = (client, token, history) => {
 
 export const updateClient = (id, client, token) => {
   return async (dispatch) => {
-    dispatch(writeClient())
+    dispatch(actions.write())
 
     try {
       let res = await axios
         .put(`${url}/${id}`, client, bearer(token))
 
       dispatch(resetWriteClient())
-      dispatch(updateClientOk(res.data))
+      dispatch(actions.updateOk(res.data))
       dispatch(notify("Asiakkaan tiedot päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
 
       if ( error.validation )
-        dispatch(writeClientInvalid(error.validation))
+        dispatch(actions.writeInvalid(error.validation))
       else
-        dispatch(writeClientError())
+        dispatch(actions.writeError())
 
       dispatch(notify(error.message, "error"))
     }
