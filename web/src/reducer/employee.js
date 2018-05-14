@@ -1,20 +1,15 @@
 import { combineReducers } from "redux"
+import { standardWriteReducer } from "./generic"
 import { types } from "../action/employee"
 
 const initState = {
-  data : {
-    items : [],
-    error : null,
-    pending : false,
-    updated : 1
-  },
-  write : {
-    errors : {},
-    pending : false
-  }
+  items : [],
+  error : null,
+  pending : false,
+  updated : 1
 }
 
-const data = (state = initState.data, action) => {
+const data = (state = initState, action) => {
   let { payload, type } = action
 
   switch ( type ) {
@@ -66,33 +61,7 @@ const data = (state = initState.data, action) => {
       }
     }
     case "LOGOUT" :
-      return initState.data
-    default :
-      return state
-  }
-}
-
-const write = (state = initState.write, action) => {
-  let { payload, type } = action
-
-  switch ( type ) {
-    case types.WRITE :
-      return {
-        ...state,
-        pending : true
-      }
-    case types.WRITE_ERROR :
-      return {
-        ...state,
-        pending : false
-      }
-    case types.WRITE_INVALID :
-      return {
-        errors : payload,
-        pending : false
-      }
-    case types.WRITE_RESET :
-      return initState.write
+      return initState
     default :
       return state
   }
@@ -100,7 +69,7 @@ const write = (state = initState.write, action) => {
 
 const employees = combineReducers({
   data,
-  write
+  write : standardWriteReducer(types)
 })
 
 export default employees

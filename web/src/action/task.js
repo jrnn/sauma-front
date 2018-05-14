@@ -92,7 +92,7 @@ export const updateTask = (id, task, token) => {
 
       dispatch(resetWriteTask())
       dispatch(actions.updateOk(res.data))
-      dispatch(notify("Tehtävä päivitetty", "ok"))
+      dispatch(notify("Tehtävän tiedot päivitetty", "ok"))
 
     } catch (ex) {
       let error = errorHandler(ex)
