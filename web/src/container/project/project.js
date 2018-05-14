@@ -1,60 +1,87 @@
+import Accordion from "../../component/accordion"
+import EmbeddedMap from "../../component/embedded_map"
 import ProjectDetailsContainer from "./project_details"
-import ProjectListContaner from "./project_list"
+import ProjectEmployeesContainer from "./project_employees"
+import ProjectTasksContainer from "./project_tasks"
 import React from "react"
-import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
 import { fetchClientsIfNeeded } from "../../action/client"
 import { fetchEmployeesIfNeeded } from "../../action/employee"
-import { fetchProjectsIfNeeded } from "../../action/project"
 import { fetchTasksIfNeeded } from "../../action/task"
-import { Route } from "react-router-dom"
+import { resetWriteProject } from "../../action/project"
 
 class ProjectContainer extends React.Component {
   componentDidMount = () =>
-    this.props.refreshState(this.props.auth.token)
+    this.props.refresh(this.props.token)
+
+  componentWillUnmount = () =>
+    this.props.reset()
 
   render = () => {
-    let { error, match, pending } = this.props
+    let { id, isNew, project } = this.props
 
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
+    if ( !isNew && !project ) return (
+      <h1 align="center">
+        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
+      </h1>
     )
 
     return (
       <div>
-        <h2 className="padded">Työmaat</h2>
-        <Route
-          exact path={`${match.path}/:id`}
-          component={ProjectDetailsContainer}
-        />
-        <Route
-          exact path={match.path}
-          component={ProjectListContaner}
-        />
+        <Accordion active={isNew} title="Perustiedot">
+          <ProjectDetailsContainer
+            id={id}
+            isNew={isNew}
+            project={project || {}}
+          />
+        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="Työntekijät">
+              <ProjectEmployeesContainer
+                id={id}
+                project={project || {}}
+              />
+            </Accordion>
+            <Accordion title="Tehtävät">
+              <ProjectTasksContainer id={id} />
+            </Accordion>
+            <Accordion title="<Placeholder>">
+              <p>Jotain muuta vielä...?</p>
+            </Accordion>
+            <EmbeddedMap
+              address={project.address}
+              id={id}
+            />
+          </div>
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    error : state.projects.data.error,
-    pending : state.projects.data.pending
+const mapStateToProps = (state, props) => {
+  let { id } = props.match.params
+
+  return {
+    id,
+    isNew : ( id === "new" ),
+    project : state.projects.data.items
+      .find(p => p.id === id),
+    token : state.auth.token
   }
-)
+}
 
 const mapDispatchToProps = (dispatch) => (
   {
-    refreshState : (token) => {
+    refresh : (token) => {
       dispatch(fetchClientsIfNeeded(token))
       dispatch(fetchEmployeesIfNeeded(token))
-      dispatch(fetchProjectsIfNeeded(token))
       dispatch(fetchTasksIfNeeded(token))
+    },
+    reset : () => {
+      dispatch(resetWriteProject())
     }
   }
 )

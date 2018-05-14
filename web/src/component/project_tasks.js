@@ -5,8 +5,8 @@ import { Link } from "react-router-dom"
 
 const asRow = (t) => (
   <List.Item
-    key={t.id}
     as={Link}
+    key={t.id}
     to={`/tasks/${t.id}`}
   >
     <List.Icon
@@ -28,23 +28,28 @@ const asRow = (t) => (
   </List.Item>
 )
 
-const buttons = (admin, projectId) => (
+const buttons = (admin, id) => (
   ( !admin )
     ? null
     : <Button
+      as={Link}
       content="Lisää uusi"
-      as={Link} to={`/tasks/new?id=${projectId}`}
       fluid
+      to={`/tasks/new?id=${id}`}
     />
 )
 
-const ProjectTasks = ({ admin, projectId, tasks }) => (
-  <div>
-    <List divided relaxed>
-      {tasks.map(t => asRow(t))}
-    </List>
-    {buttons(admin, projectId)}
-  </div>
-)
+const ProjectTasks = (props) => {
+  let { admin, id, tasks } = props
+
+  return (
+    <div>
+      <List divided relaxed>
+        {tasks.map(t => asRow(t))}
+      </List>
+      {buttons(admin, id)}
+    </div>
+  )
+}
 
 export default ProjectTasks

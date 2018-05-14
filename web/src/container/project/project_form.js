@@ -4,7 +4,6 @@ import React from "react"
 import { projectState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { resetWriteProject } from "../../action/project"
 
 class ProjectFormContainer extends React.Component {
   constructor(props) {
@@ -12,44 +11,10 @@ class ProjectFormContainer extends React.Component {
     this.state = projectState(props.project)
   }
 
-  componentWillUnmount = () =>
-    this.props.resetWriteProject()
-
-  dropdownClients = () => {
-    let { clients, project } = this.props
-
-    return ( project && project.client )
-      ? [
-        {
-          key : project.client.id,
-          text : project.client.legalEntity,
-          value : project.client.id
-        }
-      ]
-      : clients.map(c => (
-        {
-          key : c.id,
-          text : c.legalEntity,
-          value : c.id
-        }
-      )).sort((c1, c2) =>
-        c1.text.localeCompare(c2.text))
-  }
-
-  dropdownManagers = () =>
-    this.props.employees
-      .filter(e => e.administrator)
-      .map(e => ({
-        key : e.id,
-        text : e.lastName,
-        value : e.id
-      }))
-      .sort((e1, e2) =>
-        e1.text.localeCompare(e2.text))
-
   handleAddressChange = (e, { name, value }) => {
     let { address } = this.state
     address[name] = value
+
     this.setState({ ...this.state, address })
   }
 
@@ -62,7 +27,7 @@ class ProjectFormContainer extends React.Component {
   }
 
   render = () => {
-    let { auth, errors, pending } = this.props
+    let { errors, pending, readOnly } = this.props
 
     return (
       <Form
@@ -70,23 +35,23 @@ class ProjectFormContainer extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <ProjectForm
-          clients={this.dropdownClients()}
+          clients={this.props.clients}
           errors={errors}
           isNew={this.props.isNew}
-          managers={this.dropdownManagers()}
+          managers={this.props.managers}
           onChange={this.handleChange}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
-        {( !auth.admin )
+        {( readOnly )
           ? null
           : <Button content="Tallenna" fluid />
         }
@@ -97,15 +62,13 @@ class ProjectFormContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
-    clients : state.clients.data.items,
-    employees : state.employees.data.items,
     errors : state.projects.write.errors,
-    pending : state.projects.write.pending
+    pending : state.projects.write.pending,
+    readOnly : ( !state.auth.admin )
   }
 )
 
 export default connect(
   mapStateToProps,
-  { resetWriteProject }
+  null
 )(ProjectFormContainer)

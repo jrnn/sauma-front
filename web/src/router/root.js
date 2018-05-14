@@ -1,16 +1,16 @@
-import ActivityContainer from "./activity/activity"
-import ClientContainer from "./client/client"
-import EmployeeContainer from "./employee/employee"
-import MaterialContainer from "./material/material"
-import MyContainer from "./my/my"
-import ProjectContainer from "./project/project"
+import ActivityContainer from "../container/activity/activity"
+import ClientContainer from "../container/client/client"
+import EmployeeContainer from "../container/employee/employee"
+import MaterialContainer from "../container/material/material"
+import MyContainer from "../container/my/my"
+
+import ProjectRoot from "./project"
 import React from "react"
-import TaskContainer from "./task/task"
-import { connect } from "react-redux"
+import TaskContainer from "../container/task/task"
 import { Redirect, Route, Switch } from "react-router-dom"
 import { withRouter } from "react-router-dom"
 
-class RootContainer extends React.Component {
+class Root extends React.Component {
   render = () => {
     return (
       <Switch>
@@ -35,8 +35,8 @@ class RootContainer extends React.Component {
           component={MyContainer}
         />
         <Route
+          component={ProjectRoot}
           path="/projects"
-          component={ProjectContainer}
         />
         <Route
           path="/tasks"
@@ -48,10 +48,4 @@ class RootContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) =>
-  ({ auth : state.auth })
-
-export default withRouter(connect(
-  mapStateToProps,
-  null
-)(RootContainer))
+export default withRouter(Root)

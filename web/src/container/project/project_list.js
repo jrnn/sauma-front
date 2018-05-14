@@ -10,8 +10,9 @@ class ProjectListContainer extends React.Component {
 
   filterProjects = () => {
     let { filter } = this.state
+    let { projects } = this.props
 
-    return this.props.projects
+    return projects
       .filter(p =>
         p.projectId.toLowerCase().includes(filter) ||
         p.client.legalEntity.toLowerCase().includes(filter))
