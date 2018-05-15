@@ -1,14 +1,13 @@
 import AddressForm from "../../component/address_form"
 import EmployeeForm from "../../component/employee_form"
 import React from "react"
-import { addressState, employeeState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { resetWriteEmployee } from "../../action/employee"
+import { employeeState } from "../../util/form_state"
+import { updateEmployee } from "../../action/employee"
 
 const initState = (e) => {
   let state = employeeState(e)
-  state.address = addressState(e.address || {})
 
   delete state.administrator
   delete state.enabled
@@ -22,21 +21,21 @@ class MyFormContainer extends React.Component {
     this.state = initState(props.employee)
   }
 
-  componentWillUnmount = () =>
-    this.props.resetWriteEmployee()
-
   handleAddressChange = (e, { name, value }) => {
     let { address } = this.state
     address[name] = value
+
     this.setState({ ...this.state, address })
   }
 
   handleChange = (e, { name, value }) =>
     this.setState({ [name] : value })
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
-    this.props.onSubmit(this.state)
+
+    let { id, token } = this.props.auth
+    this.props.updateEmployee(id, this.state, token)
   }
 
   render = () => {
@@ -69,6 +68,7 @@ class MyFormContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
+    auth : state.auth,
     errors : state.employees.write.errors,
     pending : state.employees.write.pending
   }
@@ -76,5 +76,5 @@ const mapStateToProps = (state) => (
 
 export default connect(
   mapStateToProps,
-  { resetWriteEmployee }
+  { updateEmployee }
 )(MyFormContainer)

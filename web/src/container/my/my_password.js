@@ -1,8 +1,8 @@
-import FormError from "../../component/form_error"
-import PasswordReqs from "../../component/password_reqs"
+import PasswordForm from "../../component/password_form"
 import React from "react"
+import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { Button, Form, Input, Popup } from "semantic-ui-react"
+import { changePassword } from "../../action/employee"
 
 const initState = {
   password : "",
@@ -11,8 +11,8 @@ const initState = {
 }
 
 class MyPasswordContainer extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = initState
   }
 
@@ -22,60 +22,26 @@ class MyPasswordContainer extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault()
 
-    this.props.onSubmit(this.state)
+    let { id, token } = this.props.auth
+    this.props.changePassword(id, this.state, token)
+
     this.setState(initState)
   }
 
   render = () => {
-    let { errors } = this.props
-
-    let requirementsPopup = (comp) => (
-      <Popup
-        content={<PasswordReqs />}
-        header="Vaatimukset"
-        on="focus"
-        trigger={comp}
-      />
-    )
+    let { errors, pending } = this.props
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Field error={errors.password !== undefined}>
-          <label>Nykyinen salasana</label>
-          <Input
-            name="password"
-            onChange={this.handleChange}
-            placeholder="qwerty"
-            type="password"
-            value={this.state.password}
-          />
-          <FormError error={errors.password} />
-        </Form.Field>
-        <Form.Field error={errors.newPassword !== undefined}>
-          <label>Uusi salasana</label>
-          {requirementsPopup(
-            <Input
-              name="newPassword"
-              onChange={this.handleChange}
-              placeholder="trustno1"
-              type="password"
-              value={this.state.newPassword}
-            />
-          )}
-        </Form.Field>
-        <Form.Field error={errors.newPassword !== undefined}>
-          <label>Vahvista uusi salasana</label>
-          {requirementsPopup(
-            <Input
-              name="confirmPassword"
-              onChange={this.handleChange}
-              placeholder="trustno1 (eli sama uudestaan)"
-              type="password"
-              value={this.state.confirmPassword}
-            />
-          )}
-          <FormError error={errors.newPassword} />
-        </Form.Field>
+      <Form
+        loading={pending}
+        onSubmit={this.handleSubmit}
+      >
+        <PasswordForm
+          errors={errors}
+          onChange={this.handleChange}
+          state={this.state}
+        />
+        <Divider hidden />
         <Button content="Vaihda" fluid />
       </Form>
     )
@@ -84,6 +50,7 @@ class MyPasswordContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
+    auth : state.auth,
     errors : state.employees.write.errors,
     pending : state.employees.write.pending
   }
@@ -91,5 +58,5 @@ const mapStateToProps = (state) => (
 
 export default connect(
   mapStateToProps,
-  null
+  { changePassword }
 )(MyPasswordContainer)

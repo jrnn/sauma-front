@@ -5,8 +5,8 @@ import { Link } from "react-router-dom"
 
 const asRow = (m) => (
   <List.Item
-    key={m.id}
     as={Link}
+    key={m.id}
     to={`/materials/${m.id}`}
   >
     <List.Icon
@@ -16,13 +16,10 @@ const asRow = (m) => (
     />
     <List.Content>
       <List.Header
-        content={( m.color )
-          ? `${m.name} (${m.color})`
-          : m.name
-        }
+        content={m.name}
       />
       <List.Description
-        content={`${m.unitCost}€ per ${m.unit}`}
+        content={`${m.unitCost}€ / ${m.unit}`}
       />
     </List.Content>
   </List.Item>
@@ -32,23 +29,28 @@ const buttons = (admin) => (
   ( !admin )
     ? null
     : <Button
+      as={Link}
       content="Lisää uusi"
-      as={Link} to="/materials/new"
       fluid
+      to="/materials/new"
     />
 )
 
-const MaterialList = ({ admin, filter, materials, onChange }) => (
-  <div>
-    <SearchField
-      onChange={onChange}
-      value={filter}
-    />
-    <List divided relaxed>
-      {materials.map(m => asRow(m))}
-    </List>
-    {buttons(admin)}
-  </div>
-)
+const MaterialList = (props) => {
+  let { admin, filter, materials, onChange } = props
+
+  return (
+    <div>
+      <SearchField
+        onChange={onChange}
+        value={filter}
+      />
+      <List divided relaxed>
+        {materials.map(m => asRow(m))}
+      </List>
+      {buttons(admin)}
+    </div>
+  )
+}
 
 export default MaterialList

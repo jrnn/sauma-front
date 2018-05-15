@@ -1,66 +1,38 @@
-import Accordion from "../../component/accordion"
 import MaterialFormContainer from "./material_form"
 import React from "react"
 import { connect } from "react-redux"
 import { createMaterial, updateMaterial } from "../../action/material"
 import { parseNumber } from "../../util/parser"
+import { withRouter } from "react-router-dom"
 
 class MaterialDetailsContainer extends React.Component {
   save = (material) => {
-    let { id } = this.props.match.params
-    let { auth, createMaterial, history, isNew, updateMaterial } = this.props
-
+    let { history, id, isNew, token } = this.props
     let payload = {
       ...material,
       unitCost : parseNumber(material.unitCost)
     }
 
     if ( isNew )
-      createMaterial(payload, auth.token, history)
+      this.props.createMaterial(payload, token, history)
     else
-      updateMaterial(id, payload, auth.token)
+      this.props.updateMaterial(id, payload, token)
   }
 
   render = () => {
-    let { material, isNew } = this.props
-
-    if ( !isNew && !material ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
-
     return (
-      <div>
-        <Accordion active={isNew} title="Perustiedot">
-          <MaterialFormContainer
-            material={material || {}}
-            onSubmit={this.save}
-          />
-        </Accordion>
-        {( isNew )
-          ? null
-          : <div>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
-            </Accordion>
-          </div>
-        }
-      </div>
+      <MaterialFormContainer
+        material={this.props.material}
+        onSubmit={this.save}
+      />
     )
   }
 }
 
-const mapStateToProps = (state, props) => (
-  {
-    auth : state.auth,
-    isNew : ( props.match.params.id === "new" ),
-    material : state.materials.data.items
-      .find(m => m.id === props.match.params.id)
-  }
-)
+const mapStateToProps = (state) =>
+  ({ token : state.auth.token })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   { createMaterial, updateMaterial }
-)(MaterialDetailsContainer)
+)(MaterialDetailsContainer))

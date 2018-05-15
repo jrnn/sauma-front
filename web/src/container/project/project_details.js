@@ -1,8 +1,8 @@
 import ProjectFormContainer from "./project_form"
 import React from "react"
-import { createProject, updateProject } from "../../action/project"
 import { clientOptions, managerOptions } from "../../util/form_options"
 import { connect } from "react-redux"
+import { createProject, updateProject } from "../../action/project"
 import { withRouter } from "react-router-dom"
 
 class ProjectDetailsContainer extends React.Component {

@@ -1,9 +1,9 @@
 import AddressForm from "../../component/address_form"
 import ProjectForm from "../../component/project_form"
 import React from "react"
-import { projectState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
+import { projectState } from "../../util/form_state"
 
 class ProjectFormContainer extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class ProjectFormContainer extends React.Component {
   handleChange = (e, { name, value }) =>
     this.setState({ [name] : value })
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.onSubmit(this.state)
   }

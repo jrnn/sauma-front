@@ -8,13 +8,16 @@ class ClientListContainer extends React.Component {
     this.state = { filter : "" }
   }
 
-  filterClients = () =>
-    this.props.clients
+  filterClients = () => {
+    let { filter } = this.state
+    let { clients } = this.props
+
+    return clients
       .filter(c =>
-        c.legalEntity.toLowerCase()
-          .includes(this.state.filter))
+        c.legalEntity.toLowerCase().includes(filter))
       .sort((c1, c2) =>
         c1.legalEntity.localeCompare(c2.legalEntity))
+  }
 
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })

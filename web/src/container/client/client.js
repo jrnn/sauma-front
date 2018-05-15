@@ -1,54 +1,62 @@
+import Accordion from "../../component/accordion"
 import ClientDetailsContainer from "./client_details"
-import ClientListContaner from "./client_list"
 import React from "react"
-import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
-import { fetchClientsIfNeeded } from "../../action/client"
-import { Route } from "react-router-dom"
+import { resetWriteClient } from "../../action/client"
 
 class ClientContainer extends React.Component {
-  componentDidMount = () =>
-    this.props.refreshState(this.props.auth.token)
+  componentWillUnmount = () =>
+    this.props.reset()
 
   render = () => {
-    let { error, match, pending } = this.props
+    let { client, id, isNew } = this.props
 
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
+    if ( !isNew && !client ) return (
+      <h1 align="center">
+        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
+      </h1>
     )
 
     return (
       <div>
-        <h2 className="padded">Asiakkaat</h2>
-        <Route
-          exact path={`${match.path}/:id`}
-          component={ClientDetailsContainer}
-        />
-        <Route
-          exact path={match.path}
-          component={ClientListContaner}
-        />
+        <Accordion active={isNew} title="Perustiedot">
+          <ClientDetailsContainer
+            client={client || {}}
+            id={id}
+            isNew={isNew}
+          />
+        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="Asiakkaan työmaat">
+              <p>TULOSSA PIAN</p>
+            </Accordion>
+            <Accordion title="<Placeholder>">
+              <p>Jotain muuta vielä...?</p>
+            </Accordion>
+          </div>
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    error : state.clients.data.error,
-    pending : state.clients.data.pending
+const mapStateToProps = (state, props) => {
+  let { id } = props.match.params
+
+  return {
+    client : state.clients.data.items
+      .find(c => c.id === id),
+    id,
+    isNew : ( id === "new" )
   }
-)
+}
 
 const mapDispatchToProps = (dispatch) => (
   {
-    refreshState : (token) => {
-      dispatch(fetchClientsIfNeeded(token))
+    reset : () => {
+      dispatch(resetWriteClient())
     }
   }
 )

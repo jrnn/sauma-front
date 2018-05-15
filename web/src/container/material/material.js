@@ -1,54 +1,59 @@
+import Accordion from "../../component/accordion"
 import MaterialDetailsContainer from "./material_details"
-import MaterialListContaner from "./material_list"
 import React from "react"
-import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
-import { fetchMaterialsIfNeeded } from "../../action/material"
-import { Route } from "react-router-dom"
+import { resetWriteMaterial } from "../../action/material"
 
 class MaterialContainer extends React.Component {
-  componentDidMount = () =>
-    this.props.refreshState(this.props.auth.token)
+  componentWillUnmount = () =>
+    this.props.reset()
 
   render = () => {
-    let { error, match, pending } = this.props
+    let { id, isNew, material } = this.props
 
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
+    if ( !isNew && !material ) return (
+      <h1 align="center">
+        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
+      </h1>
     )
 
     return (
       <div>
-        <h2 className="padded">Materiaalit</h2>
-        <Route
-          exact path={`${match.path}/:id`}
-          component={MaterialDetailsContainer}
-        />
-        <Route
-          exact path={match.path}
-          component={MaterialListContaner}
-        />
+        <Accordion active={isNew} title="Perustiedot">
+          <MaterialDetailsContainer
+            id={id}
+            isNew={isNew}
+            material={material || {}}
+          />
+        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="<Placeholder>">
+              <p>Jotain muuta vielä...?</p>
+            </Accordion>
+          </div>
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    error : state.materials.data.error,
-    pending : state.materials.data.pending
+const mapStateToProps = (state, props) => {
+  let { id } = props.match.params
+
+  return {
+    id,
+    isNew : ( id === "new" ),
+    material : state.materials.data.items
+      .find(m => m.id === id)
   }
-)
+}
 
 const mapDispatchToProps = (dispatch) => (
   {
-    refreshState : (token) => {
-      dispatch(fetchMaterialsIfNeeded(token))
+    reset : () => {
+      dispatch(resetWriteMaterial())
     }
   }
 )

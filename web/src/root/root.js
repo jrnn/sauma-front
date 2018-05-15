@@ -1,10 +1,8 @@
 import ActivityRoot from "./activity"
-
-import ClientContainer from "../container/client/client"
-import EmployeeContainer from "../container/employee/employee"
-import MaterialContainer from "../container/material/material"
-import MyContainer from "../container/my/my"
-
+import ClientRoot from "./client"
+import EmployeeRoot from "./employee"
+import MaterialRoot from "./material"
+import MyRoot from "./my"
 import ProjectRoot from "./project"
 import React from "react"
 import TaskRoot from "./task"
@@ -20,20 +18,20 @@ class Root extends React.Component {
           path="/activities"
         />
         <Route
+          component={ClientRoot}
           path="/clients"
-          component={ClientContainer}
         />
         <Route
+          component={EmployeeRoot}
           path="/employees"
-          component={EmployeeContainer}
         />
         <Route
+          component={MaterialRoot}
           path="/materials"
-          component={MaterialContainer}
         />
         <Route
+          component={MyRoot}
           path="/my"
-          component={MyContainer}
         />
         <Route
           component={ProjectRoot}

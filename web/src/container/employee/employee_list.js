@@ -8,14 +8,17 @@ class EmployeeListContainer extends React.Component {
     this.state = { filter : "" }
   }
 
-  filterEmployees = () =>
-    this.props.employees
+  filterEmployees = () => {
+    let { filter } = this.state
+    let { employees } = this.props
+
+    return employees
       .filter(e =>
         `${e.lastName}, ${e.firstName}`
-          .toLowerCase()
-          .includes(this.state.filter))
+          .toLowerCase().includes(filter))
       .sort((e1, e2) =>
         e1.lastName.localeCompare(e2.lastName))
+  }
 
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })

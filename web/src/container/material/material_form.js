@@ -3,36 +3,23 @@ import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { materialState } from "../../util/form_state"
-import { resetWriteMaterial } from "../../action/material"
-
-const initState = (m) => {
-  let state = materialState(m)
-  return state
-}
 
 class MaterialFormContainer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = initState(props.material)
+    this.state = materialState(props.material)
   }
-
-  componentWillUnmount = () =>
-    this.props.resetWriteMaterial()
 
   handleChange = (e, { name, value }) =>
     this.setState({ [name] : value })
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.onSubmit(this.state)
   }
 
   render = () => {
-    let { auth, errors, pending } = this.props
-
-    let buttons = ( !auth.admin )
-      ? null
-      : <Button content="Tallenna" fluid />
+    let { errors, pending, readOnly } = this.props
 
     return (
       <Form
@@ -42,11 +29,14 @@ class MaterialFormContainer extends React.Component {
         <MaterialForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
-        {buttons}
+        {( readOnly )
+          ? null
+          : <Button content="Tallenna" fluid />
+        }
       </Form>
     )
   }
@@ -54,13 +44,13 @@ class MaterialFormContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
     errors : state.materials.write.errors,
-    pending : state.materials.write.pending
+    pending : state.materials.write.pending,
+    readOnly : ( !state.auth.admin )
   }
 )
 
 export default connect(
   mapStateToProps,
-  { resetWriteMaterial }
+  null
 )(MaterialFormContainer)

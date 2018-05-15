@@ -1,32 +1,31 @@
-import MyDetailsContainer from "./my_details"
+import Accordion from "../../component/accordion"
+import MyFormContainer from "./my_form"
+import MyPasswordContainer from "./my_password"
 import React from "react"
-import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
-import { fetchEmployeesIfNeeded } from "../../action/employee"
-import { Route } from "react-router-dom"
+import { resetWriteEmployee } from "../../action/employee"
 
 class MyContainer extends React.Component {
-  componentDidMount = () =>
-    this.props.refreshState(this.props.auth.token)
+  componentWillUnmount = () =>
+    this.props.reset()
 
   render = () => {
-    let { error, match, pending } = this.props
-
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
-    )
+    let { employee } = this.props
 
     return (
       <div>
-        <h2 className="padded">Omat tietoni</h2>
-        <Route
-          exact path={match.path}
-          component={MyDetailsContainer}
-        />
+        <Accordion active={true} title="Perustiedot">
+          <MyFormContainer employee={employee || {}} />
+        </Accordion>
+        <Accordion title="Salasanan vaihto">
+          <MyPasswordContainer />
+        </Accordion>
+        <Accordion title="Suoritteet">
+          <p>TULOSSA PIAN</p>
+        </Accordion>
+        <Accordion title="<Placeholder>">
+          <p>Jotain muuta vielä...?</p>
+        </Accordion>
       </div>
     )
   }
@@ -34,16 +33,15 @@ class MyContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
-    error : state.employees.data.error,
-    pending : state.employees.data.pending
+    employee : state.employees.data.items
+      .find(e => e.id === state.auth.id)
   }
 )
 
 const mapDispatchToProps = (dispatch) => (
   {
-    refreshState : (token) => {
-      dispatch(fetchEmployeesIfNeeded(token))
+    reset : () => {
+      dispatch(resetWriteEmployee())
     }
   }
 )

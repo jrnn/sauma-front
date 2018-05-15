@@ -5,8 +5,8 @@ import { Link } from "react-router-dom"
 
 const asRow = (e) => (
   <List.Item
-    key={e.id}
     as={Link}
+    key={e.id}
     to={`/employees/${e.id}`}
   >
     <List.Icon
@@ -35,23 +35,28 @@ const buttons = (admin) => (
   ( !admin )
     ? null
     : <Button
+      as={Link}
       content="Lisää uusi"
-      as={Link} to="/employees/new"
       fluid
+      to="/employees/new"
     />
 )
 
-const EmployeeList = ({ admin, employees, filter, onChange }) => (
-  <div>
-    <SearchField
-      onChange={onChange}
-      value={filter}
-    />
-    <List divided relaxed>
-      {employees.map(e => asRow(e))}
-    </List>
-    {buttons(admin)}
-  </div>
-)
+const EmployeeList = (props) => {
+  let { admin, employees, filter, onChange } = props
+
+  return (
+    <div>
+      <SearchField
+        onChange={onChange}
+        value={filter}
+      />
+      <List divided relaxed>
+        {employees.map(e => asRow(e))}
+      </List>
+      {buttons(admin)}
+    </div>
+  )
+}
 
 export default EmployeeList

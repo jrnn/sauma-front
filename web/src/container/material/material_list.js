@@ -10,8 +10,9 @@ class MaterialListContainer extends React.Component {
 
   filterMaterials = () => {
     let { filter } = this.state
+    let { materials } = this.props
 
-    return this.props.materials
+    return materials
       .filter(m => m.name.toLowerCase().includes(filter))
       .sort((m1, m2) =>
         m1.name.localeCompare(m2.name))

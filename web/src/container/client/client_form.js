@@ -1,47 +1,33 @@
 import AddressForm from "../../component/address_form"
 import ClientForm from "../../component/client_form"
 import React from "react"
-import { addressState, clientState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
+import { clientState } from "../../util/form_state"
 import { connect } from "react-redux"
-import { resetWriteClient } from "../../action/client"
-
-const initState = (c) => {
-  let state = clientState(c)
-  state.address = addressState(c.address || {})
-
-  return state
-}
 
 class ClientFormContainer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = initState(props.client)
+    this.state = clientState(props.client)
   }
-
-  componentWillUnmount = () =>
-    this.props.resetWriteClient()
 
   handleAddressChange = (e, { name, value }) => {
     let { address } = this.state
     address[name] = value
+
     this.setState({ ...this.state, address })
   }
 
   handleChange = (e, { name, value }) =>
     this.setState({ [name] : value })
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.onSubmit(this.state)
   }
 
   render = () => {
-    let { auth, errors, pending } = this.props
-
-    let buttons = ( !auth.admin )
-      ? null
-      : <Button content="Tallenna" fluid />
+    let { errors, pending, readOnly } = this.props
 
     return (
       <Form
@@ -51,18 +37,21 @@ class ClientFormContainer extends React.Component {
         <ClientForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
-        {buttons}
+        {( readOnly )
+          ? null
+          : <Button content="Tallenna" fluid />
+        }
       </Form>
     )
   }
@@ -70,13 +59,13 @@ class ClientFormContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
     errors : state.clients.write.errors,
-    pending : state.clients.write.pending
+    pending : state.clients.write.pending,
+    readOnly : ( !state.auth.admin )
   }
 )
 
 export default connect(
   mapStateToProps,
-  { resetWriteClient }
+  null
 )(ClientFormContainer)

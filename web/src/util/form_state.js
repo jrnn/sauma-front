@@ -30,15 +30,18 @@ export const addressState = (a) => (
   }
 )
 
-export const clientState = (c) => (
-  {
+export const clientState = (c) => {
+  let state = {
     businessId : c.businessId || "",
     contactPerson : c.contactPerson || "",
     email : c.email || "",
     legalEntity : c.legalEntity || "",
     phone : c.phone || ""
   }
-)
+
+  state.address = addressState(c.address || {})
+  return state
+}
 
 export const employeeState = (e) => {
   let state = {
@@ -56,6 +59,7 @@ export const employeeState = (e) => {
     ? e.enabled
     : true
 
+  state.address = addressState(e.address || {})
   return state
 }
 

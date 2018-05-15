@@ -1,30 +1,20 @@
 import AddressForm from "../../component/address_form"
 import EmployeeForm from "../../component/employee_form"
 import React from "react"
-import { addressState, employeeState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { resetWriteEmployee } from "../../action/employee"
-
-const initState = (e) => {
-  let state = employeeState(e)
-  state.address = addressState(e.address || {})
-
-  return state
-}
+import { employeeState } from "../../util/form_state"
 
 class EmployeeFormContainer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = initState(props.employee)
+    this.state = employeeState(props.employee)
   }
-
-  componentWillUnmount = () =>
-    this.props.resetWriteEmployee()
 
   handleAddressChange = (e, { name, value }) => {
     let { address } = this.state
     address[name] = value
+
     this.setState({ ...this.state, address })
   }
 
@@ -36,17 +26,13 @@ class EmployeeFormContainer extends React.Component {
     this.setState({ [data.name] : value })
   }
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.onSubmit(this.state)
   }
 
   render = () => {
-    let { auth, errors, pending } = this.props
-
-    let buttons = ( !auth.admin )
-      ? null
-      : <Button content="Tallenna" fluid />
+    let { errors, pending, readOnly } = this.props
 
     return (
       <Form
@@ -56,14 +42,14 @@ class EmployeeFormContainer extends React.Component {
         <EmployeeForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider hidden />
@@ -73,18 +59,21 @@ class EmployeeFormContainer extends React.Component {
             label="Työnjohtaja"
             name="administrator"
             onChange={this.handleChange}
-            readOnly={( !auth.admin )}
+            readOnly={readOnly}
           />
           <Form.Checkbox
             checked={this.state.enabled}
             label="Käyttöoikeudet"
             name="enabled"
             onChange={this.handleChange}
-            readOnly={( !auth.admin )}
+            readOnly={readOnly}
           />
         </Form.Group>
         <Divider hidden />
-        {buttons}
+        {( readOnly )
+          ? null
+          : <Button content="Tallenna" fluid />
+        }
       </Form>
     )
   }
@@ -92,13 +81,13 @@ class EmployeeFormContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
     errors : state.employees.write.errors,
-    pending : state.employees.write.pending
+    pending : state.employees.write.pending,
+    readOnly : ( !state.auth.admin )
   }
 )
 
 export default connect(
   mapStateToProps,
-  { resetWriteEmployee }
+  null
 )(EmployeeFormContainer)
