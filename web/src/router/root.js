@@ -1,4 +1,5 @@
-import ActivityContainer from "../container/activity/activity"
+import ActivityRoot from "./activity"
+
 import ClientContainer from "../container/client/client"
 import EmployeeContainer from "../container/employee/employee"
 import MaterialContainer from "../container/material/material"
@@ -6,7 +7,7 @@ import MyContainer from "../container/my/my"
 
 import ProjectRoot from "./project"
 import React from "react"
-import TaskContainer from "../container/task/task"
+import TaskRoot from "./task"
 import { Redirect, Route, Switch } from "react-router-dom"
 import { withRouter } from "react-router-dom"
 
@@ -15,8 +16,8 @@ class Root extends React.Component {
     return (
       <Switch>
         <Route
+          component={ActivityRoot}
           path="/activities"
-          component={ActivityContainer}
         />
         <Route
           path="/clients"
@@ -39,8 +40,8 @@ class Root extends React.Component {
           path="/projects"
         />
         <Route
+          component={TaskRoot}
           path="/tasks"
-          component={TaskContainer}
         />
         <Redirect to="/" />
       </Switch>

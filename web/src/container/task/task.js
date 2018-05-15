@@ -1,60 +1,89 @@
+import Accordion from "../../component/accordion"
 import React from "react"
-import Spinner from "../../component/spinner"
+import TaskActivitiesContainer from "./task_activities"
 import TaskDetailsContainer from "./task_details"
-import TaskListContainer from "./task_list"
 import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchProjectsIfNeeded } from "../../action/project"
-import { fetchTasksIfNeeded } from "../../action/task"
-import { Route } from "react-router-dom"
+import { parseUrlQuery } from "../../util/parser"
+import { resetWriteTask } from "../../action/task"
 
 class TaskContainer extends React.Component {
   componentDidMount = () =>
-    this.props.refreshState(this.props.auth.token)
+    this.props.refresh(this.props.token)
+
+  componentWillUnmount = () =>
+    this.props.reset()
 
   render = () => {
-    let { error, match, pending } = this.props
+    let { id, isNew, project, task } = this.props
 
-    if ( pending ) return (
-      <Spinner />
+    if ( !isNew && !task ) return (
+      <h1 align="center">
+        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
+      </h1>
     )
 
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
+    if ( isNew && !project ) return (
+      <h1 align="center">
+        Työmaan ID joko virheellinen tai puuttuu! Älä sooloile osoitepalkin kanssa!
+      </h1>
     )
 
     return (
       <div>
-        <h2 className="padded">Tehtävät</h2>
-        <Route
-          exact path={`${match.path}/:id`}
-          component={TaskDetailsContainer}
-        />
-        <Route
-          exact path={match.path}
-          component={TaskListContainer}
-        />
+        <Accordion active={isNew} title="Perustiedot">
+          <TaskDetailsContainer
+            id={id}
+            isNew={isNew}
+            project={project || {}}
+            task={task || { project }}
+          />
+        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="Suoritteet">
+              <TaskActivitiesContainer
+                id={id}
+                task={task}
+              />
+            </Accordion>
+            <Accordion title="<Placeholder>">
+              <p>Jotain muuta vielä...?</p>
+            </Accordion>
+          </div>
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    error : state.tasks.data.error,
-    pending : state.tasks.data.pending
+const mapStateToProps = (state, props) => {
+  let { id } = props.match.params
+  let projectId = parseUrlQuery(props.location.search).id
+
+  return {
+    id,
+    isNew : ( id === "new" ),
+    project : state.projects.data.items
+      .find(p => p.id === projectId),
+    task : state.tasks.data.items
+      .find(t => t.id === id),
+    token : state.auth.token
   }
-)
+}
 
 const mapDispatchToProps = (dispatch) => (
   {
-    refreshState : (token) => {
+    refresh : (token) => {
       dispatch(fetchActivitiesIfNeeded(token))
       dispatch(fetchMaterialsIfNeeded(token))
       dispatch(fetchProjectsIfNeeded(token))
-      dispatch(fetchTasksIfNeeded(token))
+    },
+    reset : () => {
+      dispatch(resetWriteTask())
     }
   }
 )

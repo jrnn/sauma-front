@@ -5,8 +5,8 @@ import { Link } from "react-router-dom"
 
 const asRow = (a) => (
   <List.Item
-    key={a.id}
     as={Link}
+    key={a.id}
     to={`/activities/${a.id}`}
   >
     <List.Icon
@@ -28,22 +28,20 @@ const asRow = (a) => (
   </List.Item>
 )
 
-const buttons = (canAdd, taskCompleted, taskId) => (
-  ( !canAdd || taskCompleted )
-    ? null
-    : <Button
-      content="Lisää uusi"
-      as={Link} to={`/activities/new?id=${taskId}`}
-      fluid
-    />
-)
-
-const TaskActivities = ({ activities, canAdd, task }) => (
+const TaskActivities = ({ activities, readOnly, task }) => (
   <div>
     <List divided relaxed>
       {activities.map(a => asRow(a))}
     </List>
-    {buttons(canAdd, task.completed, task.id)}
+    {( readOnly || task.completed )
+      ? null
+      : <Button
+        as={Link}
+        content="Lisää uusi"
+        fluid
+        to={`/activities/new?id=${task.id}`}
+      />
+    }
   </div>
 )
 

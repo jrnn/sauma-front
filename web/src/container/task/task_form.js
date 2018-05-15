@@ -1,33 +1,14 @@
-import QuotaForm from "../../component/quota_form"
+import QuotaFormContainer from "../quota_form"
 import React from "react"
 import TaskForm from "../../component/task_form"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { resetWriteTask } from "../../action/task"
 import { taskState } from "../../util/form_state"
 
 class TaskFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = taskState(props.task)
-  }
-
-  componentWillUnmount = () =>
-    this.props.resetWriteTask()
-
-  dropdownMaterials = () => {
-    let { quotas } = this.state
-    let { materials } = this.props
-    let materialIds = quotas.map(q => q.material.id)
-
-    return materials
-      .filter(m => !materialIds.includes(m.id))
-      .sort((m1, m2) => m1.name.localeCompare(m2.name))
-      .map(m => ({
-        key : m.id,
-        text : `${m.name} (${m.color})`,
-        value : m.id
-      }))
   }
 
   handleChange = (e, data) => {
@@ -38,50 +19,16 @@ class TaskFormContainer extends React.Component {
     this.setState({ [data.name] : value })
   }
 
-  handleDropdown = (e, { value }) => {
-    let material = this.props.materials
-      .find(m => m.id === value)
-
-    this.setState({
-      quotas : [
-        ...this.state.quotas,
-        { material, quantity : 0 }
-      ]
-    })
-  }
-
-  handleQuotaChange = (e, { name, value }) => {
-    let quotas = this.state.quotas
-      .map(q => {
-        if (q.material.id === name)
-          return { ...q, quantity : value }
-        else
-          return q
-      })
-
-    this.setState({ quotas })
-  }
-
-  handleQuotaDelete = (e, { name }) => {
-    e.preventDefault()
-
-    this.setState({
-      quotas : this.state.quotas
-        .filter(q => q.material.id !== name)
-    })
-  }
-
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault(e)
     this.props.onSubmit(this.state)
   }
 
-  render = () => {
-    let { auth, errors, pending, task } = this.props
+  syncQuotaState = (quotas) =>
+    this.setState({ ...this.state, quotas })
 
-    let buttons = ( !auth.admin )
-      ? null
-      : <Button content="Tallenna" fluid />
+  render = () => {
+    let { errors, pending, readOnly, task } = this.props
 
     return (
       <Form
@@ -92,18 +39,15 @@ class TaskFormContainer extends React.Component {
           errors={errors}
           onChange={this.handleChange}
           project={task.project || {}}
-          readOnly={( !auth.admin )}
+          readOnly={readOnly}
           state={this.state}
         />
         <Divider />
-        <QuotaForm
-          dropdownChange={this.handleDropdown}
+        <QuotaFormContainer
           header="Materiaaliarvio"
-          onChange={this.handleQuotaChange}
-          onDelete={this.handleQuotaDelete}
-          options={this.dropdownMaterials()}
-          readOnly={( !auth.admin )}
-          state={this.state}
+          quotas={this.state.quotas}
+          readOnly={readOnly}
+          sync={this.syncQuotaState}
         />
         <Divider />
         <Form.Field className="padded">
@@ -112,10 +56,13 @@ class TaskFormContainer extends React.Component {
             label="Suoritettu loppuun"
             name="completed"
             onChange={this.handleChange}
-            readOnly={( !auth.admin )}
+            readOnly={readOnly}
           />
         </Form.Field>
-        {buttons}
+        {( readOnly )
+          ? null
+          : <Button content="Tallenna" fluid />
+        }
       </Form>
     )
   }
@@ -123,13 +70,13 @@ class TaskFormContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
     errors : state.tasks.write.errors,
-    pending : state.tasks.write.pending
+    pending : state.tasks.write.pending,
+    readOnly : ( !state.auth.admin )
   }
 )
 
 export default connect(
   mapStateToProps,
-  { resetWriteTask }
+  null
 )(TaskFormContainer)

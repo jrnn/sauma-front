@@ -10,14 +10,16 @@ class TaskListContainer extends React.Component {
 
   filterTasks = () => {
     let { filter } = this.state
+    let { tasks } = this.props
 
-    return this.props.tasks
+    return tasks
       .filter(t =>
         t.project.projectId.toLowerCase().includes(filter) ||
         t.name.toLowerCase().includes(filter))
       .sort((t1, t2) => {
         let a = `${t1.project.projectId}_${t1.name}`
         let b = `${t2.project.projectId}_${t2.name}`
+
         return a.localeCompare(b)
       })
   }
@@ -36,12 +38,8 @@ class TaskListContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    tasks : state.tasks.data.items
-  }
-)
+const mapStateToProps = (state) =>
+  ({ tasks : state.tasks.data.items })
 
 export default connect(
   mapStateToProps,

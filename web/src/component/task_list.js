@@ -6,8 +6,8 @@ import { List } from "semantic-ui-react"
 
 const asRow = (t) => (
   <List.Item
-    key={t.id}
     as={Link}
+    key={t.id}
     to={`/tasks/${t.id}`}
   >
     <List.Icon

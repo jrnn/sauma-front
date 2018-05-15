@@ -1,53 +1,80 @@
+import Accordion from "../../component/accordion"
 import ActivityDetailsContainer from "./activity_details"
 import React from "react"
-import Spinner from "../../component/spinner"
 import { connect } from "react-redux"
-import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchTasksIfNeeded } from "../../action/task"
-import { Route } from "react-router-dom"
+import { parseUrlQuery } from "../../util/parser"
+import { resetWriteActivity } from "../../action/activity"
 
 class ActivityContainer extends React.Component {
   componentDidMount = () =>
-    this.props.refreshState(this.props.auth.token)
+    this.props.refresh(this.props.token)
+
+  componentWillUnmount = () =>
+    this.props.reset()
 
   render = () => {
-    let { error, match, pending } = this.props
+    let { activity, id, isNew, task } = this.props
 
-    if ( pending ) return (
-      <Spinner />
+    if ( !isNew && !activity ) return (
+      <h1 align="center">
+        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
+      </h1>
     )
 
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
+    if ( isNew && !task ) return (
+      <h1 align="center">
+        Tehtävän ID joko virheellinen tai puuttuu! Älä sooloile osoitepalkin kanssa!
+      </h1>
     )
 
     return (
       <div>
-        <h2 className="padded">Suoritteet</h2>
-        <Route
-          exact path={`${match.path}/:id`}
-          component={ActivityDetailsContainer}
-        />
+        <Accordion active={isNew} title="Perustiedot">
+          <ActivityDetailsContainer
+            activity={activity || { task }}
+            id={id}
+            isNew={isNew}
+            task={task || {}}
+          />
+        </Accordion>
+        {( isNew )
+          ? null
+          : <div>
+            <Accordion title="<Placeholder>">
+              <p>Jotain muuta vielä...?</p>
+            </Accordion>
+          </div>
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    error : state.activities.data.error,
-    pending : state.activities.data.pending
+const mapStateToProps = (state, props) => {
+  let { id } = props.match.params
+  let taskId = parseUrlQuery(props.location.search).id
+
+  return {
+    activity : state.activities.data.items
+      .find(a => a.id === id),
+    id,
+    isNew : ( id === "new" ),
+    task : state.tasks.data.items
+      .find(t => t.id === taskId),
+    token : state.auth.token
   }
-)
+}
 
 const mapDispatchToProps = (dispatch) => (
   {
-    refreshState : (token) => {
-      dispatch(fetchActivitiesIfNeeded(token))
+    refresh : (token) => {
       dispatch(fetchMaterialsIfNeeded(token))
       dispatch(fetchTasksIfNeeded(token))
+    },
+    reset : () => {
+      dispatch(resetWriteActivity())
     }
   }
 )

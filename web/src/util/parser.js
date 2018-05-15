@@ -18,6 +18,15 @@ export const parseNumber = (num) => {
     : val
 }
 
+export const parseQuotas = (quotas) =>
+  quotas
+    .filter(q => q.quantity > 0 &&
+                 parseNumber(q.quantity) !== "NaN")
+    .map(q => ({
+      material : q.material.id,
+      quantity : parseNumber(q.quantity)
+    }))
+
 export const parseUrlQuery = (query, res = {}) => {
   if ( query[0] !== "?" )
     return res

@@ -1,33 +1,14 @@
 import ActivityForm from "../../component/activity_form"
-import QuotaForm from "../../component/quota_form"
+import QuotaFormContainer from "../quota_form"
 import React from "react"
 import { activityState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { resetWriteActivity } from "../../action/activity"
 
 class ActivityFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = activityState(props.activity)
-  }
-
-  componentWillUnmount = () =>
-    this.props.resetWriteActivity()
-
-  dropdownMaterials = () => {
-    let { quotas } = this.state
-    let { materials } = this.props
-    let materialIds = quotas.map(q => q.material.id)
-
-    return materials
-      .filter(m => !materialIds.includes(m.id))
-      .sort((m1, m2) => m1.name.localeCompare(m2.name))
-      .map(m => ({
-        key : m.id,
-        text : `${m.name} (${m.color})`,
-        value : m.id
-      }))
   }
 
   handleChange = (e, data) => {
@@ -38,48 +19,18 @@ class ActivityFormContainer extends React.Component {
     this.setState({ [data.name] : value })
   }
 
-  handleDropdown = (e, { value }) => {
-    let material = this.props.materials
-      .find(m => m.id === value)
-
-    this.setState({
-      quotas : [
-        ...this.state.quotas,
-        { material, quantity : 0 }
-      ]
-    })
-  }
-
-  handleQuotaChange = (e, { name, value }) => {
-    let quotas = this.state.quotas
-      .map(q => {
-        if (q.material.id === name)
-          return { ...q, quantity : value }
-        else
-          return q
-      })
-
-    this.setState({ quotas })
-  }
-
-  handleQuotaDelete = (e, { name }) => {
-    e.preventDefault()
-
-    this.setState({
-      quotas : this.state.quotas
-        .filter(q => q.material.id !== name)
-    })
-  }
-
-  handleSave = async (e) => {
+  handleSave = (e) => {
     e.preventDefault(e)
     this.props.onSave(this.state)
   }
 
-  handleSign = async (e) => {
+  handleSign = (e) => {
     e.preventDefault(e)
     this.props.onSign(this.state)
   }
+
+  syncQuotaState = (quotas) =>
+    this.setState({ ...this.state, quotas })
 
   render = () => {
     let { activity, auth, errors, isNew, pending } = this.props
@@ -91,22 +42,6 @@ class ActivityFormContainer extends React.Component {
       ? true
       : ( !activity.signed && auth.id === activity.owner.id )
 
-    let saveButton = ( !isOwner )
-      ? null
-      : <Button
-        content="Tallenna"
-        fluid
-        onClick={this.handleSave}
-      />
-
-    let signButton = ( !canSign )
-      ? null
-      : <Button
-        content="Hyväksy"
-        fluid
-        onClick={this.handleSign}
-      />
-
     return (
       <Form loading={pending}>
         <ActivityForm
@@ -117,19 +52,34 @@ class ActivityFormContainer extends React.Component {
           state={this.state}
         />
         <Divider />
-        <QuotaForm
-          dropdownChange={this.handleDropdown}
+        <QuotaFormContainer
           header="Käytetyt materiaalit"
-          onChange={this.handleQuotaChange}
-          onDelete={this.handleQuotaDelete}
-          options={this.dropdownMaterials()}
+          quotas={this.state.quotas}
           readOnly={( !isOwner )}
-          state={this.state}
+          sync={this.syncQuotaState}
         />
-        <Divider hidden />
-        {saveButton}
-        <Divider hidden />
-        {signButton}
+        {( !isOwner )
+          ? null
+          : <div>
+            <Divider hidden />
+            <Button
+              content="Tallenna"
+              fluid
+              onClick={this.handleSave}
+            />
+          </div>
+        }
+        {( !canSign )
+          ? null
+          : <div>
+            <Divider hidden />
+            <Button
+              content="Hyväksy"
+              fluid
+              onClick={this.handleSign}
+            />
+          </div>
+        }
       </Form>
     )
   }
@@ -145,5 +95,5 @@ const mapStateToProps = (state) => (
 
 export default connect(
   mapStateToProps,
-  { resetWriteActivity }
+  null
 )(ActivityFormContainer)

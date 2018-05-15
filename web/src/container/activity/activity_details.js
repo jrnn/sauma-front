@@ -1,4 +1,3 @@
-import Accordion from "../../component/accordion"
 import ActivityFormContainer from "./activity_form"
 import React from "react"
 import { connect } from "react-redux"
@@ -7,94 +6,48 @@ import {
   signOffActivity,
   updateActivity
 } from "../../action/activity"
-import { parseNumber, parseUrlQuery } from "../../util/parser"
+import { parseNumber, parseQuotas } from "../../util/parser"
+import { withRouter } from "react-router-dom"
 
 class ActivityDetailsContainer extends React.Component {
   save = (activity) => {
-    let { id } = this.props.match.params
-    let { auth, history, isNew, task } = this.props
-
-    activity.quotas = activity.quotas
-      .filter(q => q.quantity > 0 && parseNumber(q.quantity) !== "NaN")
-
+    let { history, id, isNew, task, token } = this.props
     let payload = {
       ...activity,
       hours : parseNumber(activity.hours),
-      quotas : activity.quotas
-        .map(q => ({
-          material : q.material.id,
-          quantity : parseNumber(q.quantity)
-        }))
+      quotas : parseQuotas(activity.quotas)
     }
 
     if ( isNew ) {
       payload.task = task.id
-      this.props.createActivity(payload, auth.token, history)
+      this.props.createActivity(payload, token, history)
     } else
-      this.props.updateActivity(id, payload, auth.token)
+      this.props.updateActivity(id, payload, token)
   }
 
   sign = () => {
-    let { id } = this.props.match.params
-    let { auth, signOffActivity } = this.props
-
-    signOffActivity(id, auth.token)
+    let { id, token } = this.props
+    this.props.signOffActivity(id, token)
   }
 
   render = () => {
-    let { activity, isNew, materials, task } = this.props
-
-    if ( !isNew && !activity ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
-
-    if ( isNew && !task ) return (
-      <h1 align="center">
-        Tehtävän ID joko virheellinen tai puuttuu! Älä sooloile osoitepalkin kanssa!
-      </h1>
-    )
+    let { activity, isNew } = this.props
 
     return (
-      <div>
-        <Accordion active={isNew} title="Perustiedot">
-          <ActivityFormContainer
-            activity={activity || { task }}
-            isNew={isNew}
-            materials={materials}
-            onSave={this.save}
-            onSign={this.sign}
-          />
-        </Accordion>
-        {( isNew )
-          ? null
-          : <div>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
-            </Accordion>
-          </div>
-        }
-      </div>
+      <ActivityFormContainer
+        activity={activity}
+        isNew={isNew}
+        onSave={this.save}
+        onSign={this.sign}
+      />
     )
   }
 }
 
-const mapStateToProps = (state, props) => {
-  let { id } = props.match.params
+const mapStateToProps = (state) =>
+  ({ token : state.auth.token })
 
-  return {
-    activity : state.activities.data.items
-      .find(a => a.id === id),
-    auth : state.auth,
-    isNew : ( id === "new" ),
-    materials : state.materials.data.items,
-    task : state.tasks.data.items
-      .find(t => t.id === parseUrlQuery(props.location.search).id)
-  }
-}
-
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   { createActivity, signOffActivity, updateActivity }
-)(ActivityDetailsContainer)
+)(ActivityDetailsContainer))

@@ -1,7 +1,7 @@
 import React from "react"
 import { Button, Dropdown, Form, Input, List } from "semantic-ui-react"
 
-const asRow = (m, qty, onChange, onDelete, readOnly) =>
+const asRow = (m, quantity, onChange, onDelete, readOnly) =>
   <List.Item key={m.id}>
     <List.Content floated="right">
       <Input
@@ -10,7 +10,7 @@ const asRow = (m, qty, onChange, onDelete, readOnly) =>
         readOnly={readOnly}
         style={{ width : "60px" }}
         transparent
-        value={qty}
+        value={quantity}
       />
       {( readOnly )
         ? null
@@ -25,20 +25,25 @@ const asRow = (m, qty, onChange, onDelete, readOnly) =>
     </List.Content>
     <List.Content>
       <List.Header content={m.name} />
-      <List.Description content={`(${m.unit}) ${m.color || ""}`} />
+      <List.Description content={m.unit} />
     </List.Content>
   </List.Item>
 
 const QuotaForm = (props) => {
-  let { dropdownChange, onChange, onDelete, options, readOnly, state } = props
+  let { readOnly } = props
 
   return (
     <div>
       <Form.Field>
         <label>{props.header || ""}</label>
         <List divided relaxed verticalAlign="middle">
-          {state.quotas
-            .map(q => asRow(q.material, q.quantity, onChange, onDelete, readOnly))
+          {props.state.quotas
+            .map(q => asRow(
+              q.material,
+              q.quantity,
+              props.onChange,
+              props.onDelete,
+              readOnly))
           }
         </List>
       </Form.Field>
@@ -47,8 +52,8 @@ const QuotaForm = (props) => {
         : <Form.Field>
           <Dropdown
             name="material"
-            onChange={dropdownChange}
-            options={options}
+            onChange={props.onAdd}
+            options={props.options}
             placeholder="Lisää uusi materiaali"
             search={true}
             selection
