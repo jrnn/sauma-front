@@ -35,6 +35,7 @@ class ClientContainer extends React.Component {
             </Accordion>
             <Accordion title="Liitteet">
               <AttachmentContainer
+                attachments={client.attachments || []}
                 entity="Client"
                 id={id}
                 thunk={updateClient}

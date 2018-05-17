@@ -1,11 +1,15 @@
 import AttachmentFormContainer from "./attachment_form"
+import AttachmentList from "../../component/attachment_list"
 import Expandable from "../../component/widgets/expandable"
 import React from "react"
 import { connect } from "react-redux"
 import { Divider } from "semantic-ui-react"
-import { uploadAttachment } from "../../action/attachment"
+import { fetchAttachment, uploadAttachment } from "../../action/attachment"
 
 class AttachmentContainer extends React.Component {
+  fetch = (id) =>
+    this.props.fetchAttachment(id, this.props.token)
+
   upload = (data) => {
     let { entity, id, thunk, token } = this.props
 
@@ -18,12 +22,15 @@ class AttachmentContainer extends React.Component {
   render = () => {
     return (
       <div>
-        <p>TULOSSA : LISTA LIITTEISTÄ</p>
+        <AttachmentList
+          attachments={this.props.attachments}
+          onClick={this.fetch}
+        />
+        <Divider />
         <Expandable
           button="Lisää liite"
           ref={c => this.expandable = c}
         >
-          <Divider />
           <AttachmentFormContainer onSubmit={this.upload} />
         </Expandable>
       </div>
@@ -36,5 +43,5 @@ const mapStateToProps = (state) =>
 
 export default connect(
   mapStateToProps,
-  { uploadAttachment }
+  { fetchAttachment, uploadAttachment }
 )(AttachmentContainer)

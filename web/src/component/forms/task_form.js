@@ -1,4 +1,4 @@
-import FormError from "../form_error"
+import FormError from "../alerts/form_error"
 import React from "react"
 import { Form, Input, TextArea } from "semantic-ui-react"
 

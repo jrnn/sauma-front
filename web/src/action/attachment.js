@@ -1,4 +1,5 @@
 import axios from "axios"
+import fileDownload from "js-file-download"
 import { errorHandler } from "./helper"
 import { notify } from "./notification"
 
@@ -24,6 +25,31 @@ const attachmentOver = () =>
 /*
  *  THUNKS
  */
+export const fetchAttachment = (id, token) => {
+  return async (dispatch) => {
+    dispatch(attachmentStart())
+
+    try {
+      let res = await axios.get(
+        `${url}/${id}`,
+        {
+          headers : { "authorization" : `bearer ${token}` },
+          responseType : "blob"
+        }
+      )
+      let name = decodeURI(res.headers["content-disposition"].split("filename=")[1])
+      let mime = res.headers["content-type"]
+      fileDownload(res.data, name, mime)
+
+    } catch (ex) {
+      let error = errorHandler(ex)
+      dispatch(notify(error.message, "error"))
+    }
+
+    dispatch(attachmentOver())
+  }
+}
+
 export const uploadAttachment = (id, payload, token, updateThunk, actionOnSuccess) => {
   return async (dispatch) => {
     dispatch(attachmentStart())

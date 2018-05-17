@@ -1,4 +1,4 @@
-import FormError from "../form_error"
+import FormError from "../alerts/form_error"
 import React from "react"
 import { Button, Divider, Form, Input } from "semantic-ui-react"
 
@@ -11,7 +11,7 @@ const AttachmentForm = (props) => {
       onSubmit={onSubmit}
     >
       <Form.Field error={( errors.name !== null )}>
-        <label>Liitteen nimi</label>
+        <label>Liitteen nimi / kuvaus</label>
         <Input
           name="name"
           onChange={onChange}

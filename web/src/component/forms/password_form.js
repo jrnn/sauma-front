@@ -1,5 +1,5 @@
-import FormError from "../form_error"
-import PasswordReqs from "../password_reqs"
+import FormError from "../alerts/form_error"
+import PasswordReqs from "../alerts/password_reqs"
 import React from "react"
 import { Form, Input, Popup } from "semantic-ui-react"
 
