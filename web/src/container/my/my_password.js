@@ -1,4 +1,4 @@
-import PasswordForm from "../../component/password_form"
+import PasswordForm from "../../component/forms/password_form"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"

@@ -1,4 +1,4 @@
-import ActivityForm from "../../component/activity_form"
+import ActivityForm from "../../component/forms/activity_form"
 import QuotaFormContainer from "../quota_form"
 import React from "react"
 import { activityState } from "../../util/form_state"

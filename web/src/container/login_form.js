@@ -1,4 +1,4 @@
-import LoginForm from "../component/login_form"
+import LoginForm from "../component/forms/login_form"
 import React from "react"
 import { connect } from "react-redux"
 import { login } from "../action/auth"

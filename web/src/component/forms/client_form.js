@@ -1,44 +1,44 @@
-import FormError from "./form_error"
+import FormError from "../form_error"
 import React from "react"
 import { Form, Input } from "semantic-ui-react"
 
-const EmployeeForm = (props) => {
+const ClientForm = (props) => {
   let { errors, onChange, readOnly, state } = props
 
   return (
     <div>
-      <Form.Field error={errors.username !== undefined}>
-        <label>Käyttäjätunnus</label>
+      <Form.Field error={errors.legalEntity !== undefined}>
+        <label>Toiminimi</label>
         <Input
-          name="username"
+          name="legalEntity"
           onChange={onChange}
-          placeholder="Tällä kirjaudutaan sisään"
+          placeholder="Firma Oy"
           readOnly={readOnly}
-          value={state.username}
+          value={state.legalEntity}
         />
-        <FormError error={errors.username} />
+        <FormError error={errors.legalEntity} />
       </Form.Field>
-      <Form.Field error={errors.firstName !== undefined}>
-        <label>Etunimi</label>
+      <Form.Field error={errors.businessId !== undefined}>
+        <label>Y-tunnus</label>
         <Input
-          name="firstName"
+          name="businessId"
           onChange={onChange}
-          placeholder="Paavo"
+          placeholder="1234567-8"
           readOnly={readOnly}
-          value={state.firstName}
+          value={state.businessId}
         />
-        <FormError error={errors.firstName} />
+        <FormError error={errors.businessId} />
       </Form.Field>
-      <Form.Field error={errors.lastName !== undefined}>
-        <label>Sukunimi</label>
+      <Form.Field error={errors.contactPerson !== undefined}>
+        <label>Yhteyshenkilö</label>
         <Input
-          name="lastName"
+          name="contactPerson"
           onChange={onChange}
-          placeholder="Pesusieni"
+          placeholder="Paavo Pesusieni"
           readOnly={readOnly}
-          value={state.lastName}
+          value={state.contactPerson}
         />
-        <FormError error={errors.lastName} />
+        <FormError error={errors.contactPerson} />
       </Form.Field>
       <Form.Field error={errors.phone !== undefined}>
         <label>Puhelin</label>
@@ -66,4 +66,4 @@ const EmployeeForm = (props) => {
   )
 }
 
-export default EmployeeForm
+export default ClientForm

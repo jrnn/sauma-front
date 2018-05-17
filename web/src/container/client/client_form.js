@@ -1,5 +1,5 @@
-import AddressForm from "../../component/address_form"
-import ClientForm from "../../component/client_form"
+import AddressForm from "../../component/forms/address_form"
+import ClientForm from "../../component/forms/client_form"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { clientState } from "../../util/form_state"

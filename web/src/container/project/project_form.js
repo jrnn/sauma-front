@@ -1,5 +1,5 @@
-import AddressForm from "../../component/address_form"
-import ProjectForm from "../../component/project_form"
+import AddressForm from "../../component/forms/address_form"
+import ProjectForm from "../../component/forms/project_form"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"

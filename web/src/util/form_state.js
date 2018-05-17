@@ -66,7 +66,6 @@ export const employeeState = (e) => {
 export const materialState = (m) => (
   {
     name : m.name || "",
-    color : m.color || "",
     unit : m.unit || "",
     unitCost : m.unitCost || ""
   }

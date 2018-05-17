@@ -1,4 +1,4 @@
-import FormError from "./form_error"
+import FormError from "../form_error"
 import React from "react"
 import { Dropdown, Form, Input } from "semantic-ui-react"
 

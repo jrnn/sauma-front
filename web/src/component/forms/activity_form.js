@@ -1,4 +1,4 @@
-import FormError from "./form_error"
+import FormError from "../form_error"
 import React from "react"
 import { Form, Input, TextArea } from "semantic-ui-react"
 
@@ -60,7 +60,7 @@ const ActivityForm = (props) => {
           labelPosition="right"
           name="hours"
           onChange={onChange}
-          placeholder="Huom. pyöristyy lähimpään kokonaislukuun"
+          placeholder="Pyöristyy lähimpään kokonaislukuun"
           readOnly={readOnly}
           value={state.hours}
         />

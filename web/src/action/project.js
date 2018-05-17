@@ -25,9 +25,6 @@ export const types = {
  */
 const actions = standardActions(types)
 
-/*
- *  ACTION CREATORS
- */
 const assignEmployeeOk = (project, employee) => ({
   type : types.ASSIGNED,
   payload : { project, employee }

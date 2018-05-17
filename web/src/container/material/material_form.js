@@ -1,4 +1,4 @@
-import MaterialForm from "../../component/material_form"
+import MaterialForm from "../../component/forms/material_form"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"

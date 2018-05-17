@@ -82,13 +82,13 @@ export const createClient = (client, token, history) => {
   }
 }
 
-export const updateClient = (id, client, token) => {
+export const updateClient = (id, updates, token) => {
   return async (dispatch) => {
     dispatch(actions.write())
 
     try {
       let res = await axios
-        .put(`${url}/${id}`, client, bearer(token))
+        .put(`${url}/${id}`, updates, bearer(token))
 
       dispatch(resetWriteClient())
       dispatch(actions.updateOk(res.data))

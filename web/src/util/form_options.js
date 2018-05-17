@@ -36,7 +36,7 @@ export const quotaOptions = (materials, quotas) => {
     .sort((m1, m2) => m1.name.localeCompare(m2.name))
     .map(m => ({
       key : m.id,
-      text : `${m.name} (${m.color})`,
+      text : m.name,
       value : m.id
     }))
 }

@@ -1,8 +1,9 @@
 import Accordion from "../../component/accordion"
+import AttachmentContainer from "../attachment/attachment"
 import ClientDetailsContainer from "./client_details"
 import React from "react"
 import { connect } from "react-redux"
-import { resetWriteClient } from "../../action/client"
+import { resetWriteClient, updateClient } from "../../action/client"
 
 class ClientContainer extends React.Component {
   componentWillUnmount = () =>
@@ -31,6 +32,13 @@ class ClientContainer extends React.Component {
           : <div>
             <Accordion title="Asiakkaan työmaat">
               <p>TULOSSA PIAN</p>
+            </Accordion>
+            <Accordion title="Liitteet">
+              <AttachmentContainer
+                entity="Client"
+                id={id}
+                thunk={updateClient}
+              />
             </Accordion>
             <Accordion title="<Placeholder>">
               <p>Jotain muuta vielä...?</p>

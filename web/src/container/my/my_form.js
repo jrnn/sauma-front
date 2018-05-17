@@ -1,5 +1,5 @@
-import AddressForm from "../../component/address_form"
-import EmployeeForm from "../../component/employee_form"
+import AddressForm from "../../component/forms/address_form"
+import EmployeeForm from "../../component/forms/employee_form"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"

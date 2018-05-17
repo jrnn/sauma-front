@@ -1,6 +1,6 @@
 import QuotaFormContainer from "../quota_form"
 import React from "react"
-import TaskForm from "../../component/task_form"
+import TaskForm from "../../component/forms/task_form"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { taskState } from "../../util/form_state"

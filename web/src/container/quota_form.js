@@ -1,4 +1,4 @@
-import QuotaForm from "../component/quota_form"
+import QuotaForm from "../component/forms/quota_form"
 import React from "react"
 import { connect } from "react-redux"
 import { quotaOptions } from "../util/form_options"
