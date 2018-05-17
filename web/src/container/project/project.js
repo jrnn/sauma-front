@@ -1,4 +1,5 @@
 import Accordion from "../../component/widgets/accordion"
+import AttachmentContainer from "../attachment/attachment"
 import EmbeddedMap from "../../component/widgets/embedded_map"
 import ProjectDetailsContainer from "./project_details"
 import ProjectEmployeesContainer from "./project_employees"
@@ -8,7 +9,7 @@ import { connect } from "react-redux"
 import { fetchClientsIfNeeded } from "../../action/client"
 import { fetchEmployeesIfNeeded } from "../../action/employee"
 import { fetchTasksIfNeeded } from "../../action/task"
-import { resetWriteProject } from "../../action/project"
+import { resetWriteProject, updateProject } from "../../action/project"
 
 class ProjectContainer extends React.Component {
   componentDidMount = () =>
@@ -46,6 +47,14 @@ class ProjectContainer extends React.Component {
             </Accordion>
             <Accordion title="Tehtävät">
               <ProjectTasksContainer id={id} />
+            </Accordion>
+            <Accordion title="Liitteet">
+              <AttachmentContainer
+                attachments={project.attachments || []}
+                entity="Project"
+                id={id}
+                thunk={updateProject}
+              />
             </Accordion>
             <Accordion title="<Placeholder>">
               <p>Jotain muuta vielä...?</p>

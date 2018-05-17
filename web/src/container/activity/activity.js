@@ -1,11 +1,12 @@
 import Accordion from "../../component/widgets/accordion"
 import ActivityDetailsContainer from "./activity_details"
+import AttachmentContainer from "../attachment/attachment"
 import React from "react"
 import { connect } from "react-redux"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchTasksIfNeeded } from "../../action/task"
 import { parseUrlQuery } from "../../util/parser"
-import { resetWriteActivity } from "../../action/activity"
+import { resetWriteActivity, updateActivity } from "../../action/activity"
 
 class ActivityContainer extends React.Component {
   componentDidMount = () =>
@@ -42,6 +43,14 @@ class ActivityContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
+            <Accordion title="Liitteet">
+              <AttachmentContainer
+                attachments={activity.attachments || []}
+                entity="Activity"
+                id={id}
+                thunk={updateActivity}
+              />
+            </Accordion>
             <Accordion title="<Placeholder>">
               <p>Jotain muuta vielä...?</p>
             </Accordion>

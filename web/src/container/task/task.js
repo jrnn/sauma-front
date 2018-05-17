@@ -1,4 +1,5 @@
 import Accordion from "../../component/widgets/accordion"
+import AttachmentContainer from "../attachment/attachment"
 import React from "react"
 import TaskActivitiesContainer from "./task_activities"
 import TaskDetailsContainer from "./task_details"
@@ -7,7 +8,7 @@ import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchProjectsIfNeeded } from "../../action/project"
 import { parseUrlQuery } from "../../util/parser"
-import { resetWriteTask } from "../../action/task"
+import { resetWriteTask, updateTask } from "../../action/task"
 
 class TaskContainer extends React.Component {
   componentDidMount = () =>
@@ -48,6 +49,14 @@ class TaskContainer extends React.Component {
               <TaskActivitiesContainer
                 id={id}
                 task={task}
+              />
+            </Accordion>
+            <Accordion title="Liitteet">
+              <AttachmentContainer
+                attachments={task.attachments || []}
+                entity="Task"
+                id={id}
+                thunk={updateTask}
               />
             </Accordion>
             <Accordion title="<Placeholder>">

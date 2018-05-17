@@ -1,8 +1,9 @@
 import Accordion from "../../component/widgets/accordion"
+import AttachmentContainer from "../attachment/attachment"
 import MaterialDetailsContainer from "./material_details"
 import React from "react"
 import { connect } from "react-redux"
-import { resetWriteMaterial } from "../../action/material"
+import { resetWriteMaterial, updateMaterial } from "../../action/material"
 
 class MaterialContainer extends React.Component {
   componentWillUnmount = () =>
@@ -29,6 +30,14 @@ class MaterialContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
+            <Accordion title="Liitteet">
+              <AttachmentContainer
+                attachments={material.attachments || []}
+                entity="Material"
+                id={id}
+                thunk={updateMaterial}
+              />
+            </Accordion>
             <Accordion title="<Placeholder>">
               <p>Jotain muuta vielä...?</p>
             </Accordion>
