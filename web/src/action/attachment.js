@@ -24,7 +24,7 @@ const attachmentOver = () =>
 /*
  *  THUNKS
  */
-export const uploadAttachment = (id, payload, token, updateThunk) => {
+export const uploadAttachment = (id, payload, token, updateThunk, actionOnSuccess) => {
   return async (dispatch) => {
     dispatch(attachmentStart())
 
@@ -40,6 +40,7 @@ export const uploadAttachment = (id, payload, token, updateThunk) => {
         }
       )
       dispatch(updateThunk(id, { attachments : res.data }, token))
+      if ( actionOnSuccess ) actionOnSuccess()
 
     } catch (ex) {
       let error = errorHandler(ex)

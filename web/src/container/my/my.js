@@ -1,4 +1,4 @@
-import Accordion from "../../component/accordion"
+import Accordion from "../../component/widgets/accordion"
 import MyFormContainer from "./my_form"
 import MyPasswordContainer from "./my_password"
 import React from "react"

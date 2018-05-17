@@ -1,5 +1,5 @@
-import Accordion from "../../component/accordion"
-import EmbeddedMap from "../../component/embedded_map"
+import Accordion from "../../component/widgets/accordion"
+import EmbeddedMap from "../../component/widgets/embedded_map"
 import ProjectDetailsContainer from "./project_details"
 import ProjectEmployeesContainer from "./project_employees"
 import ProjectTasksContainer from "./project_tasks"

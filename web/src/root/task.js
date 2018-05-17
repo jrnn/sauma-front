@@ -1,5 +1,5 @@
 import React from "react"
-import Spinner from "../component/spinner"
+import Spinner from "../component/widgets/spinner"
 import TaskContainer from "../container/task/task"
 import TaskListContainer from "../container/task/task_list"
 import { connect } from "react-redux"

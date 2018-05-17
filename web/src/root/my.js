@@ -1,6 +1,6 @@
 import MyContainer from "../container/my/my"
 import React from "react"
-import Spinner from "../component/spinner"
+import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
 import { fetchEmployeesIfNeeded } from "../action/employee"
 import { Route } from "react-router-dom"

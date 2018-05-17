@@ -1,5 +1,5 @@
 import React from "react"
-import SearchField from "./search_field"
+import SearchField from "./widgets/search_field"
 import { Button, List } from "semantic-ui-react"
 import { Link } from "react-router-dom"
 

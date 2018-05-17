@@ -1,6 +1,6 @@
 import ActivityContainer from "../container/activity/activity"
 import React from "react"
-import Spinner from "../component/spinner"
+import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../action/activity"
 import { Route } from "react-router-dom"

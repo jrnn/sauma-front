@@ -1,4 +1,4 @@
-import Header from "./component/header"
+import Header from "./component/widgets/header"
 import LoginFormContainer from "./container/login_form"
 import NavBarContainer from "./container/navbar"
 import Notification from "./component/notification"

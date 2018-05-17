@@ -1,7 +1,7 @@
 import ProjectContainer from "../container/project/project"
 import ProjectListContainer from "../container/project/project_list"
 import React from "react"
-import Spinner from "../component/spinner"
+import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
 import { fetchProjectsIfNeeded } from "../action/project"
 import { Route } from "react-router-dom"

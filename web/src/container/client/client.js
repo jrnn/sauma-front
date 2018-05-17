@@ -1,4 +1,4 @@
-import Accordion from "../../component/accordion"
+import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
 import ClientDetailsContainer from "./client_details"
 import React from "react"

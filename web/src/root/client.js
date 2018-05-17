@@ -1,7 +1,7 @@
 import ClientContainer from "../container/client/client"
 import ClientListContaner from "../container/client/client_list"
 import React from "react"
-import Spinner from "../component/spinner"
+import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
 import { fetchClientsIfNeeded } from "../action/client"
 import { Route } from "react-router-dom"

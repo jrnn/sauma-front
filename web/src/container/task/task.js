@@ -1,4 +1,4 @@
-import Accordion from "../../component/accordion"
+import Accordion from "../../component/widgets/accordion"
 import React from "react"
 import TaskActivitiesContainer from "./task_activities"
 import TaskDetailsContainer from "./task_details"

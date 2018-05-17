@@ -1,7 +1,7 @@
 import MaterialContainer from "../container/material/material"
 import MaterialListContainer from "../container/material/material_list"
 import React from "react"
-import Spinner from "../component/spinner"
+import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
 import { fetchMaterialsIfNeeded } from "../action/material"
 import { Route } from "react-router-dom"

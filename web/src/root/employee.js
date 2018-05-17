@@ -1,7 +1,7 @@
 import EmployeeContainer from "../container/employee/employee"
 import EmployeeListContainer from "../container/employee/employee_list"
 import React from "react"
-import Spinner from "../component/spinner"
+import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
 import { fetchEmployeesIfNeeded } from "../action/employee"
 import { Route } from "react-router-dom"

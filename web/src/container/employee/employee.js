@@ -1,4 +1,4 @@
-import Accordion from "../../component/accordion"
+import Accordion from "../../component/widgets/accordion"
 import EmployeeDetailsContainer from "./employee_details"
 import React from "react"
 import { connect } from "react-redux"
