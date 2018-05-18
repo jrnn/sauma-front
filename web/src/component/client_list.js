@@ -46,7 +46,7 @@ const ClientList = (props) => {
         value={filter}
       />
       <List divided relaxed>
-        {clients.map(c => asRow(c))}
+        {clients.map(asRow)}
       </List>
       {buttons(admin)}
     </div>

@@ -33,13 +33,10 @@ export const addressState = (a) => (
 export const clientState = (c) => {
   let state = {
     businessId : c.businessId || "",
-    contactPerson : c.contactPerson || "",
-    email : c.email || "",
-    legalEntity : c.legalEntity || "",
-    phone : c.phone || ""
+    domicile : c.domicile || "",
+    legalEntity : c.legalEntity || ""
   }
 
-  state.address = addressState(c.address || {})
   return state
 }
 

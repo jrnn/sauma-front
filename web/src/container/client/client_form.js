@@ -1,4 +1,3 @@
-import AddressForm from "../../component/forms/address_form"
 import ClientForm from "../../component/forms/client_form"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
@@ -9,13 +8,6 @@ class ClientFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = clientState(props.client)
-  }
-
-  handleAddressChange = (e, { name, value }) => {
-    let { address } = this.state
-    address[name] = value
-
-    this.setState({ ...this.state, address })
   }
 
   handleChange = (e, { name, value }) =>
@@ -37,13 +29,6 @@ class ClientFormContainer extends React.Component {
         <ClientForm
           errors={errors}
           onChange={this.handleChange}
-          readOnly={readOnly}
-          state={this.state}
-        />
-        <Divider hidden />
-        <AddressForm
-          errors={errors}
-          onChange={this.handleAddressChange}
           readOnly={readOnly}
           state={this.state}
         />

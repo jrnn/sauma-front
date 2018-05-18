@@ -29,38 +29,16 @@ const ClientForm = (props) => {
         />
         <FormError error={errors.businessId} />
       </Form.Field>
-      <Form.Field error={errors.contactPerson !== undefined}>
-        <label>Yhteyshenkilö</label>
+      <Form.Field error={errors.domicile !== undefined}>
+        <label>Kotipaikka</label>
         <Input
-          name="contactPerson"
+          name="domicile"
           onChange={onChange}
-          placeholder="Paavo Pesusieni"
+          placeholder="Saumala"
           readOnly={readOnly}
-          value={state.contactPerson}
+          value={state.domicile}
         />
-        <FormError error={errors.contactPerson} />
-      </Form.Field>
-      <Form.Field error={errors.phone !== undefined}>
-        <label>Puhelin</label>
-        <Input
-          name="phone"
-          onChange={onChange}
-          placeholder="040-123-4567"
-          readOnly={readOnly}
-          value={state.phone}
-        />
-        <FormError error={errors.phone} />
-      </Form.Field>
-      <Form.Field error={errors.email !== undefined}>
-        <label>Email</label>
-        <Input
-          name="email"
-          onChange={onChange}
-          placeholder="paavo@firma.io"
-          readOnly={readOnly}
-          value={state.email}
-        />
-        <FormError error={errors.email} />
+        <FormError error={errors.domicile} />
       </Form.Field>
     </div>
   )

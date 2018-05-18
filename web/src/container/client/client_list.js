@@ -14,6 +14,7 @@ class ClientListContainer extends React.Component {
 
     return clients
       .filter(c =>
+        c.businessId.toLowerCase().includes(filter) ||
         c.legalEntity.toLowerCase().includes(filter))
       .sort((c1, c2) =>
         c1.legalEntity.localeCompare(c2.legalEntity))
