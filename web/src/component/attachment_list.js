@@ -1,17 +1,15 @@
 import React from "react"
-import { Button, List } from "semantic-ui-react"
 import { formatDate } from "../util/parser"
+import { Link } from "react-router-dom"
+import { List } from "semantic-ui-react"
 
-const asRow = (a, onClick) => (
-  <List.Item key={a.blob}>
-    <List.Content floated="right">
-      <Button
-        basic
-        compact
-        icon="save"
-        onClick={() => onClick(a.blob)}
-      />
-    </List.Content>
+const asRow = (a) => (
+  <List.Item
+    as={Link}
+    key={a.key}
+    target="_blank"
+    to={a.url}
+  >
     <List.Icon
       color="grey"
       name="file text outline"
@@ -27,13 +25,11 @@ const asRow = (a, onClick) => (
 )
 
 const AttachmentList = (props) => {
-  let { attachments, onClick } = props
-
   return (
     <List divided relaxed>
-      {attachments
+      {props.attachments
         .sort((a1, a2) => Date.parse(a2.createdOn) - Date.parse(a1.createdOn))
-        .map(a => asRow(a, onClick))
+        .map(asRow)
       }
     </List>
   )

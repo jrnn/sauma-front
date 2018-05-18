@@ -4,12 +4,9 @@ import Expandable from "../../component/widgets/expandable"
 import React from "react"
 import { connect } from "react-redux"
 import { Divider } from "semantic-ui-react"
-import { fetchAttachment, uploadAttachment } from "../../action/attachment"
+import { uploadAttachment } from "../../action/attachment"
 
 class AttachmentContainer extends React.Component {
-  fetch = (id) =>
-    this.props.fetchAttachment(id, this.props.token)
-
   upload = (data) => {
     let { entity, id, thunk, token } = this.props
 
@@ -22,10 +19,7 @@ class AttachmentContainer extends React.Component {
   render = () => {
     return (
       <div>
-        <AttachmentList
-          attachments={this.props.attachments}
-          onClick={this.fetch}
-        />
+        <AttachmentList attachments={this.props.attachments} />
         <Divider />
         <Expandable
           button="Lisää liite"
@@ -43,5 +37,5 @@ const mapStateToProps = (state) =>
 
 export default connect(
   mapStateToProps,
-  { fetchAttachment, uploadAttachment }
+  { uploadAttachment }
 )(AttachmentContainer)
