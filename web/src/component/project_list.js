@@ -16,7 +16,7 @@ const asRow = (p) => (
     />
     <List.Content>
       <List.Header
-        content={p.projectId}
+        content={`${p.projectId} — ${p.name}`}
       />
       <List.Description
         content={p.client.legalEntity}
@@ -46,7 +46,7 @@ const ProjectList = (props) => {
         value={filter}
       />
       <List divided relaxed>
-        {projects.map(p => asRow(p))}
+        {projects.map(asRow)}
       </List>
       {buttons(admin)}
     </div>

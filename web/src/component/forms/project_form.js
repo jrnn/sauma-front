@@ -17,6 +17,30 @@ const ProjectForm = (props) => {
         />
         <FormError error={errors.projectId} />
       </Form.Field>
+      <Form.Field error={errors.name !== undefined}>
+        <label>Työmaan nimi / kuvaus</label>
+        <Input
+          name="name"
+          onChange={onChange}
+          readOnly={readOnly}
+          value={state.name}
+        />
+        <FormError error={errors.name} />
+      </Form.Field>
+      <Form.Field error={errors.manager !== undefined}>
+        <label>Työnjohtaja / vastuuhenkilö</label>
+        <Dropdown
+          disabled={readOnly}
+          name="manager"
+          onChange={onChange}
+          options={props.managers}
+          placeholder="Valitse työnjohtaja"
+          search={true}
+          selection
+          value={state.manager}
+        />
+        <FormError error={errors.manager} />
+      </Form.Field>
       <Form.Field error={errors.startDate !== undefined}>
         <label>Alkaa</label>
         <Input
@@ -58,19 +82,27 @@ const ProjectForm = (props) => {
         />
         <FormError error={errors.client} />
       </Form.Field>
-      <Form.Field error={errors.manager !== undefined}>
-        <label>Työnjohtaja</label>
-        <Dropdown
-          disabled={readOnly}
-          name="manager"
+      <Form.Field error={errors.contactPerson !== undefined}>
+        <label>Asiakkaan yhteyshenkilö</label>
+        <Input
+          name="contactPerson"
           onChange={onChange}
-          options={props.managers}
-          placeholder="Valitse työnjohtaja"
-          search={true}
-          selection
-          value={state.manager}
+          placeholder="Saumausta hoitava mestari"
+          readOnly={readOnly}
+          value={state.contactPerson}
         />
-        <FormError error={errors.manager} />
+        <FormError error={errors.contactPerson} />
+      </Form.Field>
+      <Form.Field error={errors.phone !== undefined}>
+        <label>Yhteyshenkilön puhelin</label>
+        <Input
+          name="phone"
+          onChange={onChange}
+          placeholder="040-123-4567"
+          readOnly={readOnly}
+          value={state.phone}
+        />
+        <FormError error={errors.phone} />
       </Form.Field>
     </div>
   )

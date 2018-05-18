@@ -23,7 +23,7 @@ const ActivityForm = (props) => {
           disabled
           value={( activity.id )
             ? `${activity.owner.firstName} ${activity.owner.lastName}`
-            : ""
+            : props.owner || ""
           }
         />
       </Form.Field>

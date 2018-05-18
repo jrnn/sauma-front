@@ -48,6 +48,7 @@ class ActivityFormContainer extends React.Component {
           activity={activity}
           errors={errors}
           onChange={this.handleChange}
+          owner={`${auth.firstName} ${auth.lastName}`}
           readOnly={( !isOwner )}
           state={this.state}
         />

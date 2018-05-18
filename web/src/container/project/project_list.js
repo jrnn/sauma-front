@@ -14,6 +14,7 @@ class ProjectListContainer extends React.Component {
 
     return projects
       .filter(p =>
+        p.name.toLowerCase().includes(filter) ||
         p.projectId.toLowerCase().includes(filter) ||
         p.client.legalEntity.toLowerCase().includes(filter))
       .sort((p1, p2) =>

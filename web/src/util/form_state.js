@@ -69,8 +69,12 @@ export const materialState = (m) => (
 )
 
 export const projectState = (p) => {
-  let state = { projectId : p.projectId || "" }
-  state.address = addressState(p.address || {})
+  let state = {
+    contactPerson : p.contactPerson || "",
+    name : p.name || "",
+    phone : p.phone || "",
+    projectId : p.projectId || ""
+  }
 
   state.endDate = ( p.endDate )
     ? formatDate(p.endDate)
@@ -86,6 +90,7 @@ export const projectState = (p) => {
     ? p.manager.id
     : null
 
+  state.address = addressState(p.address || {})
   return state
 }
 
