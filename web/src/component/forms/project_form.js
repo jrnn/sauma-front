@@ -1,4 +1,5 @@
 import FormError from "../alerts/form_error"
+import PropTypes from "prop-types"
 import React from "react"
 import { Dropdown, Form, Input } from "semantic-ui-react"
 
@@ -106,6 +107,16 @@ const ProjectForm = (props) => {
       </Form.Field>
     </div>
   )
+}
+
+ProjectForm.propTypes = {
+  clients : PropTypes.arrayOf(PropTypes.object).isRequired,
+  errors : PropTypes.object.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  managers : PropTypes.arrayOf(PropTypes.object).isRequired,
+  onChange : PropTypes.func.isRequired,
+  readOnly : PropTypes.bool.isRequired,
+  state : PropTypes.object.isRequired,
 }
 
 export default ProjectForm

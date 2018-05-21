@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 import { Grid, Header, Icon } from "semantic-ui-react"
 
@@ -43,6 +44,12 @@ class Accordion extends React.Component {
       </div>
     )
   }
+}
+
+Accordion.propTypes = {
+  active : PropTypes.bool,
+  children : PropTypes.element.isRequired,
+  title : PropTypes.string.isRequired
 }
 
 export default Accordion

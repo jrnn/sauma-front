@@ -1,5 +1,6 @@
 import AddressForm from "../../component/forms/address_form"
 import ProjectForm from "../../component/forms/project_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
@@ -27,11 +28,11 @@ class ProjectFormContainer extends React.Component {
   }
 
   render = () => {
-    let { errors, pending, readOnly } = this.props
+    let { errors, readOnly } = this.props
 
     return (
       <Form
-        loading={pending}
+        loading={this.props.pending}
         onSubmit={this.handleSubmit}
       >
         <ProjectForm
@@ -43,14 +44,14 @@ class ProjectFormContainer extends React.Component {
           readOnly={readOnly}
           state={this.state}
         />
-        <Divider hidden />
+        <Divider />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
           readOnly={readOnly}
           state={this.state}
         />
-        <Divider hidden />
+        <Divider />
         {( readOnly )
           ? null
           : <Button content="Tallenna" fluid />
@@ -67,6 +68,16 @@ const mapStateToProps = (state) => (
     readOnly : ( !state.auth.admin )
   }
 )
+
+ProjectFormContainer.propTypes = {
+  clients : PropTypes.arrayOf(PropTypes.object).isRequired,
+  errors : PropTypes.object.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  managers : PropTypes.arrayOf(PropTypes.object).isRequired,
+  pending : PropTypes.bool.isRequired,
+  project : PropTypes.object.isRequired,
+  readOnly : PropTypes.bool.isRequired
+}
 
 export default connect(
   mapStateToProps,

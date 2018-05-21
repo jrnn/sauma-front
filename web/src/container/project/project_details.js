@@ -1,4 +1,5 @@
 import ProjectFormContainer from "./project_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { clientOptions, managerOptions } from "../../util/form_options"
 import { connect } from "react-redux"
@@ -37,6 +38,18 @@ const mapStateToProps = (state) => (
     token : state.auth.token
   }
 )
+
+ProjectDetailsContainer.propTypes = {
+  clients : PropTypes.arrayOf(PropTypes.object).isRequired,
+  createProject : PropTypes.func.isRequired,
+  employees : PropTypes.arrayOf(PropTypes.object).isRequired,
+  history : PropTypes.object.isRequired,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  project : PropTypes.object.isRequired,
+  token : PropTypes.string.isRequired,
+  updateProject : PropTypes.func.isRequired
+}
 
 export default withRouter(connect(
   mapStateToProps,

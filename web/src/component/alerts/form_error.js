@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 import { Label } from "semantic-ui-react"
 
@@ -11,5 +12,9 @@ const FormError = ({ error }) => (
       pointing
     />
 )
+
+FormError.propTypes = {
+  error : PropTypes.string
+}
 
 export default FormError

@@ -1,4 +1,5 @@
-import ProjectList from "../../component/project_list"
+import ProjectList from "../../component/lists/project_list"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 
@@ -10,9 +11,8 @@ class ProjectListContainer extends React.Component {
 
   filterProjects = () => {
     let { filter } = this.state
-    let { projects } = this.props
 
-    return projects
+    return this.props.projects
       .filter(p =>
         p.name.toLowerCase().includes(filter) ||
         p.projectId.toLowerCase().includes(filter) ||
@@ -27,7 +27,7 @@ class ProjectListContainer extends React.Component {
   render = () => {
     return (
       <ProjectList
-        admin={this.props.auth.admin}
+        admin={this.props.admin}
         filter={this.state.filter}
         onChange={this.handleFilter}
         projects={this.filterProjects()}
@@ -38,10 +38,15 @@ class ProjectListContainer extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
+    admin : state.auth.admin,
     projects : state.projects.data.items
   }
 )
+
+ProjectListContainer.propTypes = {
+  admin : PropTypes.bool.isRequired,
+  projects : PropTypes.arrayOf(PropTypes.object)
+}
 
 export default connect(
   mapStateToProps,

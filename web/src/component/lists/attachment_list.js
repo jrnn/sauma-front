@@ -1,5 +1,6 @@
+import PropTypes from "prop-types"
 import React from "react"
-import { formatDate } from "../util/parser"
+import { formatDate } from "../../util/parser"
 import { Link } from "react-router-dom"
 import { List } from "semantic-ui-react"
 
@@ -24,15 +25,18 @@ const asRow = (a) => (
   </List.Item>
 )
 
-const AttachmentList = (props) => {
-  return (
-    <List divided relaxed>
-      {props.attachments
-        .sort((a1, a2) => Date.parse(a2.createdOn) - Date.parse(a1.createdOn))
-        .map(asRow)
-      }
-    </List>
-  )
+const AttachmentList = ({ attachments }) => (
+  <List divided relaxed>
+    {attachments
+      .sort((a1, a2) =>
+        Date.parse(a2.createdOn) - Date.parse(a1.createdOn))
+      .map(asRow)
+    }
+  </List>
+)
+
+AttachmentList.propTypes = {
+  attachments : PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default AttachmentList

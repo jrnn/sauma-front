@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 import { Input } from "semantic-ui-react"
 
@@ -10,5 +11,10 @@ const SearchField = ({ onChange, value }) => (
     value={value}
   />
 )
+
+SearchField.propTypes = {
+  onChange : PropTypes.func.isRequired,
+  value : PropTypes.string.isRequired
+}
 
 export default SearchField

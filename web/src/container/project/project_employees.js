@@ -1,4 +1,5 @@
-import ProjectEmployees from "../../component/project_employees"
+import ProjectEmployees from "../../component/lists/project_employees"
+import PropTypes from "prop-types"
 import React from "react"
 import { assignEmployeeToProject } from "../../action/project"
 import { connect } from "react-redux"
@@ -42,6 +43,14 @@ const mapStateToProps = (state) => (
     employees : state.employees.data.items
   }
 )
+
+ProjectEmployeesContainer.propTypes = {
+  assignEmployeeToProject : PropTypes.func.isRequired,
+  auth : PropTypes.object.isRequired,
+  id : PropTypes.string.isRequired,
+  employees : PropTypes.arrayOf(PropTypes.object).isRequired,
+  project : PropTypes.object.isRequired
+}
 
 export default connect(
   mapStateToProps,

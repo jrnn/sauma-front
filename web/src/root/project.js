@@ -1,5 +1,7 @@
+import Error from "../component/alerts/error"
 import ProjectContainer from "../container/project/project"
 import ProjectListContainer from "../container/project/project_list"
+import PropTypes from "prop-types"
 import React from "react"
 import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
@@ -13,13 +15,8 @@ class ProjectRoot extends React.Component {
   render = () => {
     let { error, match, pending } = this.props
 
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
-    )
+    if ( pending ) return (<Spinner />)
+    if ( error ) return (<Error message={error} />)
 
     return (
       <div>
@@ -52,6 +49,14 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+ProjectRoot.propTypes = {
+  error : PropTypes.string,
+  match : PropTypes.object.isRequired,
+  pending : PropTypes.bool.isRequired,
+  refresh : PropTypes.func.isRequired,
+  token : PropTypes.string.isRequired
+}
 
 export default connect(
   mapStateToProps,

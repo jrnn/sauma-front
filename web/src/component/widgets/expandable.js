@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 import { Button } from "semantic-ui-react"
 
@@ -21,6 +22,11 @@ class Expandable extends React.Component {
         : this.props.children
     )
   }
+}
+
+Expandable.propTypes = {
+  button : PropTypes.string.isRequired,
+  children : PropTypes.element.isRequired
 }
 
 export default Expandable

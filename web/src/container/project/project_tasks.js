@@ -1,16 +1,15 @@
-import ProjectTasks from "../../component/project_tasks"
+import ProjectTasks from "../../component/lists/project_tasks"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 
 class ProjectTasksContainer extends React.Component {
   render = () => {
-    let { auth, id, tasks } = this.props
-
     return (
       <ProjectTasks
-        admin={auth.admin}
-        id={id}
-        tasks={tasks}
+        admin={this.props.admin}
+        id={this.props.id}
+        tasks={this.props.tasks}
       />
     )
   }
@@ -18,11 +17,17 @@ class ProjectTasksContainer extends React.Component {
 
 const mapStateToProps = (state, props) => (
   {
-    auth : state.auth,
+    admin : state.auth.admin,
     tasks : state.tasks.data.items
       .filter(t => t.project.id === props.id)
   }
 )
+
+ProjectTasksContainer.propTypes = {
+  admin : PropTypes.bool.isRequired,
+  id : PropTypes.string.isRequired,
+  tasks : PropTypes.arrayOf(PropTypes.object).isRequired
+}
 
 export default connect(
   mapStateToProps,

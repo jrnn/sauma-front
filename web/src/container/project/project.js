@@ -1,9 +1,11 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
 import EmbeddedMap from "../../component/widgets/embedded_map"
+import Error from "../../component/alerts/error"
 import ProjectDetailsContainer from "./project_details"
 import ProjectEmployeesContainer from "./project_employees"
 import ProjectTasksContainer from "./project_tasks"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { fetchClientsIfNeeded } from "../../action/client"
@@ -20,12 +22,7 @@ class ProjectContainer extends React.Component {
 
   render = () => {
     let { id, isNew, project } = this.props
-
-    if ( !isNew && !project ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
+    if ( !isNew && !project ) return (<Error />)
 
     return (
       <div>
@@ -55,9 +52,6 @@ class ProjectContainer extends React.Component {
                 id={id}
                 thunk={updateProject}
               />
-            </Accordion>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
             </Accordion>
             <EmbeddedMap
               address={project.address}
@@ -94,6 +88,15 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+ProjectContainer.propTypes = {
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  project : PropTypes.object,
+  refresh : PropTypes.func.isRequired,
+  reset : PropTypes.func.isRequired,
+  token : PropTypes.string.isRequired
+}
 
 export default connect(
   mapStateToProps,
