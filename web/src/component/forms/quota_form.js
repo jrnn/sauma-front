@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Dropdown, Form, Input, List } from "semantic-ui-react"
 
@@ -29,40 +30,49 @@ const asRow = (m, quantity, onChange, onDelete, readOnly) =>
     </List.Content>
   </List.Item>
 
-const QuotaForm = (props) => {
-  let { readOnly } = props
-
-  return (
-    <div>
-      <Form.Field>
-        <label>{props.header || ""}</label>
-        <List divided relaxed verticalAlign="middle">
-          {props.state.quotas
-            .map(q => asRow(
-              q.material,
-              q.quantity,
-              props.onChange,
-              props.onDelete,
-              readOnly))
-          }
-        </List>
+const QuotaForm = (props) =>
+  <div>
+    <Form.Field>
+      <label>{props.header}</label>
+      <List
+        divided
+        relaxed
+        verticalAlign="middle"
+      >
+        {props.state.quotas
+          .map(q => asRow(
+            q.material,
+            q.quantity,
+            props.onChange,
+            props.onDelete,
+            props.readOnly))
+        }
+      </List>
+    </Form.Field>
+    {( props.readOnly )
+      ? null
+      : <Form.Field>
+        <Dropdown
+          name="material"
+          onChange={props.onAdd}
+          options={props.options}
+          placeholder="Lisää uusi materiaali"
+          search={true}
+          selection
+          value=""
+        />
       </Form.Field>
-      {( readOnly )
-        ? null
-        : <Form.Field>
-          <Dropdown
-            name="material"
-            onChange={props.onAdd}
-            options={props.options}
-            placeholder="Lisää uusi materiaali"
-            search={true}
-            selection
-            value=""
-          />
-        </Form.Field>
-      }
-    </div>
-  )
+    }
+  </div>
+
+QuotaForm.propTypes = {
+  header : PropTypes.string.isRequired,
+  onAdd : PropTypes.func.isRequired,
+  onChange : PropTypes.func.isRequired,
+  onDelete : PropTypes.func.isRequired,
+  options : PropTypes.arrayOf(PropTypes.object).isRequired,
+  readOnly : PropTypes.bool.isRequired,
+  state : PropTypes.object.isRequired
 }
 
 export default QuotaForm

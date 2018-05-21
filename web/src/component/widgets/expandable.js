@@ -11,17 +11,14 @@ class Expandable extends React.Component {
   toggle = () =>
     this.setState({ open : !this.state.open })
 
-  render = () => {
-    return (
-      ( !this.state.open )
-        ? <Button
-          content={this.props.button}
-          fluid
-          onClick={this.toggle}
-        />
-        : this.props.children
-    )
-  }
+  render = () =>
+    ( !this.state.open )
+      ? <Button
+        content={this.props.button}
+        fluid
+        onClick={this.toggle}
+      />
+      : this.props.children
 }
 
 Expandable.propTypes = {

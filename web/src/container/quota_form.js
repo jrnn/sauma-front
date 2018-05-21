@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import QuotaForm from "../component/forms/quota_form"
 import React from "react"
 import { connect } from "react-redux"
@@ -24,12 +25,10 @@ class QuotaFormContainer extends React.Component {
 
   handleChange = (e, { name, value }) => {
     let quotas = this.state.quotas
-      .map(q => {
-        if (q.material.id === name)
-          return { ...q, quantity : value }
-        else
-          return q
-      })
+      .map(q => ( q.material.id === name )
+        ? { ...q, quantity : value }
+        : q
+      )
 
     this.setState({ quotas })
     this.props.sync(quotas)
@@ -45,26 +44,30 @@ class QuotaFormContainer extends React.Component {
     this.props.sync(quotas)
   }
 
-  render = () => {
-    let { header, materials, readOnly } = this.props
-    let { quotas } = this.state
-
-    return (
-      <QuotaForm
-        header={header}
-        onAdd={this.handleAdd}
-        onChange={this.handleChange}
-        onDelete={this.handleDelete}
-        options={quotaOptions(materials, quotas)}
-        readOnly={readOnly}
-        state={this.state}
-      />
-    )
-  }
+  render = () =>
+    <QuotaForm
+      header={this.props.header}
+      onAdd={this.handleAdd}
+      onChange={this.handleChange}
+      onDelete={this.handleDelete}
+      options={quotaOptions(
+        this.props.materials, this.state.quotas)
+      }
+      readOnly={this.props.readOnly}
+      state={this.state}
+    />
 }
 
 const mapStateToProps = (state) =>
   ({ materials : state.materials.data.items })
+
+QuotaFormContainer.propTypes = {
+  header : PropTypes.string.isRequired,
+  materials : PropTypes.arrayOf(PropTypes.object).isRequired,
+  quotas : PropTypes.arrayOf(PropTypes.object).isRequired,
+  readOnly : PropTypes.bool.isRequired,
+  sync : PropTypes.func.isRequired
+}
 
 export default connect(
   mapStateToProps,

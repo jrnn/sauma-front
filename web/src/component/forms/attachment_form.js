@@ -1,20 +1,21 @@
 import FormError from "../alerts/form_error"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Divider, Form, Input } from "semantic-ui-react"
 
 const AttachmentForm = (props) => {
-  let { errors, onChange, onClick, onSubmit, pending, state } = props
+  let { errors, state } = props
 
   return (
     <Form
-      loading={pending}
-      onSubmit={onSubmit}
+      loading={props.pending}
+      onSubmit={props.onSubmit}
     >
       <Form.Field error={( errors.name !== null )}>
         <label>Liitteen nimi / kuvaus</label>
         <Input
           name="name"
-          onChange={onChange}
+          onChange={props.onChange}
           value={state.name}
         />
         <FormError error={errors.name} />
@@ -32,7 +33,7 @@ const AttachmentForm = (props) => {
       </Form.Field>
       <Button
         content="Valitse tiedosto"
-        onClick={onClick}
+        onClick={props.onClick}
         fluid
       />
       <Divider hidden />
@@ -43,6 +44,15 @@ const AttachmentForm = (props) => {
       />
     </Form>
   )
+}
+
+AttachmentForm.propTypes = {
+  errors : PropTypes.object.isRequired,
+  onChange : PropTypes.func.isRequired,
+  onClick : PropTypes.func.isRequired,
+  onSubmit : PropTypes.func.isRequired,
+  pending : PropTypes.bool.isRequired,
+  state : PropTypes.object.isRequired
 }
 
 export default AttachmentForm

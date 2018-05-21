@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import React from "react"
 import { Input } from "semantic-ui-react"
 
-const SearchField = ({ onChange, value }) => (
+const SearchField = ({ onChange, value }) =>
   <Input
     fluid
     icon="search"
@@ -10,7 +10,6 @@ const SearchField = ({ onChange, value }) => (
     placeholder="Kirjoita hakusana"
     value={value}
   />
-)
 
 SearchField.propTypes = {
   onChange : PropTypes.func.isRequired,

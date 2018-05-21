@@ -44,7 +44,7 @@ class ProjectFormContainer extends React.Component {
           readOnly={readOnly}
           state={this.state}
         />
-        <Divider />
+        <Divider hidden />
         <AddressForm
           errors={errors}
           onChange={this.handleAddressChange}
@@ -74,6 +74,7 @@ ProjectFormContainer.propTypes = {
   errors : PropTypes.object.isRequired,
   isNew : PropTypes.bool.isRequired,
   managers : PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSubmit : PropTypes.func.isRequired,
   pending : PropTypes.bool.isRequired,
   project : PropTypes.object.isRequired,
   readOnly : PropTypes.bool.isRequired

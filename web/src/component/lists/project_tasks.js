@@ -5,7 +5,7 @@ import { Button, Divider, List } from "semantic-ui-react"
 import { formatDate } from "../../util/parser"
 import { Link } from "react-router-dom"
 
-const asRow = (t) => (
+const asRow = (t) =>
   <List.Item
     as={Link}
     key={t.id}
@@ -28,9 +28,8 @@ const asRow = (t) => (
       />
     </List.Content>
   </List.Item>
-)
 
-const buttons = (admin, id) => (
+const buttons = (admin, id) =>
   ( !admin )
     ? null
     : <div>
@@ -42,9 +41,8 @@ const buttons = (admin, id) => (
         to={`/tasks/new?id=${id}`}
       />
     </div>
-)
 
-const ProjectTasks = (props) => (
+const ProjectTasks = (props) =>
   <div>
     <List divided relaxed>
       {( props.tasks.length > 0 )
@@ -54,7 +52,6 @@ const ProjectTasks = (props) => (
     </List>
     {buttons(props.admin, props.id)}
   </div>
-)
 
 ProjectTasks.propTypes = {
   admin : PropTypes.bool.isRequired,

@@ -1,9 +1,10 @@
 import FormError from "../alerts/form_error"
+import PropTypes from "prop-types"
 import React from "react"
 import { Form, Input, TextArea } from "semantic-ui-react"
 
 const TaskForm = (props) => {
-  let { errors, onChange, readOnly, state } = props
+  let { errors, onChange, project, readOnly, state } = props
 
   return (
     <div>
@@ -11,7 +12,7 @@ const TaskForm = (props) => {
         <label>Työmaan työnumero</label>
         <Input
           disabled
-          value={props.project.projectId || ""}
+          value={project.projectId || ""}
         />
       </Form.Field>
       <Form.Field error={errors.name !== undefined}>
@@ -79,6 +80,14 @@ const TaskForm = (props) => {
       </Form.Field>
     </div>
   )
+}
+
+TaskForm.propTypes = {
+  errors : PropTypes.object.isRequired,
+  onChange : PropTypes.func.isRequired,
+  project : PropTypes.object.isRequired,
+  readOnly : PropTypes.bool.isRequired,
+  state : PropTypes.object.isRequired,
 }
 
 export default TaskForm

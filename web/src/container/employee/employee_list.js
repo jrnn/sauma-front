@@ -1,4 +1,5 @@
-import EmployeeList from "../../component/employee_list"
+import EmployeeList from "../../component/lists/employee_list"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 
@@ -10,9 +11,8 @@ class EmployeeListContainer extends React.Component {
 
   filterEmployees = () => {
     let { filter } = this.state
-    let { employees } = this.props
 
-    return employees
+    return this.props.employees
       .filter(e =>
         `${e.lastName}, ${e.firstName}`
           .toLowerCase().includes(filter))
@@ -23,24 +23,26 @@ class EmployeeListContainer extends React.Component {
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })
 
-  render = () => {
-    return (
-      <EmployeeList
-        admin={this.props.auth.admin}
-        employees={this.filterEmployees()}
-        filter={this.state.filter}
-        onChange={this.handleFilter}
-      />
-    )
-  }
+  render = () =>
+    <EmployeeList
+      admin={this.props.admin}
+      employees={this.filterEmployees()}
+      filter={this.state.filter}
+      onChange={this.handleFilter}
+    />
 }
 
 const mapStateToProps = (state) => (
   {
-    auth : state.auth,
+    admin : state.auth.admin,
     employees : state.employees.data.items
   }
 )
+
+EmployeeListContainer.propTypes = {
+  admin : PropTypes.bool.isRequired,
+  employees : PropTypes.arrayOf(PropTypes.object)
+}
 
 export default connect(
   mapStateToProps,

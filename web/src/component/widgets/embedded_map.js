@@ -3,12 +3,12 @@ import React from "react"
 
 const url = ({ city, street, zipCode }) => {
   let key = process.env.REACT_APP_GOOGLE_API_KEY
-  let q = encodeURI(`${street},${zipCode},${city}`)
+  let query = encodeURI(`${street},${zipCode},${city}`)
 
-  return `https://www.google.com/maps/embed/v1/place?key=${key}&q=${q}`
+  return `https://www.google.com/maps/embed/v1/place?key=${key}&q=${query}`
 }
 
-const EmbeddedMap = ({ address, id }) => (
+const EmbeddedMap = ({ address, id }) =>
   <div className="padded">
     <iframe
       frameBorder="0"
@@ -22,7 +22,6 @@ const EmbeddedMap = ({ address, id }) => (
       src={url(address)}
     />
   </div>
-)
 
 EmbeddedMap.propTypes = {
   address : PropTypes.shape({

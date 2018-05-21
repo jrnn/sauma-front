@@ -10,10 +10,9 @@ class ProjectDetailsContainer extends React.Component {
   save = (project) => {
     let { history, id, isNew, token } = this.props
 
-    if ( isNew )
-      this.props.createProject(project, token, history)
-    else
-      this.props.updateProject(id, project, token)
+    return ( isNew )
+      ? this.props.createProject(project, token, history)
+      : this.props.updateProject(id, project, token)
   }
 
   render = () => {

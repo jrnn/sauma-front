@@ -1,5 +1,6 @@
+import PropTypes from "prop-types"
 import React from "react"
-import TaskList from "../../component/task_list"
+import TaskList from "../../component/lists/task_list"
 import { connect } from "react-redux"
 
 class TaskListContainer extends React.Component {
@@ -10,9 +11,8 @@ class TaskListContainer extends React.Component {
 
   filterTasks = () => {
     let { filter } = this.state
-    let { tasks } = this.props
 
-    return tasks
+    return this.props.tasks
       .filter(t =>
         t.project.projectId.toLowerCase().includes(filter) ||
         t.name.toLowerCase().includes(filter))
@@ -27,19 +27,20 @@ class TaskListContainer extends React.Component {
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })
 
-  render = () => {
-    return (
-      <TaskList
-        filter={this.state.filter}
-        onChange={this.handleFilter}
-        tasks={this.filterTasks()}
-      />
-    )
-  }
+  render = () =>
+    <TaskList
+      filter={this.state.filter}
+      onChange={this.handleFilter}
+      tasks={this.filterTasks()}
+    />
 }
 
 const mapStateToProps = (state) =>
   ({ tasks : state.tasks.data.items })
+
+TaskListContainer.propTypes = {
+  tasks : PropTypes.arrayOf(PropTypes.object)
+}
 
 export default connect(
   mapStateToProps,

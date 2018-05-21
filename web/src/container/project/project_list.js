@@ -24,16 +24,13 @@ class ProjectListContainer extends React.Component {
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })
 
-  render = () => {
-    return (
-      <ProjectList
-        admin={this.props.admin}
-        filter={this.state.filter}
-        onChange={this.handleFilter}
-        projects={this.filterProjects()}
-      />
-    )
-  }
+  render = () =>
+    <ProjectList
+      admin={this.props.admin}
+      filter={this.state.filter}
+      onChange={this.handleFilter}
+      projects={this.filterProjects()}
+    />
 }
 
 const mapStateToProps = (state) => (

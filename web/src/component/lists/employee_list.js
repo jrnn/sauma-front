@@ -5,23 +5,29 @@ import SearchField from "../widgets/search_field"
 import { Button, Divider, List } from "semantic-ui-react"
 import { Link } from "react-router-dom"
 
-const asRow = (p) =>
+const asRow = (e) =>
   <List.Item
     as={Link}
-    key={p.id}
-    to={`/projects/${p.id}`}
+    key={e.id}
+    to={`/employees/${e.id}`}
   >
     <List.Icon
       color="grey"
-      name="industry"
+      name={( e.enabled )
+        ? "check"
+        : "ban"
+      }
       verticalAlign="middle"
     />
     <List.Content>
       <List.Header
-        content={`${p.projectId} — ${p.name}`}
+        content={`${e.lastName}, ${e.firstName}`}
       />
       <List.Description
-        content={p.client.legalEntity}
+        content={( e.administrator )
+          ? "Työnjohtaja"
+          : "Työntekijä"
+        }
       />
     </List.Content>
   </List.Item>
@@ -35,30 +41,30 @@ const buttons = (admin) =>
         as={Link}
         content="Lisää uusi"
         fluid
-        to="/projects/new"
+        to="/employees/new"
       />
     </div>
 
-const ProjectList = (props) =>
+const EmployeeList = (props) =>
   <div>
     <SearchField
       onChange={props.onChange}
       value={props.filter}
     />
     <List divided relaxed>
-      {( props.projects.length > 0 )
-        ? props.projects.map(asRow)
+      {( props.employees.length > 0 )
+        ? props.employees.map(asRow)
         : <EmptyList />
       }
     </List>
     {buttons(props.admin)}
   </div>
 
-ProjectList.propTypes = {
+EmployeeList.propTypes = {
   admin : PropTypes.bool.isRequired,
+  employees : PropTypes.arrayOf(PropTypes.object).isRequired,
   filter : PropTypes.string.isRequired,
-  onChange : PropTypes.func.isRequired,
-  projects : PropTypes.arrayOf(PropTypes.object).isRequired
+  onChange : PropTypes.func.isRequired
 }
 
-export default ProjectList
+export default EmployeeList

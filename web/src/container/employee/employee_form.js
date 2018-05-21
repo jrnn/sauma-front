@@ -1,5 +1,6 @@
 import AddressForm from "../../component/forms/address_form"
 import EmployeeForm from "../../component/forms/employee_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
@@ -32,11 +33,11 @@ class EmployeeFormContainer extends React.Component {
   }
 
   render = () => {
-    let { errors, pending, readOnly } = this.props
+    let { errors, readOnly } = this.props
 
     return (
       <Form
-        loading={pending}
+        loading={this.props.pending}
         onSubmit={this.handleSubmit}
       >
         <EmployeeForm
@@ -69,7 +70,7 @@ class EmployeeFormContainer extends React.Component {
             readOnly={readOnly}
           />
         </Form.Group>
-        <Divider hidden />
+        <Divider />
         {( readOnly )
           ? null
           : <Button content="Tallenna" fluid />
@@ -86,6 +87,14 @@ const mapStateToProps = (state) => (
     readOnly : ( !state.auth.admin )
   }
 )
+
+EmployeeFormContainer.propTypes = {
+  employee : PropTypes.object.isRequired,
+  errors : PropTypes.object.isRequired,
+  onSubmit : PropTypes.func.isRequired,
+  pending : PropTypes.bool.isRequired,
+  readOnly : PropTypes.bool.isRequired
+}
 
 export default connect(
   mapStateToProps,

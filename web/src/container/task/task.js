@@ -1,5 +1,7 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
+import Error from "../../component/alerts/error"
+import PropTypes from "prop-types"
 import React from "react"
 import TaskActivitiesContainer from "./task_activities"
 import TaskDetailsContainer from "./task_details"
@@ -20,17 +22,10 @@ class TaskContainer extends React.Component {
   render = () => {
     let { id, isNew, project, task } = this.props
 
-    if ( !isNew && !task ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
-
-    if ( isNew && !project ) return (
-      <h1 align="center">
-        Työmaan ID joko virheellinen tai puuttuu! Älä sooloile osoitepalkin kanssa!
-      </h1>
-    )
+    if ( !isNew && !task ) return <Error />
+    if ( isNew && !project ) return <Error
+      message="Virheellinen työmaan tunniste, älä sooloile osoitepalkin kanssa!"
+    />
 
     return (
       <div>
@@ -96,6 +91,18 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+TaskContainer.propTypes = {
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  location : PropTypes.object.isRequired,
+  match : PropTypes.object.isRequired,
+  project : PropTypes.object,
+  refresh : PropTypes.func.isRequired,
+  reset : PropTypes.func.isRequired,
+  task : PropTypes.object,
+  token : PropTypes.string.isRequired
+}
 
 export default connect(
   mapStateToProps,

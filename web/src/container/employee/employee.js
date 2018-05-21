@@ -1,5 +1,7 @@
 import Accordion from "../../component/widgets/accordion"
 import EmployeeDetailsContainer from "./employee_details"
+import Error from "../../component/alerts/error"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { resetWriteEmployee } from "../../action/employee"
@@ -10,12 +12,7 @@ class EmployeeContainer extends React.Component {
 
   render = () => {
     let { employee, id, isNew } = this.props
-
-    if ( !isNew && !employee ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
+    if ( !isNew && !employee ) return <Error />
 
     return (
       <div>
@@ -29,11 +26,11 @@ class EmployeeContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
+            <Accordion title="Työmaat">
+              <p>TULOSSA PIAN || employee.projects</p>
+            </Accordion>
             <Accordion title="Suoritteet">
               <p>TULOSSA PIAN</p>
-            </Accordion>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
             </Accordion>
           </div>
         }
@@ -60,6 +57,13 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+EmployeeContainer.propTypes = {
+  employee : PropTypes.object,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  reset : PropTypes.func.isRequired
+}
 
 export default connect(
   mapStateToProps,

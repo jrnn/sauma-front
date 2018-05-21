@@ -4,7 +4,7 @@ import React from "react"
 import { Button, Divider, Dropdown, Form, List } from "semantic-ui-react"
 import { Link } from "react-router-dom"
 
-const asRow = (e) => (
+const asRow = (e) =>
   <List.Item
     as={Link}
     key={e.id}
@@ -22,9 +22,8 @@ const asRow = (e) => (
       />
     </List.Content>
   </List.Item>
-)
 
-const ProjectEmployees = (props) => (
+const ProjectEmployees = (props) =>
   <div>
     <List divided relaxed>
       {( props.assigned.length > 0 )
@@ -53,7 +52,6 @@ const ProjectEmployees = (props) => (
       </div>
     }
   </div>
-)
 
 ProjectEmployees.propTypes = {
   assigned : PropTypes.arrayOf(PropTypes.object).isRequired,

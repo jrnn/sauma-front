@@ -52,26 +52,23 @@ class AttachmentFormContainer extends React.Component {
     }
   }
 
-  render = () => {
-    return (
-      <div>
-        <AttachmentForm
-          errors={this.validateForm()}
-          onChange={this.handleChange}
-          onClick={this.handleClick}
-          onSubmit={this.handleSubmit}
-          pending={this.props.pending}
-          state={this.state}
-        />
-        <input
-          hidden
-          onChange={this.handleFilePick}
-          ref={c => this.filePicker = c}
-          type="file"
-        />
-      </div>
-    )
-  }
+  render = () =>
+    <div>
+      <AttachmentForm
+        errors={this.validateForm()}
+        onChange={this.handleChange}
+        onClick={this.handleClick}
+        onSubmit={this.handleSubmit}
+        pending={this.props.pending}
+        state={this.state}
+      />
+      <input
+        hidden
+        onChange={this.handleFilePick}
+        ref={c => this.filePicker = c}
+        type="file"
+      />
+    </div>
 }
 
 const mapStateToProps = (state) =>

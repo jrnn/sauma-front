@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 import TaskFormContainer from "./task_form"
 import { connect } from "react-redux"
@@ -21,18 +22,26 @@ class TaskDetailsContainer extends React.Component {
       this.props.updateTask(id, payload, token)
   }
 
-  render = () => {
-    return (
-      <TaskFormContainer
-        onSubmit={this.save}
-        task={this.props.task}
-      />
-    )
-  }
+  render = () =>
+    <TaskFormContainer
+      onSubmit={this.save}
+      task={this.props.task}
+    />
 }
 
 const mapStateToProps = (state) =>
   ({ token : state.auth.token })
+
+TaskDetailsContainer.propTypes = {
+  createTask : PropTypes.func.isRequired,
+  history : PropTypes.object.isRequired,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  project : PropTypes.object.isRequired,
+  task : PropTypes.object.isRequired,
+  token : PropTypes.string.isRequired,
+  updateTask : PropTypes.func.isRequired
+}
 
 export default withRouter(connect(
   mapStateToProps,

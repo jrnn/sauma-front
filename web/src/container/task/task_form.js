@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import QuotaFormContainer from "../quota_form"
 import React from "react"
 import TaskForm from "../../component/forms/task_form"
@@ -28,15 +29,15 @@ class TaskFormContainer extends React.Component {
     this.setState({ ...this.state, quotas })
 
   render = () => {
-    let { errors, pending, readOnly, task } = this.props
+    let { readOnly, task } = this.props
 
     return (
       <Form
-        loading={pending}
+        loading={this.props.pending}
         onSubmit={this.handleSubmit}
       >
         <TaskForm
-          errors={errors}
+          errors={this.props.errors}
           onChange={this.handleChange}
           project={task.project || {}}
           readOnly={readOnly}
@@ -49,7 +50,7 @@ class TaskFormContainer extends React.Component {
           readOnly={readOnly}
           sync={this.syncQuotaState}
         />
-        <Divider />
+        <Divider hidden />
         <Form.Field className="padded">
           <Form.Checkbox
             checked={this.state.completed}
@@ -75,6 +76,14 @@ const mapStateToProps = (state) => (
     readOnly : ( !state.auth.admin )
   }
 )
+
+TaskFormContainer.propTypes = {
+  errors : PropTypes.object.isRequired,
+  onSubmit : PropTypes.func.isRequired,
+  pending : PropTypes.bool.isRequired,
+  readOnly : PropTypes.bool.isRequired,
+  task : PropTypes.object.isRequired
+}
 
 export default connect(
   mapStateToProps,

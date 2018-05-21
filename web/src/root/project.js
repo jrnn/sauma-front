@@ -15,8 +15,8 @@ class ProjectRoot extends React.Component {
   render = () => {
     let { error, match, pending } = this.props
 
-    if ( pending ) return (<Spinner />)
-    if ( error ) return (<Error message={error} />)
+    if ( pending ) return <Spinner />
+    if ( error ) return <Error message={error} />
 
     return (
       <div>

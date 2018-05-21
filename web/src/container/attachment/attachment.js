@@ -1,6 +1,5 @@
 import AttachmentFormContainer from "./attachment_form"
 import AttachmentList from "../../component/lists/attachment_list"
-import EmptyList from "../../component/alerts/empty_list"
 import Expandable from "../../component/widgets/expandable"
 import PropTypes from "prop-types"
 import React from "react"
@@ -18,25 +17,21 @@ class AttachmentContainer extends React.Component {
     uploadAttachment(id, data, token, thunk, this.expandable.toggle)
   }
 
-  render = () => {
-    let { attachments } = this.props
-
-    return (
-      <div>
-        {( attachments.length > 0)
-          ? <AttachmentList attachments={attachments} />
-          : <EmptyList />
-        }
-        <Divider />
-        <Expandable
-          button="Lisää liite"
-          ref={c => this.expandable = c}
-        >
-          <AttachmentFormContainer onSubmit={this.upload} />
-        </Expandable>
-      </div>
-    )
-  }
+  render = () =>
+    <div>
+      <AttachmentList
+        attachments={this.props.attachments}
+      />
+      <Divider />
+      <Expandable
+        button="Lisää liite"
+        ref={c => this.expandable = c}
+      >
+        <AttachmentFormContainer
+          onSubmit={this.upload}
+        />
+      </Expandable>
+    </div>
 }
 
 const mapStateToProps = (state) =>

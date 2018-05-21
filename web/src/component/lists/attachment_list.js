@@ -1,10 +1,11 @@
+import EmptyList from "../alerts/empty_list"
 import PropTypes from "prop-types"
 import React from "react"
 import { formatDate } from "../../util/parser"
 import { Link } from "react-router-dom"
 import { List } from "semantic-ui-react"
 
-const asRow = (a) => (
+const asRow = (a) =>
   <List.Item
     as={Link}
     key={a.key}
@@ -23,17 +24,17 @@ const asRow = (a) => (
       />
     </List.Content>
   </List.Item>
-)
 
-const AttachmentList = ({ attachments }) => (
+const AttachmentList = ({ attachments }) =>
   <List divided relaxed>
-    {attachments
-      .sort((a1, a2) =>
-        Date.parse(a2.createdOn) - Date.parse(a1.createdOn))
-      .map(asRow)
+    {( attachments.length > 0 )
+      ? attachments
+        .sort((a1, a2) =>
+          Date.parse(a2.createdOn) - Date.parse(a1.createdOn))
+        .map(asRow)
+      : <EmptyList />
     }
   </List>
-)
 
 AttachmentList.propTypes = {
   attachments : PropTypes.arrayOf(PropTypes.object).isRequired

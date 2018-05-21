@@ -4,15 +4,12 @@ import React from "react"
 import { connect } from "react-redux"
 
 class ProjectTasksContainer extends React.Component {
-  render = () => {
-    return (
-      <ProjectTasks
-        admin={this.props.admin}
-        id={this.props.id}
-        tasks={this.props.tasks}
-      />
-    )
-  }
+  render = () =>
+    <ProjectTasks
+      admin={this.props.admin}
+      id={this.props.id}
+      tasks={this.props.tasks}
+    />
 }
 
 const mapStateToProps = (state, props) => (

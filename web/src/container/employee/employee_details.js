@@ -1,4 +1,5 @@
 import EmployeeFormContainer from "./employee_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { createEmployee, updateEmployee } from "../../action/employee"
@@ -8,24 +9,30 @@ class EmployeeDetailsContainer extends React.Component {
   save = (employee) => {
     let { history, id, isNew, token } = this.props
 
-    if ( isNew )
-      this.props.createEmployee(employee, token, history)
-    else
-      this.props.updateEmployee(id, employee, token)
+    return ( isNew )
+      ? this.props.createEmployee(employee, token, history)
+      : this.props.updateEmployee(id, employee, token)
   }
 
-  render = () => {
-    return (
-      <EmployeeFormContainer
-        employee={this.props.employee}
-        onSubmit={this.save}
-      />
-    )
-  }
+  render = () =>
+    <EmployeeFormContainer
+      employee={this.props.employee}
+      onSubmit={this.save}
+    />
 }
 
 const mapStateToProps = (state) =>
   ({ token : state.auth.token })
+
+EmployeeDetailsContainer.propTypes = {
+  createEmployee : PropTypes.func.isRequired,
+  employee : PropTypes.object.isRequired,
+  history : PropTypes.object.isRequired,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  token : PropTypes.string.isRequired,
+  updateEmployee : PropTypes.func.isRequired
+}
 
 export default withRouter(connect(
   mapStateToProps,

@@ -1,7 +1,7 @@
 import React from "react"
 import { List } from "semantic-ui-react"
 
-const EmptyList = () => (
+const EmptyList = () =>
   <List.Item disabled>
     <List.Content align="center" >
       <List.Header content="( Ei osumia! )" />
@@ -10,6 +10,5 @@ const EmptyList = () => (
       />
     </List.Content>
   </List.Item>
-)
 
 export default EmptyList

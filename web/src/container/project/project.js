@@ -22,7 +22,7 @@ class ProjectContainer extends React.Component {
 
   render = () => {
     let { id, isNew, project } = this.props
-    if ( !isNew && !project ) return (<Error />)
+    if ( !isNew && !project ) return <Error />
 
     return (
       <div>
@@ -92,6 +92,7 @@ const mapDispatchToProps = (dispatch) => (
 ProjectContainer.propTypes = {
   id : PropTypes.string.isRequired,
   isNew : PropTypes.bool.isRequired,
+  match : PropTypes.object.isRequired,
   project : PropTypes.object,
   refresh : PropTypes.func.isRequired,
   reset : PropTypes.func.isRequired,
