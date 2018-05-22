@@ -15,7 +15,7 @@ const AddressForm = (props) => {
           onChange={onChange}
           placeholder="Saumakuja 313"
           readOnly={readOnly}
-          value={state.address.street}
+          value={state.street}
         />
       </Form.Field>
       <Form.Field error={errors["address.street"] !== undefined}>
@@ -23,7 +23,7 @@ const AddressForm = (props) => {
           name="streetExt"
           onChange={onChange}
           readOnly={readOnly}
-          value={state.address.streetExt}
+          value={state.streetExt}
         />
         <FormError error={errors["address.street"]} />
       </Form.Field>
@@ -34,7 +34,7 @@ const AddressForm = (props) => {
           onChange={onChange}
           placeholder="01300"
           readOnly={readOnly}
-          value={state.address.zipCode}
+          value={state.zipCode}
         />
         <FormError error={errors["address.zipCode"]} />
       </Form.Field>
@@ -45,7 +45,7 @@ const AddressForm = (props) => {
           onChange={onChange}
           placeholder="Saumala"
           readOnly={readOnly}
-          value={state.address.city}
+          value={state.city}
         />
         <FormError error={errors["address.city"]} />
       </Form.Field>
@@ -56,7 +56,7 @@ const AddressForm = (props) => {
           onChange={onChange}
           placeholder="Suomi"
           readOnly={readOnly}
-          value={state.address.country}
+          value={state.country}
         />
         <FormError error={errors["address.country"]} />
       </Form.Field>

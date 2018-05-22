@@ -1,4 +1,4 @@
-import AddressForm from "../../component/forms/address_form"
+import AddressFormContainer from "../address_form"
 import EmployeeForm from "../../component/forms/employee_form"
 import PropTypes from "prop-types"
 import React from "react"
@@ -22,13 +22,6 @@ class MyFormContainer extends React.Component {
     this.state = initState(props.employee)
   }
 
-  handleAddressChange = (e, { name, value }) => {
-    let { address } = this.state
-    address[name] = value
-
-    this.setState({ ...this.state, address })
-  }
-
   handleChange = (e, { name, value }) =>
     this.setState({ [name] : value })
 
@@ -38,6 +31,9 @@ class MyFormContainer extends React.Component {
     let { id, token } = this.props.auth
     this.props.updateEmployee(id, this.state, token)
   }
+
+  syncAddressState = (address) =>
+    this.setState({ ...this.state, address })
 
   render = () =>
     <Form
@@ -51,11 +47,11 @@ class MyFormContainer extends React.Component {
         state={this.state}
       />
       <Divider hidden />
-      <AddressForm
+      <AddressFormContainer
+        address={this.state.address}
         errors={this.props.errors}
-        onChange={this.handleAddressChange}
         readOnly={false}
-        state={this.state}
+        sync={this.syncAddressState}
       />
       <Divider hidden />
       <Button content="Tallenna" fluid />

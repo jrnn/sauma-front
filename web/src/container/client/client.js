@@ -1,6 +1,6 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
-import ClientDetailsContainer from "./client_details"
+import ClientFormContainer from "./client_form"
 import Error from "../../component/alerts/error"
 import ProjectListContainer from "../project/project_list"
 import PropTypes from "prop-types"
@@ -23,7 +23,7 @@ class ClientContainer extends React.Component {
     return (
       <div>
         <Accordion active={isNew} title="Perustiedot">
-          <ClientDetailsContainer
+          <ClientFormContainer
             client={client || {}}
             id={id}
             isNew={isNew}

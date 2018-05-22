@@ -5,6 +5,13 @@ import React from "react"
 import { activityState } from "../../util/form_state"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
+import {
+  createActivity,
+  signOffActivity,
+  updateActivity
+} from "../../action/activity"
+import { parseNumber, parseQuotas } from "../../util/parser"
+import { withRouter } from "react-router-dom"
 
 class ActivityFormContainer extends React.Component {
   constructor(props) {
@@ -13,7 +20,7 @@ class ActivityFormContainer extends React.Component {
   }
 
   handleChange = (e, data) => {
-    let value = data.type === "checkbox"
+    let value = ( data.type === "checkbox" )
       ? data.checked
       : data.value
 
@@ -22,12 +29,16 @@ class ActivityFormContainer extends React.Component {
 
   handleSave = (e) => {
     e.preventDefault(e)
-    this.props.onSave(this.state)
+
+    let { auth, history, id, isNew, task } = this.props
+    this.props.save(this.state, history, id, isNew, task, auth.token)
   }
 
   handleSign = (e) => {
     e.preventDefault(e)
-    this.props.onSign(this.state)
+
+    let { auth, id } = this.props
+    this.props.sign(id, auth.token)
   }
 
   syncQuotaState = (quotas) =>
@@ -95,17 +106,39 @@ const mapStateToProps = (state) => (
   }
 )
 
+const mapDispatchToProps = (dispatch) => (
+  {
+    save : (data, history, id, isNew, task, token) => {
+      let payload = {
+        ...data,
+        hours : parseNumber(data.hours),
+        quotas : parseQuotas(data.quotas),
+        task : task.id || null
+      }
+      return ( isNew )
+        ? dispatch(createActivity(payload, token, history))
+        : dispatch(updateActivity(id, payload, token))
+    },
+    sign : (id, token) => {
+      dispatch(signOffActivity(id, token))
+    }
+  }
+)
+
 ActivityFormContainer.propTypes = {
   activity : PropTypes.object.isRequired,
   auth : PropTypes.object.isRequired,
   errors : PropTypes.object.isRequired,
+  history : PropTypes.object.isRequired,
+  id : PropTypes.string.isRequired,
   isNew : PropTypes.bool.isRequired,
-  onSave : PropTypes.func.isRequired,
-  onSign : PropTypes.func.isRequired,
-  pending : PropTypes.bool.isRequired
+  pending : PropTypes.bool.isRequired,
+  save : PropTypes.func.isRequired,
+  sign : PropTypes.func.isRequired,
+  task : PropTypes.object.isRequired
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
-  null
-)(ActivityFormContainer)
+  mapDispatchToProps
+)(ActivityFormContainer))

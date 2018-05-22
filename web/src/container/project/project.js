@@ -2,8 +2,8 @@ import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
 import EmbeddedMap from "../../component/widgets/embedded_map"
 import Error from "../../component/alerts/error"
-import ProjectDetailsContainer from "./project_details"
 import ProjectEmployeesContainer from "./project_employees"
+import ProjectFormContainer from "./project_form"
 import ProjectTasksContainer from "./project_tasks"
 import PropTypes from "prop-types"
 import React from "react"
@@ -27,7 +27,7 @@ class ProjectContainer extends React.Component {
     return (
       <div>
         <Accordion active={isNew} title="Perustiedot">
-          <ProjectDetailsContainer
+          <ProjectFormContainer
             id={id}
             isNew={isNew}
             project={project || {}}

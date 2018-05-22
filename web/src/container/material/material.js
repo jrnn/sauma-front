@@ -1,7 +1,7 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
 import Error from "../../component/alerts/error"
-import MaterialDetailsContainer from "./material_details"
+import MaterialFormContainer from "./material_form"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
@@ -18,7 +18,7 @@ class MaterialContainer extends React.Component {
     return (
       <div>
         <Accordion active={isNew} title="Perustiedot">
-          <MaterialDetailsContainer
+          <MaterialFormContainer
             id={id}
             isNew={isNew}
             material={material || {}}

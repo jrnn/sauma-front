@@ -1,6 +1,6 @@
 import Accordion from "../../component/widgets/accordion"
 import ActivityListContainer from "../activity/activity_list"
-import EmployeeDetailsContainer from "./employee_details"
+import EmployeeFormContainer from "./employee_form"
 import Error from "../../component/alerts/error"
 import ProjectListContainer from "../project/project_list"
 import PropTypes from "prop-types"
@@ -24,7 +24,7 @@ class EmployeeContainer extends React.Component {
     return (
       <div>
         <Accordion active={isNew} title="Perustiedot">
-          <EmployeeDetailsContainer
+          <EmployeeFormContainer
             employee={employee || {}}
             id={this.props.id}
             isNew={isNew}

@@ -4,7 +4,7 @@ import Error from "../../component/alerts/error"
 import PropTypes from "prop-types"
 import React from "react"
 import TaskActivitiesContainer from "./task_activities"
-import TaskDetailsContainer from "./task_details"
+import TaskFormContainer from "./task_form"
 import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchMaterialsIfNeeded } from "../../action/material"
@@ -30,7 +30,7 @@ class TaskContainer extends React.Component {
     return (
       <div>
         <Accordion active={isNew} title="Perustiedot">
-          <TaskDetailsContainer
+          <TaskFormContainer
             id={id}
             isNew={isNew}
             project={project || {}}

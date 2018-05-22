@@ -1,5 +1,5 @@
 import Accordion from "../../component/widgets/accordion"
-import ActivityDetailsContainer from "./activity_details"
+import ActivityFormContainer from "./activity_form"
 import AttachmentContainer from "../attachment/attachment"
 import Error from "../../component/alerts/error"
 import PropTypes from "prop-types"
@@ -28,7 +28,7 @@ class ActivityContainer extends React.Component {
     return (
       <div>
         <Accordion active={isNew} title="Perustiedot">
-          <ActivityDetailsContainer
+          <ActivityFormContainer
             activity={activity || { task }}
             id={id}
             isNew={isNew}
