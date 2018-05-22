@@ -1,4 +1,5 @@
-import ProjectEmployees from "../../component/lists/project_employees"
+import Assigner from "../../component/widgets/assigner"
+import EmployeeListContainer from "../employee/employee_list"
 import PropTypes from "prop-types"
 import React from "react"
 import { assignEmployeeToProject } from "../../action/project"
@@ -8,7 +9,7 @@ import { unassignedOptions } from "../../util/form_options"
 class ProjectEmployeesContainer extends React.Component {
   constructor() {
     super()
-    this.state = { id : null }
+    this.state = { id : "" }
   }
 
   assign = (e) => {
@@ -22,17 +23,26 @@ class ProjectEmployeesContainer extends React.Component {
     this.setState({ id : value })
 
   render = () => {
-    let { auth, employees, project } = this.props
+    let { employees, project } = this.props
 
     return (
-      <ProjectEmployees
-        assigned={project.employees}
-        onChange={this.handleChange}
-        onSubmit={this.assign}
-        readOnly={( !auth.admin )}
-        selected={this.state.id}
-        unassigned={unassignedOptions(employees, project)}
-      />
+      <div>
+        <EmployeeListContainer
+          employees={employees
+            .filter(e => project.employees.includes(e.id))
+          }
+        />
+        <Assigner
+          active={this.props.auth.admin}
+          button="Osoita"
+          label="Osoita työntekijä työmaalle"
+          onChange={this.handleChange}
+          onSubmit={this.assign}
+          options={unassignedOptions(employees, project)}
+          placeholder="Valitse työntekijä"
+          selected={this.state.id}
+        />
+      </div>
     )
   }
 }

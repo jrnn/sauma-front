@@ -1,8 +1,10 @@
 import FormError from "../alerts/form_error"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Form, Input } from "semantic-ui-react"
 
-const LoginForm = ({ error, loading, onChange, onSubmit, state }) => {
+const LoginForm = (props) => {
+  let { error, onChange, state } = props
   let { password, username } = state
   let isDisabled = ( password.length === 0 || username.length === 0 )
 
@@ -10,8 +12,8 @@ const LoginForm = ({ error, loading, onChange, onSubmit, state }) => {
     <div>
       <h2 className="padded">Kirjaudu sisään</h2>
       <Form
-        loading={loading}
-        onSubmit={onSubmit}
+        loading={props.pending}
+        onSubmit={props.onSubmit}
       >
         <Form.Field error={error !== null}>
           <label>Käyttäjätunnus</label>
@@ -38,10 +40,18 @@ const LoginForm = ({ error, loading, onChange, onSubmit, state }) => {
           disabled={isDisabled}
           fluid
         />
-        <p className="huom">{"Tähän 'Forgot password?' josta emailiin vahvistuslinkki"}</p>
+        <p className="huom">{"TO-DO: Tähän 'Forgot password?' josta emailiin vahvistuslinkki"}</p>
       </Form>
     </div>
   )
+}
+
+LoginForm.propTypes = {
+  error : PropTypes.string,
+  onChange : PropTypes.func.isRequired,
+  onSubmit : PropTypes.func.isRequired,
+  pending : PropTypes.bool.isRequired,
+  state : PropTypes.object.isRequired
 }
 
 export default LoginForm

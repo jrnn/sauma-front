@@ -1,7 +1,7 @@
 import EmployeeList from "../../component/lists/employee_list"
 import PropTypes from "prop-types"
 import React from "react"
-import { connect } from "react-redux"
+import SearchField from "../../component/widgets/search_field"
 
 class EmployeeListContainer extends React.Component {
   constructor() {
@@ -24,27 +24,19 @@ class EmployeeListContainer extends React.Component {
     this.setState({ filter : value.toLowerCase() })
 
   render = () =>
-    <EmployeeList
-      admin={this.props.admin}
-      employees={this.filterEmployees()}
-      filter={this.state.filter}
-      onChange={this.handleFilter}
-    />
+    <div>
+      <SearchField
+        onChange={this.handleFilter}
+        value={this.state.filter}
+      />
+      <EmployeeList
+        employees={this.filterEmployees()}
+      />
+    </div>
 }
 
-const mapStateToProps = (state) => (
-  {
-    admin : state.auth.admin,
-    employees : state.employees.data.items
-  }
-)
-
 EmployeeListContainer.propTypes = {
-  admin : PropTypes.bool.isRequired,
   employees : PropTypes.arrayOf(PropTypes.object)
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(EmployeeListContainer)
+export default EmployeeListContainer

@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import React from "react"
 import Spinner from "../component/widgets/spinner"
 import TaskContainer from "../container/task/task"
-import TaskListContainer from "../container/task/task_list"
+import TasksContainer from "../container/task/tasks"
 import { connect } from "react-redux"
 import { fetchTasksIfNeeded } from "../action/task"
 import { Route } from "react-router-dom"
@@ -26,7 +26,7 @@ class TaskRoot extends React.Component {
           exact path={`${match.path}/:id`}
         />
         <Route
-          component={TaskListContainer}
+          component={TasksContainer}
           exact path={match.path}
         />
       </div>

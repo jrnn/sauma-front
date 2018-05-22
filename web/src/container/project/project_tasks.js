@@ -1,15 +1,21 @@
-import ProjectTasks from "../../component/lists/project_tasks"
+import LinkButton from "../../component/widgets/link_button"
 import PropTypes from "prop-types"
 import React from "react"
+import TaskListContainer from "../task/task_list"
 import { connect } from "react-redux"
 
 class ProjectTasksContainer extends React.Component {
   render = () =>
-    <ProjectTasks
-      admin={this.props.admin}
-      id={this.props.id}
-      tasks={this.props.tasks}
-    />
+    <div>
+      <TaskListContainer
+        tasks={this.props.tasks}
+      />
+      <LinkButton
+        active={this.props.admin}
+        href={`/tasks/new?id=${this.props.id}`}
+        label="Lisää uusi"
+      />
+    </div>
 }
 
 const mapStateToProps = (state, props) => (

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import React from "react"
+import SearchField from "../../component/widgets/search_field"
 import TaskList from "../../component/lists/task_list"
-import { connect } from "react-redux"
 
 class TaskListContainer extends React.Component {
   constructor() {
@@ -28,21 +28,19 @@ class TaskListContainer extends React.Component {
     this.setState({ filter : value.toLowerCase() })
 
   render = () =>
-    <TaskList
-      filter={this.state.filter}
-      onChange={this.handleFilter}
-      tasks={this.filterTasks()}
-    />
+    <div>
+      <SearchField
+        onChange={this.handleFilter}
+        value={this.state.filter}
+      />
+      <TaskList
+        tasks={this.filterTasks()}
+      />
+    </div>
 }
-
-const mapStateToProps = (state) =>
-  ({ tasks : state.tasks.data.items })
 
 TaskListContainer.propTypes = {
   tasks : PropTypes.arrayOf(PropTypes.object)
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(TaskListContainer)
+export default TaskListContainer

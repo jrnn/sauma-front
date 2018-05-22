@@ -41,12 +41,9 @@ export const quotaOptions = (materials, quotas) => {
     }))
 }
 
-export const unassignedOptions = (employees, project) => {
-  let assignedIds = project.employees
-    .map(e => e.id)
-
-  return employees
-    .filter(e => !assignedIds.includes(e.id))
+export const unassignedOptions = (employees, project) =>
+  employees
+    .filter(e => !project.employees.includes(e.id))
     .map(e => ({
       key : e.id,
       text : `${e.lastName}, ${e.firstName}`,
@@ -54,4 +51,3 @@ export const unassignedOptions = (employees, project) => {
     }))
     .sort((e1, e2) =>
       e1.text.localeCompare(e2.text))
-}

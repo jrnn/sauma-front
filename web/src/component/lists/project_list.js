@@ -1,9 +1,8 @@
 import EmptyList from "../alerts/empty_list"
 import PropTypes from "prop-types"
 import React from "react"
-import SearchField from "../widgets/search_field"
-import { Button, Divider, List } from "semantic-ui-react"
 import { Link } from "react-router-dom"
+import { List } from "semantic-ui-react"
 
 const asRow = (p) =>
   <List.Item
@@ -26,38 +25,15 @@ const asRow = (p) =>
     </List.Content>
   </List.Item>
 
-const buttons = (admin) =>
-  ( !admin )
-    ? null
-    : <div>
-      <Divider />
-      <Button
-        as={Link}
-        content="Lisää uusi"
-        fluid
-        to="/projects/new"
-      />
-    </div>
-
-const ProjectList = (props) =>
-  <div>
-    <SearchField
-      onChange={props.onChange}
-      value={props.filter}
-    />
-    <List divided relaxed>
-      {( props.projects.length > 0 )
-        ? props.projects.map(asRow)
-        : <EmptyList />
-      }
-    </List>
-    {buttons(props.admin)}
-  </div>
+const ProjectList = ({ projects }) =>
+  <List divided relaxed>
+    {( projects.length > 0 )
+      ? projects.map(asRow)
+      : <EmptyList />
+    }
+  </List>
 
 ProjectList.propTypes = {
-  admin : PropTypes.bool.isRequired,
-  filter : PropTypes.string.isRequired,
-  onChange : PropTypes.func.isRequired,
   projects : PropTypes.arrayOf(PropTypes.object).isRequired
 }
 

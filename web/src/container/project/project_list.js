@@ -1,7 +1,7 @@
 import ProjectList from "../../component/lists/project_list"
 import PropTypes from "prop-types"
 import React from "react"
-import { connect } from "react-redux"
+import SearchField from "../../component/widgets/search_field"
 
 class ProjectListContainer extends React.Component {
   constructor() {
@@ -25,27 +25,19 @@ class ProjectListContainer extends React.Component {
     this.setState({ filter : value.toLowerCase() })
 
   render = () =>
-    <ProjectList
-      admin={this.props.admin}
-      filter={this.state.filter}
-      onChange={this.handleFilter}
-      projects={this.filterProjects()}
-    />
+    <div>
+      <SearchField
+        onChange={this.handleFilter}
+        value={this.state.filter}
+      />
+      <ProjectList
+        projects={this.filterProjects()}
+      />
+    </div>
 }
 
-const mapStateToProps = (state) => (
-  {
-    admin : state.auth.admin,
-    projects : state.projects.data.items
-  }
-)
-
 ProjectListContainer.propTypes = {
-  admin : PropTypes.bool.isRequired,
   projects : PropTypes.arrayOf(PropTypes.object)
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(ProjectListContainer)
+export default ProjectListContainer

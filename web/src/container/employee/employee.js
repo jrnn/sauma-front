@@ -1,17 +1,22 @@
 import Accordion from "../../component/widgets/accordion"
 import EmployeeDetailsContainer from "./employee_details"
 import Error from "../../component/alerts/error"
+import ProjectListContainer from "../project/project_list"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
+import { fetchProjectsIfNeeded } from "../../action/project"
 import { resetWriteEmployee } from "../../action/employee"
 
 class EmployeeContainer extends React.Component {
+  componentDidMount = () =>
+    this.props.refresh(this.props.token)
+
   componentWillUnmount = () =>
     this.props.reset()
 
   render = () => {
-    let { employee, id, isNew } = this.props
+    let { employee, isNew } = this.props
     if ( !isNew && !employee ) return <Error />
 
     return (
@@ -19,7 +24,7 @@ class EmployeeContainer extends React.Component {
         <Accordion active={isNew} title="Perustiedot">
           <EmployeeDetailsContainer
             employee={employee || {}}
-            id={id}
+            id={this.props.id}
             isNew={isNew}
           />
         </Accordion>
@@ -27,7 +32,9 @@ class EmployeeContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="Työmaat">
-              <p>TULOSSA PIAN || employee.projects</p>
+              <ProjectListContainer
+                projects={this.props.projects}
+              />
             </Accordion>
             <Accordion title="Suoritteet">
               <p>TULOSSA PIAN</p>
@@ -46,12 +53,18 @@ const mapStateToProps = (state, props) => {
     employee : state.employees.data.items
       .find(e => e.id === id),
     id,
-    isNew : ( id === "new" )
+    isNew : ( id === "new" ),
+    projects : state.projects.data.items
+      .filter(p => p.employees.includes(id)),
+    token : state.auth.token
   }
 }
 
 const mapDispatchToProps = (dispatch) => (
   {
+    refresh : (token) => {
+      dispatch(fetchProjectsIfNeeded(token))
+    },
     reset : () => {
       dispatch(resetWriteEmployee())
     }
@@ -62,7 +75,10 @@ EmployeeContainer.propTypes = {
   employee : PropTypes.object,
   id : PropTypes.string.isRequired,
   isNew : PropTypes.bool.isRequired,
-  reset : PropTypes.func.isRequired
+  projects : PropTypes.arrayOf(PropTypes.object).isRequired,
+  refresh : PropTypes.func.isRequired,
+  reset : PropTypes.func.isRequired,
+  token : PropTypes.string.isRequired
 }
 
 export default connect(

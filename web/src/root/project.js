@@ -1,6 +1,6 @@
 import Error from "../component/alerts/error"
 import ProjectContainer from "../container/project/project"
-import ProjectListContainer from "../container/project/project_list"
+import ProjectsContainer from "../container/project/projects"
 import PropTypes from "prop-types"
 import React from "react"
 import Spinner from "../component/widgets/spinner"
@@ -26,7 +26,7 @@ class ProjectRoot extends React.Component {
           exact path={`${match.path}/:id`}
         />
         <Route
-          component={ProjectListContainer}
+          component={ProjectsContainer}
           exact path={match.path}
         />
       </div>

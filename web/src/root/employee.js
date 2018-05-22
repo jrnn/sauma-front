@@ -1,5 +1,5 @@
 import EmployeeContainer from "../container/employee/employee"
-import EmployeeListContainer from "../container/employee/employee_list"
+import EmployeesContainer from "../container/employee/employees"
 import Error from "../component/alerts/error"
 import PropTypes from "prop-types"
 import React from "react"
@@ -26,7 +26,7 @@ class EmployeeRoot extends React.Component {
           exact path={`${match.path}/:id`}
         />
         <Route
-          component={EmployeeListContainer}
+          component={EmployeesContainer}
           exact path={match.path}
         />
       </div>

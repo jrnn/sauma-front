@@ -1,9 +1,8 @@
 import EmptyList from "../alerts/empty_list"
 import PropTypes from "prop-types"
 import React from "react"
-import SearchField from "../widgets/search_field"
-import { Button, Divider, List } from "semantic-ui-react"
 import { Link } from "react-router-dom"
+import { List } from "semantic-ui-react"
 
 const asRow = (e) =>
   <List.Item
@@ -32,39 +31,16 @@ const asRow = (e) =>
     </List.Content>
   </List.Item>
 
-const buttons = (admin) =>
-  ( !admin )
-    ? null
-    : <div>
-      <Divider />
-      <Button
-        as={Link}
-        content="Lisää uusi"
-        fluid
-        to="/employees/new"
-      />
-    </div>
-
-const EmployeeList = (props) =>
-  <div>
-    <SearchField
-      onChange={props.onChange}
-      value={props.filter}
-    />
-    <List divided relaxed>
-      {( props.employees.length > 0 )
-        ? props.employees.map(asRow)
-        : <EmptyList />
-      }
-    </List>
-    {buttons(props.admin)}
-  </div>
+const EmployeeList = ({ employees }) =>
+  <List divided relaxed>
+    {( employees.length > 0 )
+      ? employees.map(asRow)
+      : <EmptyList />
+    }
+  </List>
 
 EmployeeList.propTypes = {
-  admin : PropTypes.bool.isRequired,
-  employees : PropTypes.arrayOf(PropTypes.object).isRequired,
-  filter : PropTypes.string.isRequired,
-  onChange : PropTypes.func.isRequired
+  employees : PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default EmployeeList

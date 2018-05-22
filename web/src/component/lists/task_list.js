@@ -1,7 +1,6 @@
 import EmptyList from "../alerts/empty_list"
 import PropTypes from "prop-types"
 import React from "react"
-import SearchField from "../widgets/search_field"
 import { formatDate } from "../../util/parser"
 import { Link } from "react-router-dom"
 import { List } from "semantic-ui-react"
@@ -30,23 +29,15 @@ const asRow = (t) =>
     </List.Content>
   </List.Item>
 
-const TaskList = ({ filter, onChange, tasks }) =>
-  <div>
-    <SearchField
-      onChange={onChange}
-      value={filter}
-    />
-    <List divided relaxed>
-      {( tasks.length > 0 )
-        ? tasks.map(asRow)
-        : <EmptyList />
-      }
-    </List>
-  </div>
+const TaskList = ({ tasks }) =>
+  <List divided relaxed>
+    {( tasks.length > 0 )
+      ? tasks.map(asRow)
+      : <EmptyList />
+    }
+  </List>
 
 TaskList.propTypes = {
-  filter : PropTypes.string.isRequired,
-  onChange : PropTypes.func.isRequired,
   tasks : PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
