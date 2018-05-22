@@ -1,15 +1,21 @@
+import ActivityListContainer from "../activity/activity_list"
+import LinkButton from "../../component/widgets/link_button"
 import PropTypes from "prop-types"
 import React from "react"
-import TaskActivities from "../../component/lists/task_activities"
 import { connect } from "react-redux"
 
 class TaskActivitiesContainer extends React.Component {
   render = () =>
-    <TaskActivities
-      activities={this.props.activities}
-      readOnly={this.props.readOnly}
-      task={this.props.task}
-    />
+    <div>
+      <ActivityListContainer
+        activities={this.props.activities}
+      />
+      <LinkButton
+        active={( this.props.isOwner && !this.props.task.completed )}
+        href={`/activities/new?id=${this.props.task.id}`}
+        label="Lisää uusi"
+      />
+    </div>
 }
 
 const mapStateToProps = (state, props) => {
@@ -18,13 +24,13 @@ const mapStateToProps = (state, props) => {
   return {
     activities : state.activities.data.items
       .filter(a => a.task.id === props.id),
-    readOnly : ( !employees.includes(state.auth.id) )
+    isOwner : ( employees.includes(state.auth.id) )
   }
 }
 
 TaskActivitiesContainer.propTypes = {
   activities : PropTypes.arrayOf(PropTypes.object).isRequired,
-  readOnly : PropTypes.bool.isRequired,
+  isOwner : PropTypes.bool.isRequired,
   task : PropTypes.object.isRequired
 }
 

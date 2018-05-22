@@ -1,4 +1,5 @@
 import ClientForm from "../../component/forms/client_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { clientState } from "../../util/form_state"
@@ -19,11 +20,11 @@ class ClientFormContainer extends React.Component {
   }
 
   render = () => {
-    let { errors, pending, readOnly } = this.props
+    let { errors, readOnly } = this.props
 
     return (
       <Form
-        loading={pending}
+        loading={this.props.pending}
         onSubmit={this.handleSubmit}
       >
         <ClientForm
@@ -49,6 +50,14 @@ const mapStateToProps = (state) => (
     readOnly : ( !state.auth.admin )
   }
 )
+
+ClientFormContainer.propTypes = {
+  client : PropTypes.object.isRequired,
+  errors : PropTypes.object.isRequired,
+  onSubmit : PropTypes.func.isRequired,
+  pending : PropTypes.bool.isRequired,
+  readOnly : PropTypes.bool.isRequired
+}
 
 export default connect(
   mapStateToProps,

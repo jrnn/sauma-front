@@ -1,4 +1,5 @@
 import MaterialFormContainer from "./material_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { createMaterial, updateMaterial } from "../../action/material"
@@ -13,24 +14,30 @@ class MaterialDetailsContainer extends React.Component {
       unitCost : parseNumber(material.unitCost)
     }
 
-    if ( isNew )
-      this.props.createMaterial(payload, token, history)
-    else
-      this.props.updateMaterial(id, payload, token)
+    return ( isNew )
+      ? this.props.createMaterial(payload, token, history)
+      : this.props.updateMaterial(id, payload, token)
   }
 
-  render = () => {
-    return (
-      <MaterialFormContainer
-        material={this.props.material}
-        onSubmit={this.save}
-      />
-    )
-  }
+  render = () =>
+    <MaterialFormContainer
+      material={this.props.material}
+      onSubmit={this.save}
+    />
 }
 
 const mapStateToProps = (state) =>
   ({ token : state.auth.token })
+
+MaterialDetailsContainer.propTypes = {
+  createMaterial : PropTypes.func.isRequired,
+  history : PropTypes.object.isRequired,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  material : PropTypes.object.isRequired,
+  token : PropTypes.string.isRequired,
+  updateMaterial : PropTypes.func.isRequired
+}
 
 export default withRouter(connect(
   mapStateToProps,

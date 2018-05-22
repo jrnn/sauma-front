@@ -1,4 +1,5 @@
 import FormError from "../alerts/form_error"
+import PropTypes from "prop-types"
 import React from "react"
 import { Form, Input, TextArea } from "semantic-ui-react"
 
@@ -77,6 +78,15 @@ const ActivityForm = (props) => {
       </Form.Field>
     </div>
   )
+}
+
+ActivityForm.propTypes = {
+  activity : PropTypes.object.isRequired,
+  errors : PropTypes.object.isRequired,
+  onChange : PropTypes.func.isRequired,
+  owner : PropTypes.string.isRequired,
+  readOnly : PropTypes.bool.isRequired,
+  state : PropTypes.object.isRequired
 }
 
 export default ActivityForm

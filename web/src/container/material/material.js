@@ -1,6 +1,8 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
+import Error from "../../component/alerts/error"
 import MaterialDetailsContainer from "./material_details"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { resetWriteMaterial, updateMaterial } from "../../action/material"
@@ -11,12 +13,7 @@ class MaterialContainer extends React.Component {
 
   render = () => {
     let { id, isNew, material } = this.props
-
-    if ( !isNew && !material ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
+    if ( !isNew && !material ) return <Error />
 
     return (
       <div>
@@ -37,9 +34,6 @@ class MaterialContainer extends React.Component {
                 id={id}
                 thunk={updateMaterial}
               />
-            </Accordion>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
             </Accordion>
           </div>
         }
@@ -66,6 +60,14 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+MaterialContainer.propTypes = {
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  match : PropTypes.object.isRequired,
+  material : PropTypes.object,
+  reset : PropTypes.func.isRequired
+}
 
 export default connect(
   mapStateToProps,

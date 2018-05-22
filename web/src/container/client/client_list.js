@@ -1,6 +1,7 @@
-import ClientList from "../../component/client_list"
+import ClientList from "../../component/lists/client_list"
+import PropTypes from "prop-types"
 import React from "react"
-import { connect } from "react-redux"
+import SearchField from "../../component/widgets/search_field"
 
 class ClientListContainer extends React.Component {
   constructor() {
@@ -10,9 +11,8 @@ class ClientListContainer extends React.Component {
 
   filterClients = () => {
     let { filter } = this.state
-    let { clients } = this.props
 
-    return clients
+    return this.props.clients
       .filter(c =>
         c.businessId.toLowerCase().includes(filter) ||
         c.legalEntity.toLowerCase().includes(filter))
@@ -23,26 +23,20 @@ class ClientListContainer extends React.Component {
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })
 
-  render = () => {
-    return (
-      <ClientList
-        admin={this.props.auth.admin}
-        clients={this.filterClients()}
-        filter={this.state.filter}
+  render = () =>
+    <div>
+      <SearchField
         onChange={this.handleFilter}
+        value={this.state.filter}
       />
-    )
-  }
+      <ClientList
+        clients={this.filterClients()}
+      />
+    </div>
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    clients : state.clients.data.items
-  }
-)
+ClientListContainer.propTypes = {
+  employees : PropTypes.arrayOf(PropTypes.object)
+}
 
-export default connect(
-  mapStateToProps,
-  null
-)(ClientListContainer)
+export default ClientListContainer

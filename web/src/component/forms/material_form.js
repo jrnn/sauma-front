@@ -1,4 +1,5 @@
 import FormError from "../alerts/form_error"
+import PropTypes from "prop-types"
 import React from "react"
 import { Form, Input } from "semantic-ui-react"
 
@@ -44,6 +45,13 @@ const MaterialForm = (props) => {
       </Form.Field>
     </div>
   )
+}
+
+MaterialForm.propTypes = {
+  errors : PropTypes.object.isRequired,
+  onChange : PropTypes.func.isRequired,
+  readOnly : PropTypes.bool.isRequired,
+  state : PropTypes.object.isRequired,
 }
 
 export default MaterialForm

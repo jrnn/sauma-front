@@ -1,6 +1,8 @@
 import Accordion from "../../component/widgets/accordion"
 import ActivityDetailsContainer from "./activity_details"
 import AttachmentContainer from "../attachment/attachment"
+import Error from "../../component/alerts/error"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { fetchMaterialsIfNeeded } from "../../action/material"
@@ -18,17 +20,10 @@ class ActivityContainer extends React.Component {
   render = () => {
     let { activity, id, isNew, task } = this.props
 
-    if ( !isNew && !activity ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
-
-    if ( isNew && !task ) return (
-      <h1 align="center">
-        Tehtävän ID joko virheellinen tai puuttuu! Älä sooloile osoitepalkin kanssa!
-      </h1>
-    )
+    if ( !isNew && !activity ) return <Error />
+    if ( isNew && !task ) return <Error
+      message="Virheellinen tehtävän tunniste, älä sooloile osoitepalkin kanssa!"
+    />
 
     return (
       <div>
@@ -50,9 +45,6 @@ class ActivityContainer extends React.Component {
                 id={id}
                 thunk={updateActivity}
               />
-            </Accordion>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
             </Accordion>
           </div>
         }
@@ -87,6 +79,18 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+ActivityContainer.propTypes = {
+  activity : PropTypes.object,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  location : PropTypes.object.isRequired,
+  match : PropTypes.object.isRequired,
+  refresh : PropTypes.func.isRequired,
+  reset : PropTypes.func.isRequired,
+  task : PropTypes.object,
+  token : PropTypes.string.isRequired
+}
 
 export default connect(
   mapStateToProps,

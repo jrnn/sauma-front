@@ -54,9 +54,6 @@ class TaskContainer extends React.Component {
                 thunk={updateTask}
               />
             </Accordion>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
-            </Accordion>
           </div>
         }
       </div>

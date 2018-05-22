@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 import { Icon, Menu, Popup } from "semantic-ui-react"
 import { Link } from "react-router-dom"
@@ -66,7 +67,7 @@ const menu = (admin, logout) => (
   />
 )
 
-const NavBar = ({ auth, logout }) => (
+const NavBar = ({ auth, logout }) =>
   <Popup
     content={( !auth.token )
       ? null
@@ -82,6 +83,10 @@ const NavBar = ({ auth, logout }) => (
       size="large"
     />}
   />
-)
+
+NavBar.propTypes = {
+  auth : PropTypes.object.isRequired,
+  logout : PropTypes.func.isRequired,
+}
 
 export default NavBar

@@ -1,5 +1,7 @@
+import Error from "../component/alerts/error"
 import MaterialContainer from "../container/material/material"
-import MaterialListContainer from "../container/material/material_list"
+import MaterialsContainer from "../container/material/materials"
+import PropTypes from "prop-types"
 import React from "react"
 import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
@@ -13,13 +15,8 @@ class MaterialRoot extends React.Component {
   render = () => {
     let { error, match, pending } = this.props
 
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
-    )
+    if ( pending ) return <Spinner />
+    if ( error ) return <Error message={error} />
 
     return (
       <div>
@@ -30,7 +27,7 @@ class MaterialRoot extends React.Component {
         />
         <Route
           exact path={match.path}
-          component={MaterialListContainer}
+          component={MaterialsContainer}
         />
       </div>
     )
@@ -52,6 +49,14 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+MaterialRoot.propTypes = {
+  error : PropTypes.string,
+  match : PropTypes.object.isRequired,
+  pending : PropTypes.bool.isRequired,
+  refresh : PropTypes.func.isRequired,
+  token : PropTypes.string.isRequired
+}
 
 export default connect(
   mapStateToProps,

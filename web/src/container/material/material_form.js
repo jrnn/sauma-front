@@ -1,4 +1,5 @@
 import MaterialForm from "../../component/forms/material_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
@@ -19,11 +20,11 @@ class MaterialFormContainer extends React.Component {
   }
 
   render = () => {
-    let { errors, pending, readOnly } = this.props
+    let { errors, readOnly } = this.props
 
     return (
       <Form
-        loading={pending}
+        loading={this.props.pending}
         onSubmit={this.handleSubmit}
       >
         <MaterialForm
@@ -49,6 +50,14 @@ const mapStateToProps = (state) => (
     readOnly : ( !state.auth.admin )
   }
 )
+
+MaterialFormContainer.propTypes = {
+  errors : PropTypes.object.isRequired,
+  material : PropTypes.object.isRequired,
+  onSubmit : PropTypes.func.isRequired,
+  pending : PropTypes.bool.isRequired,
+  readOnly : PropTypes.bool.isRequired
+}
 
 export default connect(
   mapStateToProps,

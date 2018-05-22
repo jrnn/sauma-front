@@ -1,10 +1,12 @@
 import Accordion from "../../component/widgets/accordion"
+import ActivityListContainer from "../activity/activity_list"
 import EmployeeDetailsContainer from "./employee_details"
 import Error from "../../component/alerts/error"
 import ProjectListContainer from "../project/project_list"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
+import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchProjectsIfNeeded } from "../../action/project"
 import { resetWriteEmployee } from "../../action/employee"
 
@@ -37,7 +39,9 @@ class EmployeeContainer extends React.Component {
               />
             </Accordion>
             <Accordion title="Suoritteet">
-              <p>TULOSSA PIAN</p>
+              <ActivityListContainer
+                activities={this.props.activities}
+              />
             </Accordion>
           </div>
         }
@@ -50,6 +54,8 @@ const mapStateToProps = (state, props) => {
   let { id } = props.match.params
 
   return {
+    activities : state.activities.data.items
+      .filter(a => a.owner.id === id),
     employee : state.employees.data.items
       .find(e => e.id === id),
     id,
@@ -63,6 +69,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => (
   {
     refresh : (token) => {
+      dispatch(fetchActivitiesIfNeeded(token))
       dispatch(fetchProjectsIfNeeded(token))
     },
     reset : () => {
@@ -72,9 +79,11 @@ const mapDispatchToProps = (dispatch) => (
 )
 
 EmployeeContainer.propTypes = {
+  activities : PropTypes.arrayOf(PropTypes.object).isRequired,
   employee : PropTypes.object,
   id : PropTypes.string.isRequired,
   isNew : PropTypes.bool.isRequired,
+  match : PropTypes.object.isRequired,
   projects : PropTypes.arrayOf(PropTypes.object).isRequired,
   refresh : PropTypes.func.isRequired,
   reset : PropTypes.func.isRequired,

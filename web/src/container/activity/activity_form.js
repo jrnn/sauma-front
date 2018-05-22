@@ -1,4 +1,5 @@
 import ActivityForm from "../../component/forms/activity_form"
+import PropTypes from "prop-types"
 import QuotaFormContainer from "../quota_form"
 import React from "react"
 import { activityState } from "../../util/form_state"
@@ -33,7 +34,7 @@ class ActivityFormContainer extends React.Component {
     this.setState({ ...this.state, quotas })
 
   render = () => {
-    let { activity, auth, errors, isNew, pending } = this.props
+    let { activity, auth, isNew } = this.props
 
     let canSign = ( isNew )
       ? false
@@ -43,10 +44,10 @@ class ActivityFormContainer extends React.Component {
       : ( !activity.signed && auth.id === activity.owner.id )
 
     return (
-      <Form loading={pending}>
+      <Form loading={this.props.pending}>
         <ActivityForm
           activity={activity}
-          errors={errors}
+          errors={this.props.errors}
           onChange={this.handleChange}
           owner={`${auth.firstName} ${auth.lastName}`}
           readOnly={( !isOwner )}
@@ -93,6 +94,16 @@ const mapStateToProps = (state) => (
     pending : state.activities.write.pending
   }
 )
+
+ActivityFormContainer.propTypes = {
+  activity : PropTypes.object.isRequired,
+  auth : PropTypes.object.isRequired,
+  errors : PropTypes.object.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  onSave : PropTypes.func.isRequired,
+  onSign : PropTypes.func.isRequired,
+  pending : PropTypes.bool.isRequired
+}
 
 export default connect(
   mapStateToProps,

@@ -1,6 +1,7 @@
-import MaterialList from "../../component/material_list"
+import MaterialList from "../../component/lists/material_list"
+import PropTypes from "prop-types"
 import React from "react"
-import { connect } from "react-redux"
+import SearchField from "../../component/widgets/search_field"
 
 class MaterialListContainer extends React.Component {
   constructor() {
@@ -10,9 +11,8 @@ class MaterialListContainer extends React.Component {
 
   filterMaterials = () => {
     let { filter } = this.state
-    let { materials } = this.props
 
-    return materials
+    return this.props.materials
       .filter(m => m.name.toLowerCase().includes(filter))
       .sort((m1, m2) =>
         m1.name.localeCompare(m2.name))
@@ -21,26 +21,20 @@ class MaterialListContainer extends React.Component {
   handleFilter = (e, { value }) =>
     this.setState({ filter : value.toLowerCase() })
 
-  render = () => {
-    return (
-      <MaterialList
-        admin={this.props.auth.admin}
-        filter={this.state.filter}
-        materials={this.filterMaterials()}
+  render = () =>
+    <div>
+      <SearchField
         onChange={this.handleFilter}
+        value={this.state.filter}
       />
-    )
-  }
+      <MaterialList
+        materials={this.filterMaterials()}
+      />
+    </div>
 }
 
-const mapStateToProps = (state) => (
-  {
-    auth : state.auth,
-    materials : state.materials.data.items
-  }
-)
+MaterialListContainer.propTypes = {
+  materials : PropTypes.arrayOf(PropTypes.object)
+}
 
-export default connect(
-  mapStateToProps,
-  null
-)(MaterialListContainer)
+export default MaterialListContainer

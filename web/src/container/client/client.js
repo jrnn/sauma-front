@@ -1,22 +1,24 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
 import ClientDetailsContainer from "./client_details"
+import Error from "../../component/alerts/error"
+import ProjectListContainer from "../project/project_list"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
+import { fetchProjectsIfNeeded } from "../../action/project"
 import { resetWriteClient, updateClient } from "../../action/client"
 
 class ClientContainer extends React.Component {
+  componentDidMount = () =>
+    this.props.refresh(this.props.token)
+
   componentWillUnmount = () =>
     this.props.reset()
 
   render = () => {
     let { client, id, isNew } = this.props
-
-    if ( !isNew && !client ) return (
-      <h1 align="center">
-        Virheellinen ID! Älä sooloile osoitepalkin kanssa, capiche?
-      </h1>
-    )
+    if ( !isNew && !client ) return <Error />
 
     return (
       <div>
@@ -31,7 +33,9 @@ class ClientContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="Asiakkaan työmaat">
-              <p>TULOSSA PIAN</p>
+              <ProjectListContainer
+                projects={this.props.projects}
+              />
             </Accordion>
             <Accordion title="Liitteet">
               <AttachmentContainer
@@ -40,9 +44,6 @@ class ClientContainer extends React.Component {
                 id={id}
                 thunk={updateClient}
               />
-            </Accordion>
-            <Accordion title="<Placeholder>">
-              <p>Jotain muuta vielä...?</p>
             </Accordion>
           </div>
         }
@@ -58,17 +59,34 @@ const mapStateToProps = (state, props) => {
     client : state.clients.data.items
       .find(c => c.id === id),
     id,
-    isNew : ( id === "new" )
+    isNew : ( id === "new" ),
+    projects : state.projects.data.items
+      .filter(p => p.client.id === id),
+    token : state.auth.token
   }
 }
 
 const mapDispatchToProps = (dispatch) => (
   {
+    refresh : (token) => {
+      dispatch(fetchProjectsIfNeeded(token))
+    },
     reset : () => {
       dispatch(resetWriteClient())
     }
   }
 )
+
+ClientContainer.propTypes = {
+  client : PropTypes.object,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  match : PropTypes.object.isRequired,
+  projects : PropTypes.arrayOf(PropTypes.object).isRequired,
+  refresh : PropTypes.func.isRequired,
+  reset : PropTypes.func.isRequired,
+  token : PropTypes.string.isRequired
+}
 
 export default connect(
   mapStateToProps,

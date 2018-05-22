@@ -1,4 +1,5 @@
 import ActivityFormContainer from "./activity_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import {
@@ -30,22 +31,29 @@ class ActivityDetailsContainer extends React.Component {
     this.props.signOffActivity(id, token)
   }
 
-  render = () => {
-    let { activity, isNew } = this.props
-
-    return (
-      <ActivityFormContainer
-        activity={activity}
-        isNew={isNew}
-        onSave={this.save}
-        onSign={this.sign}
-      />
-    )
-  }
+  render = () =>
+    <ActivityFormContainer
+      activity={this.props.activity}
+      isNew={this.props.isNew}
+      onSave={this.save}
+      onSign={this.sign}
+    />
 }
 
 const mapStateToProps = (state) =>
   ({ token : state.auth.token })
+
+ActivityDetailsContainer.propTypes = {
+  activity : PropTypes.object.isRequired,
+  createActivity : PropTypes.func.isRequired,
+  history : PropTypes.object.isRequired,
+  id : PropTypes.string.isRequired,
+  isNew : PropTypes.bool.isRequired,
+  signOffActivity : PropTypes.func.isRequired,
+  task : PropTypes.object.isRequired,
+  token : PropTypes.string.isRequired,
+  updateActivity : PropTypes.func.isRequired
+}
 
 export default withRouter(connect(
   mapStateToProps,

@@ -1,5 +1,7 @@
 import ClientContainer from "../container/client/client"
-import ClientListContaner from "../container/client/client_list"
+import ClientsContainer from "../container/client/clients"
+import Error from "../component/alerts/error"
+import PropTypes from "prop-types"
 import React from "react"
 import Spinner from "../component/widgets/spinner"
 import { connect } from "react-redux"
@@ -13,13 +15,8 @@ class ClientRoot extends React.Component {
   render = () => {
     let { error, match, pending } = this.props
 
-    if ( pending ) return (
-      <Spinner />
-    )
-
-    if ( error ) return (
-      <h1 align="center">{error}</h1>
-    )
+    if ( pending ) return <Spinner />
+    if ( error ) return <Error message={error} />
 
     return (
       <div>
@@ -29,7 +26,7 @@ class ClientRoot extends React.Component {
           exact path={`${match.path}/:id`}
         />
         <Route
-          component={ClientListContaner}
+          component={ClientsContainer}
           exact path={match.path}
         />
       </div>
@@ -52,6 +49,14 @@ const mapDispatchToProps = (dispatch) => (
     }
   }
 )
+
+ClientRoot.propTypes = {
+  error : PropTypes.string,
+  match : PropTypes.object.isRequired,
+  pending : PropTypes.bool.isRequired,
+  refresh : PropTypes.func.isRequired,
+  token : PropTypes.string.isRequired
+}
 
 export default connect(
   mapStateToProps,
