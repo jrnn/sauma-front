@@ -1,11 +1,13 @@
 import Accordion from "../../component/widgets/accordion"
-import ActivityListContainer from "../activity/activity_list"
+import ListContainer from "../list"
 import MyFormContainer from "./my_form"
 import MyPasswordContainer from "./my_password"
 import PropTypes from "prop-types"
 import React from "react"
+import { activityRow } from "../../component/lists/list_rows"
 import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../../action/activity"
+import { filterActivities } from "../../component/lists/list_filters"
 import { resetWriteEmployee } from "../../action/employee"
 
 class MyContainer extends React.Component {
@@ -23,8 +25,10 @@ class MyContainer extends React.Component {
         />
       </Accordion>
       <Accordion title="Suoritteet">
-        <ActivityListContainer
-          activities={this.props.activities}
+        <ListContainer
+          entities={this.props.activities}
+          filter={filterActivities}
+          toRow={activityRow}
         />
       </Accordion>
       <Accordion title="Salasanan vaihto">

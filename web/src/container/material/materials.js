@@ -1,22 +1,24 @@
 import LinkButton from "../../component/widgets/link_button"
-import MaterialListContainer from "./material_list"
+import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
+import { filterMaterials } from "../../component/lists/list_filters"
+import { materialRow } from "../../component/lists/list_rows"
 
-class MaterialsContainer extends React.Component {
-  render = () =>
-    <div>
-      <MaterialListContainer
-        materials={this.props.materials}
-      />
-      <LinkButton
-        active={this.props.admin}
-        href="/materials/new"
-        label="Lisää uusi"
-      />
-    </div>
-}
+const MaterialsContainer = ({ admin, materials }) =>
+  <div>
+    <ListContainer
+      entities={materials}
+      filter={filterMaterials}
+      toRow={materialRow}
+    />
+    <LinkButton
+      active={admin}
+      href="/materials/new"
+      label="Lisää uusi materiaali"
+    />
+  </div>
 
 const mapStateToProps = (state) => (
   {

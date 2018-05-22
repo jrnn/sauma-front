@@ -2,11 +2,13 @@ import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
 import ClientFormContainer from "./client_form"
 import Error from "../../component/alerts/error"
-import ProjectListContainer from "../project/project_list"
+import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { fetchProjectsIfNeeded } from "../../action/project"
+import { filterProjects } from "../../component/lists/list_filters"
+import { projectRow } from "../../component/lists/list_rows"
 import { resetWriteClient, updateClient } from "../../action/client"
 
 class ClientContainer extends React.Component {
@@ -33,8 +35,10 @@ class ClientContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="Asiakkaan työmaat">
-              <ProjectListContainer
-                projects={this.props.projects}
+              <ListContainer
+                entities={this.props.projects}
+                filter={filterProjects}
+                toRow={projectRow}
               />
             </Accordion>
             <Accordion title="Liitteet">

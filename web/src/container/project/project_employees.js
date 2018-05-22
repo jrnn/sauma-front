@@ -1,9 +1,11 @@
 import Assigner from "../../component/widgets/assigner"
-import EmployeeListContainer from "../employee/employee_list"
+import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
 import { assignEmployeeToProject } from "../../action/project"
 import { connect } from "react-redux"
+import { employeeRow } from "../../component/lists/list_rows"
+import { filterEmployees } from "../../component/lists/list_filters"
 import { unassignedOptions } from "../../util/form_options"
 
 class ProjectEmployeesContainer extends React.Component {
@@ -27,10 +29,12 @@ class ProjectEmployeesContainer extends React.Component {
 
     return (
       <div>
-        <EmployeeListContainer
-          employees={employees
+        <ListContainer
+          entities={employees
             .filter(e => project.employees.includes(e.id))
           }
+          filter={filterEmployees}
+          toRow={employeeRow}
         />
         <Assigner
           active={this.props.auth.admin}

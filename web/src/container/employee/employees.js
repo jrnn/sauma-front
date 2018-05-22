@@ -1,22 +1,24 @@
-import EmployeeListContainer from "./employee_list"
 import LinkButton from "../../component/widgets/link_button"
+import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
+import { employeeRow } from "../../component/lists/list_rows"
+import { filterEmployees } from "../../component/lists/list_filters"
 
-class EmployeesContainer extends React.Component {
-  render = () =>
-    <div>
-      <EmployeeListContainer
-        employees={this.props.employees}
-      />
-      <LinkButton
-        active={this.props.admin}
-        href="/employees/new"
-        label="Lisää uusi"
-      />
-    </div>
-}
+const EmployeesContainer = ({ admin, employees }) =>
+  <div>
+    <ListContainer
+      entities={employees}
+      filter={filterEmployees}
+      toRow={employeeRow}
+    />
+    <LinkButton
+      active={admin}
+      href="/employees/new"
+      label="Lisää uusi henkilö"
+    />
+  </div>
 
 const mapStateToProps = (state) => (
   {

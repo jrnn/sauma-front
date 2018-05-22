@@ -1,22 +1,24 @@
-import ClientListContainer from "./client_list"
 import LinkButton from "../../component/widgets/link_button"
+import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
+import { clientRow } from "../../component/lists/list_rows"
 import { connect } from "react-redux"
+import { filterClients } from "../../component/lists/list_filters"
 
-class ClientsContainer extends React.Component {
-  render = () =>
-    <div>
-      <ClientListContainer
-        clients={this.props.clients}
-      />
-      <LinkButton
-        active={this.props.admin}
-        href="/clients/new"
-        label="Lisää uusi"
-      />
-    </div>
-}
+const ClientsContainer = ({ admin, clients }) =>
+  <div>
+    <ListContainer
+      entities={clients}
+      filter={filterClients}
+      toRow={clientRow}
+    />
+    <LinkButton
+      active={admin}
+      href="/clients/new"
+      label="Lisää uusi asiakas"
+    />
+  </div>
 
 const mapStateToProps = (state) => (
   {

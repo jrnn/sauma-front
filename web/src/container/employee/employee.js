@@ -1,13 +1,17 @@
 import Accordion from "../../component/widgets/accordion"
-import ActivityListContainer from "../activity/activity_list"
 import EmployeeFormContainer from "./employee_form"
 import Error from "../../component/alerts/error"
-import ProjectListContainer from "../project/project_list"
+import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
+import { activityRow, projectRow } from "../../component/lists/list_rows"
 import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchProjectsIfNeeded } from "../../action/project"
+import {
+  filterActivities,
+  filterProjects
+} from "../../component/lists/list_filters"
 import { resetWriteEmployee } from "../../action/employee"
 
 class EmployeeContainer extends React.Component {
@@ -34,13 +38,17 @@ class EmployeeContainer extends React.Component {
           ? null
           : <div>
             <Accordion title="Työmaat">
-              <ProjectListContainer
-                projects={this.props.projects}
+              <ListContainer
+                entities={this.props.projects}
+                filter={filterProjects}
+                toRow={projectRow}
               />
             </Accordion>
             <Accordion title="Suoritteet">
-              <ActivityListContainer
-                activities={this.props.activities}
+              <ListContainer
+                entities={this.props.activities}
+                filter={filterActivities}
+                toRow={activityRow}
               />
             </Accordion>
           </div>

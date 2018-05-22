@@ -1,14 +1,16 @@
+import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
-import TaskListContainer from "./task_list"
 import { connect } from "react-redux"
+import { filterTasks } from "../../component/lists/list_filters"
+import { taskRow } from "../../component/lists/list_rows"
 
-class TasksContainer extends React.Component {
-  render = () =>
-    <TaskListContainer
-      tasks={this.props.tasks}
-    />
-}
+const TasksContainer = ({ tasks }) =>
+  <ListContainer
+    entities={tasks}
+    filter={filterTasks}
+    toRow={taskRow}
+  />
 
 const mapStateToProps = (state) =>
   ({ tasks : state.tasks.data.items })
