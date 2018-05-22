@@ -1,8 +1,9 @@
 import PasswordForm from "../../component/forms/password_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
-import { connect } from "react-redux"
 import { changePassword } from "../../action/employee"
+import { connect } from "react-redux"
 
 const initState = {
   password : "",
@@ -11,8 +12,8 @@ const initState = {
 }
 
 class MyPasswordContainer extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = initState
   }
 
@@ -28,24 +29,19 @@ class MyPasswordContainer extends React.Component {
     this.setState(initState)
   }
 
-  render = () => {
-    let { errors, pending } = this.props
-
-    return (
-      <Form
-        loading={pending}
-        onSubmit={this.handleSubmit}
-      >
-        <PasswordForm
-          errors={errors}
-          onChange={this.handleChange}
-          state={this.state}
-        />
-        <Divider hidden />
-        <Button content="Vaihda" fluid />
-      </Form>
-    )
-  }
+  render = () =>
+    <Form
+      loading={this.props.pending}
+      onSubmit={this.handleSubmit}
+    >
+      <PasswordForm
+        errors={this.props.errors}
+        onChange={this.handleChange}
+        state={this.state}
+      />
+      <Divider hidden />
+      <Button content="Vaihda" fluid />
+    </Form>
 }
 
 const mapStateToProps = (state) => (
@@ -55,6 +51,13 @@ const mapStateToProps = (state) => (
     pending : state.employees.write.pending
   }
 )
+
+MyPasswordContainer.propTypes = {
+  auth : PropTypes.object.isRequired,
+  changePassword : PropTypes.func.isRequired,
+  errors : PropTypes.object.isRequired,
+  pending : PropTypes.bool.isRequired
+}
 
 export default connect(
   mapStateToProps,

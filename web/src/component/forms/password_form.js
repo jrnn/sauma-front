@@ -1,16 +1,16 @@
 import FormError from "../alerts/form_error"
 import PasswordReqs from "../alerts/password_reqs"
+import PropTypes from "prop-types"
 import React from "react"
 import { Form, Input, Popup } from "semantic-ui-react"
 
-const reqsPopup = (comp) => (
+const reqsPopup = (comp) =>
   <Popup
     content={<PasswordReqs />}
     header="Vaatimukset"
     on="focus"
     trigger={comp}
   />
-)
 
 const PasswordForm = (props) => {
   let { errors, onChange, state } = props
@@ -55,6 +55,12 @@ const PasswordForm = (props) => {
       </Form.Field>
     </div>
   )
+}
+
+PasswordForm.propTypes = {
+  errors : PropTypes.object.isRequired,
+  onChange : PropTypes.func.isRequired,
+  state : PropTypes.object.isRequired
 }
 
 export default PasswordForm

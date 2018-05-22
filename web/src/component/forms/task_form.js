@@ -87,7 +87,7 @@ TaskForm.propTypes = {
   onChange : PropTypes.func.isRequired,
   project : PropTypes.object.isRequired,
   readOnly : PropTypes.bool.isRequired,
-  state : PropTypes.object.isRequired,
+  state : PropTypes.object.isRequired
 }
 
 export default TaskForm

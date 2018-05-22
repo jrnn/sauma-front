@@ -51,7 +51,7 @@ class ProjectFormContainer extends React.Component {
           readOnly={readOnly}
           state={this.state}
         />
-        <Divider />
+        <Divider hidden />
         {( readOnly )
           ? null
           : <Button content="Tallenna" fluid />

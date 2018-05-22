@@ -9,42 +9,37 @@ import TaskRoot from "./task"
 import { Redirect, Route, Switch } from "react-router-dom"
 import { withRouter } from "react-router-dom"
 
-class Root extends React.Component {
-  render = () => {
-    return (
-      <Switch>
-        <Route
-          component={ActivityRoot}
-          path="/activities"
-        />
-        <Route
-          component={ClientRoot}
-          path="/clients"
-        />
-        <Route
-          component={EmployeeRoot}
-          path="/employees"
-        />
-        <Route
-          component={MaterialRoot}
-          path="/materials"
-        />
-        <Route
-          component={MyRoot}
-          path="/my"
-        />
-        <Route
-          component={ProjectRoot}
-          path="/projects"
-        />
-        <Route
-          component={TaskRoot}
-          path="/tasks"
-        />
-        <Redirect to="/" />
-      </Switch>
-    )
-  }
-}
+const Root = () =>
+  <Switch>
+    <Route
+      component={ActivityRoot}
+      path="/activities"
+    />
+    <Route
+      component={ClientRoot}
+      path="/clients"
+    />
+    <Route
+      component={EmployeeRoot}
+      path="/employees"
+    />
+    <Route
+      component={MaterialRoot}
+      path="/materials"
+    />
+    <Route
+      component={MyRoot}
+      path="/my"
+    />
+    <Route
+      component={ProjectRoot}
+      path="/projects"
+    />
+    <Route
+      component={TaskRoot}
+      path="/tasks"
+    />
+    <Redirect to="/" />
+  </Switch>
 
 export default withRouter(Root)

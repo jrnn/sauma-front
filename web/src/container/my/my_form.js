@@ -1,5 +1,6 @@
 import AddressForm from "../../component/forms/address_form"
 import EmployeeForm from "../../component/forms/employee_form"
+import PropTypes from "prop-types"
 import React from "react"
 import { Button, Divider, Form } from "semantic-ui-react"
 import { connect } from "react-redux"
@@ -38,32 +39,27 @@ class MyFormContainer extends React.Component {
     this.props.updateEmployee(id, this.state, token)
   }
 
-  render = () => {
-    let { errors, pending } = this.props
-
-    return (
-      <Form
-        loading={pending}
-        onSubmit={this.handleSubmit}
-      >
-        <EmployeeForm
-          errors={errors}
-          onChange={this.handleChange}
-          readOnly={false}
-          state={this.state}
-        />
-        <Divider hidden />
-        <AddressForm
-          errors={errors}
-          onChange={this.handleAddressChange}
-          readOnly={false}
-          state={this.state}
-        />
-        <Divider hidden />
-        <Button content="Tallenna" fluid />
-      </Form>
-    )
-  }
+  render = () =>
+    <Form
+      loading={this.props.pending}
+      onSubmit={this.handleSubmit}
+    >
+      <EmployeeForm
+        errors={this.props.errors}
+        onChange={this.handleChange}
+        readOnly={false}
+        state={this.state}
+      />
+      <Divider hidden />
+      <AddressForm
+        errors={this.props.errors}
+        onChange={this.handleAddressChange}
+        readOnly={false}
+        state={this.state}
+      />
+      <Divider hidden />
+      <Button content="Tallenna" fluid />
+    </Form>
 }
 
 const mapStateToProps = (state) => (
@@ -73,6 +69,14 @@ const mapStateToProps = (state) => (
     pending : state.employees.write.pending
   }
 )
+
+MyFormContainer.propTypes = {
+  auth : PropTypes.object.isRequired,
+  employee : PropTypes.object.isRequired,
+  errors : PropTypes.object.isRequired,
+  pending : PropTypes.bool.isRequired,
+  updateEmployee : PropTypes.func.isRequired
+}
 
 export default connect(
   mapStateToProps,

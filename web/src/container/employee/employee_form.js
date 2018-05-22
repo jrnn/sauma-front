@@ -70,7 +70,7 @@ class EmployeeFormContainer extends React.Component {
             readOnly={readOnly}
           />
         </Form.Group>
-        <Divider />
+        <Divider hidden />
         {( readOnly )
           ? null
           : <Button content="Tallenna" fluid />

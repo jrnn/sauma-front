@@ -60,6 +60,7 @@ class TaskFormContainer extends React.Component {
             readOnly={readOnly}
           />
         </Form.Field>
+        <Divider hidden />
         {( readOnly )
           ? null
           : <Button content="Tallenna" fluid />
