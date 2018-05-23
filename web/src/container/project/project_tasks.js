@@ -3,15 +3,15 @@ import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
-import { filterTasks } from "../../component/lists/list_filters"
-import { taskRow } from "../../component/lists/list_rows"
+import { filterTasksForProject } from "../../component/lists/list_filters"
+import { taskRowForProject } from "../../component/lists/list_rows"
 
 const ProjectTasksContainer = ({ admin, id, tasks }) =>
   <div>
     <ListContainer
       entities={tasks}
-      filter={filterTasks}
-      toRow={taskRow}
+      filter={filterTasksForProject}
+      toRow={taskRowForProject}
     />
     <LinkButton
       active={admin}

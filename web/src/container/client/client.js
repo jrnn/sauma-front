@@ -7,8 +7,8 @@ import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
 import { fetchProjectsIfNeeded } from "../../action/project"
-import { filterProjects } from "../../component/lists/list_filters"
-import { projectRow } from "../../component/lists/list_rows"
+import { filterProjectsForClient } from "../../component/lists/list_filters"
+import { projectRowForClient } from "../../component/lists/list_rows"
 import { resetWriteClient, updateClient } from "../../action/client"
 
 class ClientContainer extends React.Component {
@@ -37,8 +37,8 @@ class ClientContainer extends React.Component {
             <Accordion title="Asiakkaan työmaat">
               <ListContainer
                 entities={this.props.projects}
-                filter={filterProjects}
-                toRow={projectRow}
+                filter={filterProjectsForClient}
+                toRow={projectRowForClient}
               />
             </Accordion>
             <Accordion title="Liitteet">

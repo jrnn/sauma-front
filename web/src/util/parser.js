@@ -42,3 +42,8 @@ export const parseUrlQuery = (query, res = {}) => {
 
   return res
 }
+
+export const trimDescription = (description) =>
+  (description.length < 40)
+    ? description
+    : `${description.substring(0, 40)}...`

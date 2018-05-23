@@ -9,10 +9,10 @@ const TaskForm = (props) => {
   return (
     <div>
       <Form.Field>
-        <label>Työmaan työnumero</label>
+        <label>Työmaan työnumero ja nimi</label>
         <Input
           disabled
-          value={project.projectId || ""}
+          value={`${project.projectId} — ${project.name}` || ""}
         />
       </Form.Field>
       <Form.Field error={errors.name !== undefined}>

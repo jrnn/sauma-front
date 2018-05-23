@@ -4,12 +4,15 @@ import Error from "../../component/alerts/error"
 import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
-import { activityRow, projectRow } from "../../component/lists/list_rows"
+import {
+  activityRowForEmployee,
+  projectRow
+} from "../../component/lists/list_rows"
 import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchProjectsIfNeeded } from "../../action/project"
 import {
-  filterActivities,
+  filterActivitiesForEmployee,
   filterProjects
 } from "../../component/lists/list_filters"
 import { resetWriteEmployee } from "../../action/employee"
@@ -47,8 +50,8 @@ class EmployeeContainer extends React.Component {
             <Accordion title="Suoritteet">
               <ListContainer
                 entities={this.props.activities}
-                filter={filterActivities}
-                toRow={activityRow}
+                filter={filterActivitiesForEmployee}
+                toRow={activityRowForEmployee}
               />
             </Accordion>
           </div>

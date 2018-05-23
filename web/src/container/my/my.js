@@ -4,10 +4,10 @@ import MyFormContainer from "./my_form"
 import MyPasswordContainer from "./my_password"
 import PropTypes from "prop-types"
 import React from "react"
-import { activityRow } from "../../component/lists/list_rows"
+import { activityRowForEmployee } from "../../component/lists/list_rows"
 import { connect } from "react-redux"
 import { fetchActivitiesIfNeeded } from "../../action/activity"
-import { filterActivities } from "../../component/lists/list_filters"
+import { filterActivitiesForEmployee } from "../../component/lists/list_filters"
 import { resetWriteEmployee } from "../../action/employee"
 
 class MyContainer extends React.Component {
@@ -27,8 +27,8 @@ class MyContainer extends React.Component {
       <Accordion title="Suoritteet">
         <ListContainer
           entities={this.props.activities}
-          filter={filterActivities}
-          toRow={activityRow}
+          filter={filterActivitiesForEmployee}
+          toRow={activityRowForEmployee}
         />
       </Accordion>
       <Accordion title="Salasanan vaihto">

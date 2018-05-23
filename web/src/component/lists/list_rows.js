@@ -1,5 +1,5 @@
 import React from "react"
-import { formatDate } from "../../util/parser"
+import { formatDate, trimDescription } from "../../util/parser"
 import { Link } from "react-router-dom"
 import { List } from "semantic-ui-react"
 
@@ -19,10 +19,34 @@ export const activityRow = (a) =>
     />
     <List.Content>
       <List.Header
-        content={`${formatDate(a.date)} — ${a.owner.lastName}, ${a.owner.firstName}`}
+        content={`${formatDate(a.date)} — ${a.owner.lastName}, ${a.owner.firstName} (${a.hours} tuntia)`}
       />
       <List.Description
-        content={`${a.hours} tuntia`}
+        content={trimDescription(a.description)}
+      />
+    </List.Content>
+  </List.Item>
+
+export const activityRowForEmployee = (a) =>
+  <List.Item
+    as={Link}
+    key={a.id}
+    to={`/activities/${a.id}`}
+  >
+    <List.Icon
+      color="grey"
+      name={( a.signed )
+        ? "check circle outline"
+        : "circle outline"
+      }
+      verticalAlign="middle"
+    />
+    <List.Content>
+      <List.Header
+        content={`${formatDate(a.date)} — ${a.hours} tuntia`}
+      />
+      <List.Description
+        content={`${a.project.projectId} — ${a.task.name}`}
       />
     </List.Content>
   </List.Item>
@@ -117,6 +141,27 @@ export const projectRow = (p) =>
     </List.Content>
   </List.Item>
 
+export const projectRowForClient = (p) =>
+  <List.Item
+    as={Link}
+    key={p.id}
+    to={`/projects/${p.id}`}
+  >
+    <List.Icon
+      color="grey"
+      name="industry"
+      verticalAlign="middle"
+    />
+    <List.Content>
+      <List.Header
+        content={`${p.projectId} — ${p.name}`}
+      />
+      <List.Description
+        content={`${formatDate(p.startDate)} — ${formatDate(p.endDate)}`}
+      />
+    </List.Content>
+  </List.Item>
+
 export const taskRow = (t) =>
   <List.Item
     as={Link}
@@ -134,6 +179,30 @@ export const taskRow = (t) =>
     <List.Content>
       <List.Header
         content={`${t.project.projectId} — ${t.name}`}
+      />
+      <List.Description
+        content={`${formatDate(t.startDate)} — ${formatDate(t.endDate)}`}
+      />
+    </List.Content>
+  </List.Item>
+
+export const taskRowForProject = (t) =>
+  <List.Item
+    as={Link}
+    key={t.id}
+    to={`/tasks/${t.id}`}
+  >
+    <List.Icon
+      color="grey"
+      name={( t.completed )
+        ? "check circle outline"
+        : "circle outline"
+      }
+      verticalAlign="middle"
+    />
+    <List.Content>
+      <List.Header
+        content={`${t.name} (${t.daysNeeded} työpäivää)`}
       />
       <List.Description
         content={`${formatDate(t.startDate)} — ${formatDate(t.endDate)}`}
