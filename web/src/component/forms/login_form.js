@@ -40,7 +40,6 @@ const LoginForm = (props) => {
           disabled={isDisabled}
           fluid
         />
-        <p className="huom">{"TO-DO: Tähän 'Forgot password?' josta emailiin vahvistuslinkki"}</p>
       </Form>
     </div>
   )

@@ -1,10 +1,10 @@
 import Header from "./component/widgets/header"
-import LoginFormContainer from "./container/login_form"
+import HomeRoot from "./root/home"
+import LoginRoot from "./root/login"
 import NavBarContainer from "./container/navbar"
 import Notification from "./component/alerts/notification"
 import PropTypes from "prop-types"
 import React from "react"
-import Root from "./root/root"
 import { checkAuth } from "./action/auth"
 import { connect } from "react-redux"
 import { Container } from "semantic-ui-react"
@@ -21,8 +21,8 @@ class App extends React.Component {
         <Container>
           <Notification />
           {( !this.props.auth.token )
-            ? <LoginFormContainer />
-            : <Root />
+            ? <LoginRoot />
+            : <HomeRoot />
           }
         </Container>
       </div>

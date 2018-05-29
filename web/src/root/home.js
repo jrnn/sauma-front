@@ -9,7 +9,7 @@ import TaskRoot from "./task"
 import { Redirect, Route, Switch } from "react-router-dom"
 import { withRouter } from "react-router-dom"
 
-const Root = () =>
+const HomeRoot = () =>
   <Switch>
     <Route
       component={ActivityRoot}
@@ -42,4 +42,4 @@ const Root = () =>
     <Redirect to="/" />
   </Switch>
 
-export default withRouter(Root)
+export default withRouter(HomeRoot)

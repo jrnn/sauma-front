@@ -1,6 +1,8 @@
 const initState = {
   error : null,
-  pending : false
+  pending : false,
+  forgotError : null,
+  forgotPending : false
 }
 
 const auth = (state = initState, action) => {
@@ -14,17 +16,40 @@ const auth = (state = initState, action) => {
       }
     case "LOGIN_ERROR" :
       return {
+        ...state,
         error : payload,
         pending : false
       }
+    case "LOGIN_OK" :
+      return {
+        ...state,
+        error : null,
+        pending : false
+      }
+    case "SET_AUTH" :
+      return {
+        ...initState,
+        ...payload
+      }
+    case "FORGOT" :
+      return {
+        ...state,
+        forgotPending : true
+      }
+    case "FORGOT_ERROR" :
+      return {
+        ...state,
+        forgotError : payload,
+        forgotPending : false
+      }
+    case "FORGOT_OK" :
+      return {
+        ...state,
+        forgotError : null,
+        forgotPending : false
+      }
     case "LOGOUT" :
       return initState
-    case "SET_AUTH" : {
-      payload.error = null
-      payload.pending = false
-
-      return payload
-    }
     default :
       return state
   }
