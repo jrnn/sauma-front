@@ -30,7 +30,7 @@ export const resetWriteTask = () =>
 /*
  *  THUNKS
  */
-const fetchTasks = (token) => {
+export const fetchTasks = (token) => {
   return async (dispatch) => {
     dispatch(actions.fetch())
 

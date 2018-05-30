@@ -1,5 +1,5 @@
 import { combineReducers } from "redux"
-import { standardWriteReducer } from "./helper"
+import { standardWriteReducer } from "./standard_reducers"
 import { types } from "../action/employee"
 
 const initState = {

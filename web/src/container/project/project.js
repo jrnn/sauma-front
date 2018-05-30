@@ -1,5 +1,6 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
+import CommentContainer from "../comment"
 import EmbeddedMap from "../../component/widgets/embedded_map"
 import Error from "../../component/alerts/error"
 import ProjectEmployeesContainer from "./project_employees"
@@ -11,7 +12,11 @@ import { connect } from "react-redux"
 import { fetchClientsIfNeeded } from "../../action/client"
 import { fetchEmployeesIfNeeded } from "../../action/employee"
 import { fetchTasksIfNeeded } from "../../action/task"
-import { resetWriteProject, updateProject } from "../../action/project"
+import {
+  fetchProjects,
+  resetWriteProject,
+  updateProject
+} from "../../action/project"
 
 class ProjectContainer extends React.Component {
   componentDidMount = () =>
@@ -51,6 +56,14 @@ class ProjectContainer extends React.Component {
                 entity="Project"
                 id={id}
                 thunk={updateProject}
+              />
+            </Accordion>
+            <Accordion title="Huomiot">
+              <CommentContainer
+                comments={project.comments || []}
+                entity="Project"
+                id={id}
+                thunk={fetchProjects}
               />
             </Accordion>
             <EmbeddedMap

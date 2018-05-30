@@ -1,6 +1,7 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
 import ClientFormContainer from "./client_form"
+import CommentContainer from "../comment"
 import Error from "../../component/alerts/error"
 import ListContainer from "../list"
 import PropTypes from "prop-types"
@@ -9,7 +10,11 @@ import { connect } from "react-redux"
 import { fetchProjectsIfNeeded } from "../../action/project"
 import { filterProjectsForClient } from "../../component/lists/list_filters"
 import { projectRowForClient } from "../../component/lists/list_rows"
-import { resetWriteClient, updateClient } from "../../action/client"
+import {
+  fetchClients,
+  resetWriteClient,
+  updateClient
+} from "../../action/client"
 
 class ClientContainer extends React.Component {
   componentDidMount = () =>
@@ -47,6 +52,14 @@ class ClientContainer extends React.Component {
                 entity="Client"
                 id={id}
                 thunk={updateClient}
+              />
+            </Accordion>
+            <Accordion title="Huomiot">
+              <CommentContainer
+                comments={client.comments || []}
+                entity="Client"
+                id={id}
+                thunk={fetchClients}
               />
             </Accordion>
           </div>

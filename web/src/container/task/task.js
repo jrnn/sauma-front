@@ -1,5 +1,6 @@
 import Accordion from "../../component/widgets/accordion"
 import AttachmentContainer from "../attachment/attachment"
+import CommentContainer from "../comment"
 import Error from "../../component/alerts/error"
 import PropTypes from "prop-types"
 import React from "react"
@@ -10,7 +11,7 @@ import { fetchActivitiesIfNeeded } from "../../action/activity"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchProjectsIfNeeded } from "../../action/project"
 import { parseUrlQuery } from "../../util/parser"
-import { resetWriteTask, updateTask } from "../../action/task"
+import { fetchTasks, resetWriteTask, updateTask } from "../../action/task"
 
 class TaskContainer extends React.Component {
   componentDidMount = () =>
@@ -52,6 +53,14 @@ class TaskContainer extends React.Component {
                 entity="Task"
                 id={id}
                 thunk={updateTask}
+              />
+            </Accordion>
+            <Accordion title="Huomiot">
+              <CommentContainer
+                comments={task.comments || []}
+                entity="Task"
+                id={id}
+                thunk={fetchTasks}
               />
             </Accordion>
           </div>

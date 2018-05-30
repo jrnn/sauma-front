@@ -18,13 +18,3 @@
   margin : 0 auto;
   max-width : 640px;
 }
-
-
-
-.huom {
-  border : solid 1px #ea634d;
-  color : #ea634d;
-  padding : 1rem 1rem;
-  font-weight : bold;
-  text-align : center;
-}

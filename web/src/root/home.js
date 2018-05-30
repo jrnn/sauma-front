@@ -39,7 +39,7 @@ const HomeRoot = () =>
       component={TaskRoot}
       path="/tasks"
     />
-    <Redirect to="/" />
+    <Redirect to="/projects" />
   </Switch>
 
 export default withRouter(HomeRoot)

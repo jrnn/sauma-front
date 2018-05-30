@@ -30,7 +30,7 @@ export const resetWriteClient = () =>
 /*
  *  THUNKS
  */
-const fetchClients = (token) => {
+export const fetchClients = (token) => {
   return async (dispatch) => {
     dispatch(actions.fetch())
 

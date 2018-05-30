@@ -36,7 +36,7 @@ export const resetWriteProject = () =>
 /*
  *  THUNKS
  */
-const fetchProjects = (token) => {
+export const fetchProjects = (token) => {
   return async (dispatch) => {
     dispatch(actions.fetch())
 

@@ -1,6 +1,7 @@
 import Accordion from "../../component/widgets/accordion"
 import ActivityFormContainer from "./activity_form"
 import AttachmentContainer from "../attachment/attachment"
+import CommentContainer from "../comment"
 import Error from "../../component/alerts/error"
 import PropTypes from "prop-types"
 import React from "react"
@@ -8,7 +9,11 @@ import { connect } from "react-redux"
 import { fetchMaterialsIfNeeded } from "../../action/material"
 import { fetchTasksIfNeeded } from "../../action/task"
 import { parseUrlQuery } from "../../util/parser"
-import { resetWriteActivity, updateActivity } from "../../action/activity"
+import {
+  fetchActivities,
+  resetWriteActivity,
+  updateActivity
+} from "../../action/activity"
 
 class ActivityContainer extends React.Component {
   componentDidMount = () =>
@@ -44,6 +49,14 @@ class ActivityContainer extends React.Component {
                 entity="Activity"
                 id={id}
                 thunk={updateActivity}
+              />
+            </Accordion>
+            <Accordion title="Huomiot">
+              <CommentContainer
+                comments={activity.comments || []}
+                entity="Activity"
+                id={id}
+                thunk={fetchActivities}
               />
             </Accordion>
           </div>

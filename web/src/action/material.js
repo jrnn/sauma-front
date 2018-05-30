@@ -30,7 +30,7 @@ export const resetWriteMaterial = () =>
 /*
  *  THUNKS
  */
-const fetchMaterials = (token) => {
+export const fetchMaterials = (token) => {
   return async (dispatch) => {
     dispatch(actions.fetch())
 
