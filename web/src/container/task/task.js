@@ -30,7 +30,10 @@ class TaskContainer extends React.Component {
 
     return (
       <div>
-        <Accordion active={isNew} title="Perustiedot">
+        <Accordion
+          active={isNew}
+          title="Perustiedot"
+        >
           <TaskFormContainer
             id={id}
             isNew={isNew}
@@ -47,7 +50,10 @@ class TaskContainer extends React.Component {
                 task={task}
               />
             </Accordion>
-            <Accordion title="Liitteet">
+            <Accordion
+              active={( task.attachments.length > 0 )}
+              title="Liitteet"
+            >
               <AttachmentContainer
                 attachments={task.attachments || []}
                 entity="Task"
@@ -55,7 +61,10 @@ class TaskContainer extends React.Component {
                 thunk={updateTask}
               />
             </Accordion>
-            <Accordion title="Huomiot">
+            <Accordion
+              active={( task.comments.length > 0 )}
+              title="Huomiot"
+            >
               <CommentContainer
                 comments={task.comments || []}
                 entity="Task"

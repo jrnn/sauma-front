@@ -30,7 +30,10 @@ class EmployeeContainer extends React.Component {
 
     return (
       <div>
-        <Accordion active={isNew} title="Perustiedot">
+        <Accordion
+          active={isNew}
+          title="Perustiedot"
+        >
           <EmployeeFormContainer
             employee={employee || {}}
             id={this.props.id}
@@ -40,14 +43,20 @@ class EmployeeContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
-            <Accordion title="Työmaat">
+            <Accordion
+              active={( employee.projects.length > 0 )}
+              title="Työmaat"
+            >
               <ListContainer
                 entities={this.props.projects}
                 filter={filterProjects}
                 toRow={projectRow}
               />
             </Accordion>
-            <Accordion title="Suoritteet">
+            <Accordion
+              active={( this.props.activities.length > 0 )}
+              title="Suoritteet"
+            >
               <ListContainer
                 entities={this.props.activities}
                 filter={filterActivitiesForEmployee}

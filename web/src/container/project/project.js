@@ -31,7 +31,10 @@ class ProjectContainer extends React.Component {
 
     return (
       <div>
-        <Accordion active={isNew} title="Perustiedot">
+        <Accordion
+          active={isNew}
+          title="Perustiedot"
+        >
           <ProjectFormContainer
             id={id}
             isNew={isNew}
@@ -41,6 +44,12 @@ class ProjectContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
+            <Accordion title="Näytä kartalla">
+              <EmbeddedMap
+                address={project.address}
+                id={id}
+              />
+            </Accordion>
             <Accordion title="Työntekijät">
               <ProjectEmployeesContainer
                 id={id}
@@ -50,7 +59,10 @@ class ProjectContainer extends React.Component {
             <Accordion title="Tehtävät">
               <ProjectTasksContainer id={id} />
             </Accordion>
-            <Accordion title="Liitteet">
+            <Accordion
+              active={( project.attachments.length > 0 )}
+              title="Liitteet"
+            >
               <AttachmentContainer
                 attachments={project.attachments || []}
                 entity="Project"
@@ -58,7 +70,10 @@ class ProjectContainer extends React.Component {
                 thunk={updateProject}
               />
             </Accordion>
-            <Accordion title="Huomiot">
+            <Accordion
+              active={( project.comments.length > 0 )}
+              title="Huomiot"
+            >
               <CommentContainer
                 comments={project.comments || []}
                 entity="Project"
@@ -66,10 +81,6 @@ class ProjectContainer extends React.Component {
                 thunk={fetchProjects}
               />
             </Accordion>
-            <EmbeddedMap
-              address={project.address}
-              id={id}
-            />
           </div>
         }
       </div>

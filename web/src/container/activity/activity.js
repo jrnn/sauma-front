@@ -32,7 +32,10 @@ class ActivityContainer extends React.Component {
 
     return (
       <div>
-        <Accordion active={isNew} title="Perustiedot">
+        <Accordion
+          active={isNew}
+          title="Perustiedot"
+        >
           <ActivityFormContainer
             activity={activity || { task }}
             id={id}
@@ -43,7 +46,10 @@ class ActivityContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
-            <Accordion title="Liitteet">
+            <Accordion
+              active={( activity.attachments.length > 0 )}
+              title="Liitteet"
+            >
               <AttachmentContainer
                 attachments={activity.attachments || []}
                 entity="Activity"
@@ -51,7 +57,10 @@ class ActivityContainer extends React.Component {
                 thunk={updateActivity}
               />
             </Accordion>
-            <Accordion title="Huomiot">
+            <Accordion
+              active={( activity.comments.length > 0 )}
+              title="Huomiot"
+            >
               <CommentContainer
                 comments={activity.comments || []}
                 entity="Activity"

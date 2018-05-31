@@ -29,7 +29,10 @@ class ClientContainer extends React.Component {
 
     return (
       <div>
-        <Accordion active={isNew} title="Perustiedot">
+        <Accordion
+          active={isNew}
+          title="Perustiedot"
+        >
           <ClientFormContainer
             client={client || {}}
             id={id}
@@ -39,14 +42,20 @@ class ClientContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
-            <Accordion title="Asiakkaan työmaat">
+            <Accordion
+              active={( this.props.projects.length > 0 )}
+              title="Asiakkaan työmaat"
+            >
               <ListContainer
                 entities={this.props.projects}
                 filter={filterProjectsForClient}
                 toRow={projectRowForClient}
               />
             </Accordion>
-            <Accordion title="Liitteet">
+            <Accordion
+              active={( client.attachments.length > 0 )}
+              title="Liitteet"
+            >
               <AttachmentContainer
                 attachments={client.attachments || []}
                 entity="Client"
@@ -54,7 +63,10 @@ class ClientContainer extends React.Component {
                 thunk={updateClient}
               />
             </Accordion>
-            <Accordion title="Huomiot">
+            <Accordion
+              active={( client.comments.length > 0 )}
+              title="Huomiot"
+            >
               <CommentContainer
                 comments={client.comments || []}
                 entity="Client"

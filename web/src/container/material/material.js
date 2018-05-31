@@ -22,7 +22,10 @@ class MaterialContainer extends React.Component {
 
     return (
       <div>
-        <Accordion active={isNew} title="Perustiedot">
+        <Accordion
+          active={isNew}
+          title="Perustiedot"
+        >
           <MaterialFormContainer
             id={id}
             isNew={isNew}
@@ -32,7 +35,10 @@ class MaterialContainer extends React.Component {
         {( isNew )
           ? null
           : <div>
-            <Accordion title="Liitteet">
+            <Accordion
+              active={( material.attachments.length > 0 )}
+              title="Liitteet"
+            >
               <AttachmentContainer
                 attachments={material.attachments || []}
                 entity="Material"
@@ -40,7 +46,10 @@ class MaterialContainer extends React.Component {
                 thunk={updateMaterial}
               />
             </Accordion>
-            <Accordion title="Huomiot">
+            <Accordion
+              active={( material.comments.length > 0 )}
+              title="Huomiot"
+            >
               <CommentContainer
                 comments={material.comments || []}
                 entity="Material"

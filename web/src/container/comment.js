@@ -1,5 +1,6 @@
 import CommentForm from "../component/forms/comment_form"
 import CommentList from "../component/lists/comment_list"
+import Expandable from "../component/widgets/expandable"
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
@@ -39,13 +40,15 @@ class CommentContainer extends React.Component {
     <div>
       <CommentList comments={this.props.comments} />
       <Divider />
-      <CommentForm
-        error={this.validateForm()}
-        onChange={this.handleChange}
-        onSubmit={this.handleSubmit}
-        pending={this.props.pending}
-        text={this.state.text}
-      />
+      <Expandable button="Lisää huomio">
+        <CommentForm
+          error={this.validateForm()}
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+          pending={this.props.pending}
+          text={this.state.text}
+        />
+      </Expandable>
     </div>
 }
 
