@@ -12,7 +12,7 @@ const EmbeddedMap = ({ address, id }) =>
   <div className="padded">
     <iframe
       frameBorder="0"
-      height="320"
+      height="400"
       style={{
         border : 0,
         width : "100%"

@@ -39,10 +39,9 @@ export const errorHandler = (ex) => {
 export const shouldFetch = (state, key) => {
   let { data } = state[key]
 
-  if ( !data.updated || data.pending )
-    return false
-
-  return ( cacheLifespan < (Date.now() - data.updated) )
+  return ( !data.updated || data.pending )
+    ? false
+    : cacheLifespan < (Date.now() - data.updated)
 }
 
 /*
