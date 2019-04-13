@@ -1,12 +1,12 @@
 import App from "./app"
 import React from "react"
-import ReactDOM from "react-dom"
+import { render } from "react-dom"
 import store from "./store"
 import { BrowserRouter, Route } from "react-router-dom"
 import { Provider } from "react-redux"
 import "./index.css"
 
-ReactDOM.render(
+render(
   <Provider store={store}>
     <BrowserRouter>
       <Route
