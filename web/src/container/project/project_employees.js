@@ -2,9 +2,9 @@ import Assigner from "../../component/widgets/assigner"
 import ListContainer from "../list"
 import PropTypes from "prop-types"
 import React from "react"
-import { assignEmployeeToProject } from "../../action/project"
+import { assignEmployeeToProject, unassignEmployeeFromProject } from "../../action/project"
 import { connect } from "react-redux"
-import { employeeRow } from "../../component/lists/list_rows"
+import { employeeRow, employeeRowForProject } from "../../component/lists/list_rows"
 import { filterEmployees } from "../../component/lists/list_filters"
 import { unassignedOptions } from "../../util/form_options"
 
@@ -16,16 +16,21 @@ class ProjectEmployeesContainer extends React.Component {
 
   assign = (e) => {
     e.preventDefault()
-
-    let { assignEmployeeToProject, auth, id } = this.props
+    const { assignEmployeeToProject, auth, id } = this.props
     assignEmployeeToProject(id, this.state, auth.token)
+  }
+
+  unassign = (e, { name }) => {
+    e.preventDefault()
+    const { auth, id, unassignEmployeeFromProject } = this.props
+    unassignEmployeeFromProject(id, name, auth.token)
   }
 
   handleChange = (e, { value }) =>
     this.setState({ id : value })
 
   render = () => {
-    let { employees, project } = this.props
+    const { auth, employees, project } = this.props
 
     return (
       <div>
@@ -34,7 +39,10 @@ class ProjectEmployeesContainer extends React.Component {
             .filter(e => project.employees.includes(e.id))
           }
           filter={filterEmployees}
-          toRow={employeeRow}
+          toRow={( !auth.admin )
+            ? employeeRow
+            : employeeRowForProject(this.unassign)
+          }
         />
         <Assigner
           active={this.props.auth.admin}
@@ -63,10 +71,11 @@ ProjectEmployeesContainer.propTypes = {
   auth : PropTypes.object.isRequired,
   id : PropTypes.string.isRequired,
   employees : PropTypes.arrayOf(PropTypes.object).isRequired,
-  project : PropTypes.object.isRequired
+  project : PropTypes.object.isRequired,
+  unassignEmployeeFromProject : PropTypes.func.isRequired,
 }
 
 export default connect(
   mapStateToProps,
-  { assignEmployeeToProject }
+  { assignEmployeeToProject, unassignEmployeeFromProject }
 )(ProjectEmployeesContainer)

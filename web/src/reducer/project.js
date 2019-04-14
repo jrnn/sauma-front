@@ -45,7 +45,8 @@ const data = (state = initState, action) => {
         items : [ ...items, payload ]
       }
     }
-    case types.ASSIGNED : {
+    case types.ASSIGNED :
+    case types.UNASSIGNED : {
       let { project } = payload
       let items = state.items
         .filter(p => p.id !== project.id)

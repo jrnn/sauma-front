@@ -46,14 +46,25 @@ const data = (state = initState, action) => {
       }
     }
     case types.ASSIGNED : {
-      let { employee, project } = payload
+      const { employee, project } = payload
 
-      let items = state.items
-        .filter(e => e.id !== employee)
-      let item = state.items
-        .find(e => e.id === employee)
+      const items = state.items.filter(e => e.id !== employee)
+      const item = state.items.find(e => e.id === employee)
 
       item.projects = item.projects.concat(project.id)
+
+      return {
+        ...state,
+        items : [ ...items, item ]
+      }
+    }
+    case types.UNASSIGNED : {
+      const { employee, project } = payload
+
+      const items = state.items.filter(e => e.id !== employee)
+      const item = state.items.find(e => e.id === employee)
+
+      item.projects = item.projects.filter(p => p !== project.id)
 
       return {
         ...state,

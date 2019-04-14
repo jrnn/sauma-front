@@ -1,7 +1,7 @@
 import React from "react"
 import { formatDate, trimDescription } from "../../util/parser"
+import { Button, List } from "semantic-ui-react"
 import { Link } from "react-router-dom"
-import { List } from "semantic-ui-react"
 
 export const activityRow = (a) =>
   <List.Item
@@ -98,6 +98,46 @@ export const employeeRow = (e) =>
       />
     </List.Content>
   </List.Item>
+
+export const employeeRowForProject = (removeFunc) =>
+  (e) =>
+    <List.Item
+      as={Link}
+      key={e.id}
+      to={`/employees/${e.id}`}
+    >
+      <List.Content floated="right">
+        {( !removeFunc )
+          ? null
+          : <Button
+            basic
+            compact
+            icon="delete"
+            name={e.id}
+            onClick={removeFunc}
+          />
+        }
+      </List.Content>
+      <List.Icon
+        color="grey"
+        name={( e.enabled )
+          ? "check"
+          : "ban"
+        }
+        verticalAlign="middle"
+      />
+      <List.Content>
+        <List.Header
+          content={`${e.lastName}, ${e.firstName}`}
+        />
+        <List.Description
+          content={( e.administrator )
+            ? "Työnjohtaja"
+            : "Työntekijä"
+          }
+        />
+      </List.Content>
+    </List.Item>
 
 export const materialRow = (m) =>
   <List.Item

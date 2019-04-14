@@ -17,7 +17,8 @@ export const types = {
   WRITE_RESET : "RESET_WRITE_PROJECT",
   CREATED : "CREATE_PROJECT_OK",
   UPDATED : "UPDATE_PROJECT_OK",
-  ASSIGNED : "ASSIGN_EMPLOYEE_OK"
+  ASSIGNED : "ASSIGN_EMPLOYEE_OK",
+  UNASSIGNED : "UNASSIGN_EMPLOYEE_OK"
 }
 
 /*
@@ -27,6 +28,11 @@ const actions = standardActions(types)
 
 const assignEmployeeOk = (project, employee) => ({
   type : types.ASSIGNED,
+  payload : { project, employee }
+})
+
+const unassignEmployeeOk = (project, employee) => ({
+  type : types.UNASSIGNED,
   payload : { project, employee }
 })
 
@@ -127,6 +133,27 @@ export const assignEmployeeToProject = (id, employee, token) => {
 
     } catch (ex) {
       let error = errorHandler(ex)
+
+      dispatch(actions.writeError())
+      dispatch(notify(error.message, "error"))
+    }
+  }
+}
+
+export const unassignEmployeeFromProject = (project, employee, token) => {
+  return async (dispatch) => {
+    dispatch(actions.write())
+
+    try {
+      const res = await axios
+        .delete(`${url}/${project}/employees/${employee}`, bearer(token))
+
+      dispatch(resetWriteProject())
+      dispatch(unassignEmployeeOk(res.data, employee))
+      dispatch(notify("Työntekijä poistettu työmaalta", "ok"))
+
+    } catch (e) {
+      const error = errorHandler(e)
 
       dispatch(actions.writeError())
       dispatch(notify(error.message, "error"))
