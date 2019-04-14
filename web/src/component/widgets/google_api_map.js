@@ -15,30 +15,22 @@ const loadApi = (apiKey) => {
 }
 
 const renderMap = (mapRef, addresses) => {
-  let { Geocoder, Map, Marker } = window.google.maps
-  const gc = new Geocoder()
-
-  /*  For whatever reason the mapRef is not available immediately
-   *  on function call. Shit workaround with setTimeout() ...
+  /**
+   * For whatever reason the mapRef is not available immediately
+   * on function call. Shit workaround with setTimeout() ...
    */
   setTimeout(() => {
+    const { Map, Marker } = window.google.maps
     const center = { lat : 60.25, lng : 24.95 }
     const map = new Map(
       mapRef.current,
       { center, zoom : 10 }
     )
     addresses
-      .map(a => `${a.street},${a.zipCode},${a.city}`)
-      .forEach(address => {
-        gc.geocode({ address }, (res, status) => {
-          if (status === "OK")
-            new Marker({
-              map,
-              position : res[0].geometry.location
-            })
-        })
-      })
-  }, 100)
+      .filter(a => !!a.location)
+      .map(a => a.location)
+      .map(position => new Marker({ map, position }))
+  }, 50)
 }
 
 class GoogleApiMap extends React.Component {
