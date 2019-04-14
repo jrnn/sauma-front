@@ -132,11 +132,11 @@ export const projectRow = (p) =>
       verticalAlign="middle"
     />
     <List.Content>
-      <List.Header
-        content={`${p.projectId} — ${p.name}`}
-      />
       <List.Description
         content={p.client.legalEntity}
+      />
+      <List.Header
+        content={`${p.name} (${p.projectId})`}
       />
     </List.Content>
   </List.Item>
@@ -153,11 +153,11 @@ export const projectRowForClient = (p) =>
       verticalAlign="middle"
     />
     <List.Content>
-      <List.Header
-        content={`${p.projectId} — ${p.name}`}
-      />
       <List.Description
         content={`${formatDate(p.startDate)} — ${formatDate(p.endDate)}`}
+      />
+      <List.Header
+        content={`${p.name} (${p.projectId})`}
       />
     </List.Content>
   </List.Item>
@@ -177,11 +177,11 @@ export const taskRow = (t) =>
       verticalAlign="middle"
     />
     <List.Content>
-      <List.Header
-        content={`${t.project.projectId} — ${t.name}`}
-      />
       <List.Description
         content={`${formatDate(t.startDate)} — ${formatDate(t.endDate)}`}
+      />
+      <List.Header
+        content={`${t.project.name} — ${t.name}`}
       />
     </List.Content>
   </List.Item>
@@ -201,11 +201,11 @@ export const taskRowForProject = (t) =>
       verticalAlign="middle"
     />
     <List.Content>
-      <List.Header
-        content={`${t.name} (${t.daysNeeded} työpäivää)`}
-      />
       <List.Description
         content={`${formatDate(t.startDate)} — ${formatDate(t.endDate)}`}
+      />
+      <List.Header
+        content={`${t.name} (${t.daysNeeded} työpäivää)`}
       />
     </List.Content>
   </List.Item>
