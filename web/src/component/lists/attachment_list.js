@@ -2,15 +2,14 @@ import EmptyList from "../alerts/empty_list"
 import PropTypes from "prop-types"
 import React from "react"
 import { formatDate } from "../../util/parser"
-import { Link } from "react-router-dom"
 import { List } from "semantic-ui-react"
 
 const asRow = (a) =>
   <List.Item
-    as={Link}
+    as="a"
+    href={a.url}
     key={a.key}
     target="_blank"
-    to={a.url}
   >
     <List.Icon
       color="grey"
